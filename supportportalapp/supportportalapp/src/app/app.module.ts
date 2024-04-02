@@ -14,13 +14,31 @@ import { NotificationService } from './service/notification.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
+import {AboutComponent} from './about/about.component';
+import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
+import { LogoutComponent } from './logout/logout.component';
+import { ReportComponent } from './report/report.component';
+import { ReviewComponent } from './review/review.component';
+import { OrganizationComponent } from './organization/organization.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    UserComponent
+    UserComponent,
+    AboutComponent,
+    HomeComponent,
+    FooterComponent,
+    LogoutComponent,
+    ReportComponent,
+    ReviewComponent,
+    OrganizationComponent,
+    WelcomeComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
