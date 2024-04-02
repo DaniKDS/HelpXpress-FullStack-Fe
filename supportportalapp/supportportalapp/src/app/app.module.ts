@@ -23,6 +23,7 @@ import { ReviewComponent } from './review/review.component';
 import { OrganizationComponent } from './organization/organization.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MenuComponent } from './menu/menu.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MenuComponent } from './menu/menu.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NotificationModule
+    NotificationModule,
+    BrowserAnimationsModule
   ],
   providers: [NotificationService, AuthenticationGuard, AuthenticationService, UserService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } ],

@@ -1,0 +1,54 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f8f8f8;
+}
+
+.container {
+  flex: 1;
+}
+
+header {
+  background-color: #3498db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  width: 100%;
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 0;
+  position: absolute; /* Inițial, folosim position: absolute; */
+  left: 0;
+  z-index: 1000;
+  border-radius: 10px 10px 0 0;
+  transition: bottom 0.3s;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a img {
+  width: 30px;
+  height: 30px;
+}
+
+.footer-info {
+  text-align: right;
+}
+
+/* Adaugă această clasă pentru stilurile când footer-ul este fixat */
+.fixed-footer {
+  position: fixed;
+}

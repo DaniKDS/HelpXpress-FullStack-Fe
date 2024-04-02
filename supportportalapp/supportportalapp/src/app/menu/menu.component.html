@@ -1,0 +1,28 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
+
+    <a href="http://localhost:4200" class="navbar-brand">HelpXpress</a>
+
+    <ul class="navbar-nav">
+      <li class="nav-item"><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/home"
+                              class="nav-link">Home</a></li>
+      <li class="nav-item"><a *ngIf="authenticationService.isUserLoggedIn()"
+                              routerLink="/welcome" class="nav-link">Welcome</a></li>
+      <li class="nav-item"><a routerLink="/about" class="nav-link">About</a></li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item"><a *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/login"
+                              class="nav-link">Login</a></li>
+      <li class="nav-item"><a *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/register"
+                              class="nav-link">Register</a></li>
+
+      <li class="nav-item"><span class="report-issue">Raportare Problema</span></li>
+      <li class="nav-item"><span class="review">Recenzie</span></li>
+      <li class="nav-item"><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/logout"
+                              class="nav-link">Logout</a></li>
+
+    </ul>
+  </nav>
+</header>

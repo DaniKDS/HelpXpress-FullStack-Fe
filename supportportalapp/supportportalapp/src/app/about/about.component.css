@@ -1,0 +1,80 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #3498db;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.parallax-bg {
+  position: relative;
+  overflow: hidden;
+  height: 300px; /* Ajustează înălțimea după necesități */
+  background-image: url('persoane-cu-handicap.jpg'); /* Adaugă calea corectă către imagine */
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Adaugă umbra */
+}
+
+.parallax-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Ajustează opacitatea după necesități */
+}
+
+.intro, .team, .values {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f4; /* Culoare subtilă de fundal */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.intro:hover, .team:hover, .values:hover {
+  transform: scale(1.05);
+}
+
+h2 {
+  color: #3498db;
+  transition: color 0.3s ease-in-out;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footermic {
+  background-color: #3498db;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  width: 100%;
+  transition: height 0.3s ease-in-out;
+  height: 70px;
+  z-index: 1;
+}
+
+.footermic:hover {
+  height: 0;
+}

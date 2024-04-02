@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #3498db; /* culoarea de fundal */
+  color: #fff; /* culoarea textului */
+}
+
+.logout-container {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #3498db; /* culoarea textului h1 */
+}
+
+.message-container {
+  margin-top: 20px;
+}
+
+p {
+  color: #555; /* culoarea textului p */
+}
+
+/* Animatie de fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.logout-container {
+  animation: fadeIn 1s ease-in-out;
+}
