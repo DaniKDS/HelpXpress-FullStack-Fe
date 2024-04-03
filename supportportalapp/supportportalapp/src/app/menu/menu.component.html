@@ -37,9 +37,11 @@
           </ul>
 
         </ul>
-        <a class="btn btn-primary ml-lg-3 my-2 my-lg-0" href="/login">Logare</a>
+        <a *ngIf="!authenticationService.isUserLoggedIn()" class="btn btn-primary ml-lg-3 my-2 my-lg-0" href="/login">Logare</a>
         <a *ngIf="!authenticationService.isUserLoggedIn()" class="btn btn-primary ml-lg-3 my-2 my-lg-0"
            href="/register">Inregistreaza-ma</a>
+        <a *ngIf="authenticationService.isUserLoggedIn()" class="btn btn-primary ml-lg-3 my-2 my-lg-0"
+           href="/register">Profil</a>
 
       </div>
     </div>
