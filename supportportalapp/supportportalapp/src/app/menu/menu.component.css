@@ -1,64 +1,230 @@
-header {
-  background-color: #343a40; /* Culori navbar */
+
+.navbar-light .navbar-nav .nav-link {
+  color: #0056b3; /* Culoarea linkurilor */
+  transition: all 0.3s ease-in-out; /* Tranziție lină pentru hover */
+  font-size: 1.4em; /* Mărimea textului pentru linkuri */
+  font-weight: 600; /* Grosimea textului */
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: #00376b; /* Culoarea linkurilor la hover sau focus */
+  background-color: rgba(169, 146, 190, 0.62); /* Fundalul linkurilor la hover sau focus */
+  border-radius: 5px; /* Marginile rotunjite pentru linkuri */
+}
+
+.navbar .navbar-toggler {
+  border-color: rgba(0,0,0,.1); /* Culoarea bordurii pentru toggler */
+}
+
+.navbar .navbar-toggler-icon {
+  background-image: url('/assets/elevate-GqC_kGJOuaM-unsplash.jpg'); /* Imaginea pentru toggler */
+}
+
+.navbar-nav .nav-link.btn-logare, .navbar-nav .nav-link.btn {
+  background-color: #008cff; /* Fundalul pentru butoane */
+  color: #ffffff; /* Culoarea textului pentru butoane */
+  border-radius: 5px; /* Marginile rotunjite pentru butoane */
+  padding: 10px 15px; /* Padding pentru butoane */
+  margin-left: 1rem; /* Marginea stângă pentru butoane */
+  font-size: 1.2em; /* Mărimea textului pentru butoane */
+}
+
+.navbar-nav .nav-link.btn-logare:hover,
+.navbar-nav .nav-link.btn:hover {
+  background-color: #0056b3; /* Fundalul butoanelor la hover */
+  color: white; /* Culoarea textului pentru butoane la hover */
+}
+
+@media (max-width: 991px) {
+  .navbar-toggler {
+    border-color: #0056b3; /* Culoarea bordurii pentru toggler în view-porturi mici */
+  }
+  .navbar-collapse {
+    background-color: #f8f9fa; /* Fundalul pentru navbar-collapse în view-porturi mici */
+  }
+}
+
+.btn-outline-primary {
+  font-size: 1.25em; /* Mărimea textului pentru butonul outline */
+  padding: 10px 20px; /* Padding pentru butonul outline */
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/cover20-cover-850.jpg');
+  background-size: cover;
+  background-position: center center;
+  color: #fff;
+  height: auto;
+  overflow: visible;
+  font-family: 'Arial', sans-serif;
+  /* Înlăturăm height: 100vh pentru a permite scroll-ul */
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+p {
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+a, .navbar .nav-link {
+  text-shadow: none; /* Anulăm umbra textului pentru linkuri, pentru lizibilitate */
+}
+
+.site-header {
+  position: page;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95); /* fundal semitransparent */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.main-content {
+  padding-top: 20px; /* ajustează această valoare dacă navbar-ul tău este mai înalt */
 }
 
 .navbar-brand {
-  color: #ffffff; /* Culoare text brand */
   font-weight: bold;
+  color: #0056b3;
+  font-size: 2em;
 }
 
-.navbar-brand:hover {
-  color: #17a2b8; /* Culoare text brand la hover */
+.navbar-light .navbar-nav .nav-link {
+  color: #0056b3;
+  transition: all 0.3s ease-in-out;
 }
 
-.navbar-nav .nav-link {
-  color: #ffffff; /* Culoare text link */
-  transition: color 0.3s ease-in-out; /* Tranziție culoare la hover */
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: #00376b;
+  background-color: rgba(169, 146, 190, 0.62);
+  border-radius: 5px;
 }
 
-.navbar-nav .nav-link:hover {
-  color: #87bac2; /* Culoare text link la hover */
+.navbar .navbar-toggler {
+  border-color: rgba(0,0,0,.1);
 }
 
-.nav-item {
-  margin-right: 10px;
+.navbar .navbar-toggler-icon {
+  background-image: url('/assets/elevate-GqC_kGJOuaM-unsplash.jpg');
 }
 
-.navbar-nav.ml-auto .nav-link {
-  margin-right: 0; /* Să nu existe margine între link-urile din partea dreaptă */
-}
-
-/* Adăugarea sectiunilor in partea stanga si dreapta */
-.navbar-nav.ml-auto {
-  display: flex;
-  align-items: center;
-}
-
-.report-issue,
-.review {
+.navbar-nav .nav-link.btn-logare, .navbar-nav .nav-link.btn {
+  background-color: #008cff;
   color: #ffffff;
-  margin-right: 10px;
-  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-left: 1rem;
+  font-size: 1.2em;
+  transition: all 0.3s ease-in-out;
 }
 
-.report-issue:hover,
-.review:hover {
-  color: #17a2b8;
+.navbar-nav .nav-link.btn-logare:hover,
+.navbar-nav .nav-link.btn:hover {
+  background-color: #0056b3;
+  color: white;
 }
 
-/* Efect de umbră la hover */
-.navbar-nav .nav-link,
-.report-issue,
-.review {
-  transition: box-shadow 0.3s ease-in-out;
+/* Adăugăm media query pentru a gestiona stilurile specifice pentru ecrane mici */
+@media (max-width: 991px) {
+  .navbar-toggler {
+    border-color: #0056b3;
+  }
+  .navbar-collapse {
+    background-color: #f8f9fa;
+  }
 }
 
-.navbar-nav .nav-link:hover,
-.report-issue:hover,
-.review:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: #f8f9fa;
+  }
+
+  .navbar-toggler {
+    border-color: #0056b3;
+  }
 }
 
+@media (max-width: 991px) {
+  .navbar-toggler {
+    border-color: #0056b3;
+  }
+  .navbar-collapse {
+    background-color: #f8f9fa;
+  }
+  /* Alte stiluri specifice pentru ecrane mici */
+}
+/* Adăugăm stiluri pentru content-ul header-ului */
+.header-content {
+  padding: 40px 0;
+  color: #fff;
+  /* Menține culoarea albă pentru contrastul cu fundalul întunecat */
+}
+
+
+.display-4 {
+  font-weight: bold;
+  color: #333; /* Asigură-te că această culoare oferă suficient contrast */
+  font-size: 4em; /* Mărește dimensiunea fontului */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adaugă o umbră textului pentru lizibilitate îmbunătățită */
+}
+
+.lead {
+  font-size: 2em; /* Mărește și acest font dacă este necesar */
+  color: #0f4ad5; /* Poti să schimbi culoarea pentru mai mult contrast dacă este nevoie */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* De asemenea, poți adăuga o umbră textului */
+}
+
+@media (max-width: 991px) {
+  .navbar-toggler {
+    border-color: #0056b3;
+  }
+}
+/* Pentru linkurile obișnuite din navbar */
+.navbar-light .navbar-nav .nav-link {
+  font-size: 1.4em;
+  font-weight: 600;/* Schimbă valoarea pentru a mări fontul */
+  padding: 8px 12px; /* Ajustează padding-ul dacă este necesar, în funcție de mărimea fontului */
+}
+
+/* Pentru butoanele din navbar */
+.navbar-nav .nav-link.btn-logare, .navbar-nav .nav-link.btn {
+  font-size: 1.2em; /* Schimbă valoarea pentru a mări fontul */
+  padding: 10px 15px; /* Ajustează padding-ul dacă este necesar, în funcție de mărimea fontului */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.btn-outline-primary {
+  font-size: 1.25em; /* Mărește dimensiunea fontului */
+  padding: 10px 20px; /* Mărește padding-ul pentru un buton mai mare */
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/*header nou*/
+/*-------------------------------------------------------------------*/
 /* Stiluri generale */
 .navbar {
   background: rgba(255, 255, 255, 0.95); /* Fundal semitransparent */
@@ -120,5 +286,97 @@ header {
 .btn-outline-primary {
   font-size: 1.25em; /* Mărimea textului pentru butonul outline */
   padding: 10px 20px; /* Padding pentru butonul outline */
+}
+
+.report-issue,
+.review {
+  color: #ffffff;
+  margin-right: 10px;
+  cursor: pointer;
+  padding: .5rem 1rem; /* Ajustează padding-ul după preferințe */
+  display: inline-block; /* Face elementele să se comporte ca linkuri */
+  text-decoration: none; /* Elimină sublinierea linkurilor */
+}
+
+/* Stilurile existente pentru linkurile din navigație */
+.navbar-light .navbar-nav .nav-link {
+  color: #0056b3;
+  transition: color 0.3s ease-in-out;
+  font-size: 1.4em;
+  font-weight: 600;
+  /* ... alte stiluri ... */
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: #00376b;
+  background-color: rgba(169, 146, 190, 0.62);
+  border-radius: 5px;
+  /* ... alte stiluri ... */
+}
+
+/* Stiluri pentru butoanele 'Logare' și 'Înregistrează-mă' */
+.navbar-nav .nav-link.btn-logare,
+.navbar-nav .nav-link.btn {
+  background-color: #008cff;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1.2em;
+  /* ... alte stiluri ... */
+}
+
+.navbar-nav .nav-link.btn-logare:hover,
+.navbar-nav .nav-link.btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+/* Stiluri pentru 'Raportare Problema' și 'Recenzie' */
+.report-issue, .review {
+  color: #0056b3;
+  padding: .5rem 1rem; /* Ajustează padding-ul conform designului tău */
+  font-size: 1.4em;
+  font-weight: 600;
+  cursor: pointer;
+  /* Îmbunătățirea accesibilității prin includerea 'display: inline-block' */
+  display: inline-block;
+}
+
+.report-issue:hover, .review:hover {
+  color: #00376b;
+  background-color: rgba(223, 219, 231, 0.62);
+  border-radius: 5px;
+}
+
+/* Stilurile existente pentru linkurile din navigație */
+.navbar-light .navbar-nav .nav-link {
+  color: #0056b3;
+  transition: color 0.3s ease-in-out;
+  font-size: 1.4em;
+  font-weight: 600;
+  /* ... alte stiluri ... */
+}
+/* Stilurile existente pentru linkurile din navigație */
+.navbar-light .navbar-nav .nav-link {
+  color: #0056b3;
+  transition: color 0.3s ease-in-out;
+  font-size: 1.4em;
+  font-weight: 600;
+  /* ... alte stiluri ... */
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: #00376b;
+  background-color: rgba(223, 219, 231, 0.62);
+  border-radius: 5px;
+  /* ... alte stiluri ... */
+}
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: #00376b;
+  background-color: rgba(223, 219, 231, 0.62);
+  border-radius: 5px;
 }
 

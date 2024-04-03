@@ -10,45 +10,54 @@ body {
   flex: 1;
 }
 
-header {
-  background-color: #3498db;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+header, .footer {
+  background-color: rgb(135, 186, 194); /* Fundal semitransparent pentru a se potrivi cu header */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Umbra pentru coerență */
+  color: #0056b3; /* Culoarea textului pentru a se potrivi cu stilul header */
 }
 
 .footer {
   width: 100%;
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 0;
-  position: absolute; /* Inițial, folosim position: absolute; */
-  left: 0;
-  z-index: 1000;
-  border-radius: 10px 10px 0 0;
-  transition: bottom 0.3s;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+  position: relative; /* Modificat la position: relative pentru a permite fluxul natural */
+  border-top: 1px solid #e7e7e7; /* Border pentru a separa footer de conținut */
+  text-align: center; /* Centrarea conținutului footer */
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px; /* Padding pentru a asigura spațiu în jurul conținutului */
 }
 
 .social-icons {
   display: flex;
-  gap: 10px;
+  gap: 20px; /* Spațiu între iconițe */
+}
+
+.social-icons a {
+  display: inline-flex; /* Alinează corect iconițele */
 }
 
 .social-icons a img {
   width: 30px;
-  height: 30px;
+  height: 30px; /* Dimensiune uniformă pentru iconițe */
 }
 
 .footer-info {
-  text-align: right;
+  font-size: 0.9em; /* Ajustează dimensiunea textului */
+  color: #333; /* Culoarea textului pentru contrast */
 }
 
-/* Adaugă această clasă pentru stilurile când footer-ul este fixat */
-.fixed-footer {
-  position: fixed;
+@media (max-width: 991px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 10px; /* Spațiu între elemente pe ecrane mai mici */
+  }
+
+  .social-icons, .footer-info {
+    justify-content: center;
+    width: 100%;
+  }
 }
