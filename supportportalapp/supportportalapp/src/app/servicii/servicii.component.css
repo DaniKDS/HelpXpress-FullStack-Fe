@@ -1,0 +1,70 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #272727;
+  font-size: 18px; /* Mărirea fontului pentru citire ușoară */
+  line-height: 1.6;
+}
+
+header {
+  background-color: #007bff; /* O nuanță închisă de albastru */
+  color: #fff;
+  text-align: center;
+  padding: 14px;
+  margin-bottom: 40px; /* Adaugă o margine pentru separarea de restul conținutului */
+}
+
+.parallax-bg {
+  background: url('poza3.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: auto; /* Centrarea secțiunii */
+}
+
+section {
+  border: 2px solid #007bff;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 960px; /* Uniformizează lățimea maximă a secțiunilor */
+  border-radius: 10px;
+}
+
+h2 {
+  font-weight: bold;
+  color: #007BFFFF;
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
+
+p, ul {
+  line-height: 1.6;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+footer {
+  color: #007bff;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  background-color: #f4f4f4; /* Potrivit cu fundalul body pentru coerență */
+}
+
+h1 {
+  font-weight: bold;
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
