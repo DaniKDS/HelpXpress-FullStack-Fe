@@ -23,7 +23,9 @@ import { ReviewComponent } from './review/review.component';
 import { OrganizationComponent } from './organization/organization.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MenuComponent } from './menu/menu.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ContactComponent } from './contact/contact.component';
+import { ServiciiComponent } from './servicii/servicii.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ReviewComponent,
     OrganizationComponent,
     WelcomeComponent,
-    MenuComponent
+    MenuComponent,
+    ContactComponent,
+    ServiciiComponent
   ],
   imports: [
     BrowserModule,

@@ -253,6 +253,14 @@ export class UserComponent implements OnInit, OnDestroy {
     return this.isAdmin || this.isManager;
   }
 
+  public get isDoctor(): boolean {
+    return this.getUserRole() === Role.DOCTOR;
+  }
+
+  public get isAssistant(): boolean {
+    return this.getUserRole() === Role.ASSISTANT;
+  }
+
   private getUserRole(): string {
     return this.authenticationService.getUserFromLocalCache().role;
   }

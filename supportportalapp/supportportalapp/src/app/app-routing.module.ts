@@ -8,6 +8,8 @@ import {AboutComponent} from './about/about.component';
 import {LogoutComponent} from './logout/logout.component';
 import {WelcomeComponent} from './welcome/welcome.component';
 import {HomeComponent} from './home/home.component';
+import {ContactComponent} from './contact/contact.component';
+import {ServiciiComponent} from './servicii/servicii.component';
 
 
 const routes: Routes = [
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'user/management', component: UserComponent, canActivate: [AuthenticationGuard] },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthenticationGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'about', component: AboutComponent }
+  { path: 'about', component: AboutComponent },
+  { path: 'servicii', component: ServiciiComponent },
+  { path: 'contact', component: ContactComponent }
 ];
 
 @NgModule({

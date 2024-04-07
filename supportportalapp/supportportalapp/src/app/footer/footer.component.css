@@ -11,7 +11,7 @@ body {
 }
 
 header, .footer {
-  background-color: rgb(135, 186, 194); /* Fundal semitransparent pentru a se potrivi cu header */
+  background-color: rgb(0, 123, 255); /* Fundal semitransparent pentru a se potrivi cu header */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Umbra pentru coerență */
   color: #0056b3; /* Culoarea textului pentru a se potrivi cu stilul header */
 }

@@ -115,7 +115,7 @@ a, .navbar .nav-link {
 }
 /* Adăugăm stiluri pentru content-ul header-ului */
 .header-content {
-  padding: 40px 0;
+  padding: 14px 0;
   color: #fff;
   /* Menține culoarea albă pentru contrastul cu fundalul întunecat */
 }
@@ -171,9 +171,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-/*header nou*/
-/*-------------------------------------------------------------------*/
-/* Stiluri generale */
+
 .navbar {
   background: rgba(255, 255, 255, 0.95); /* Fundal semitransparent */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Umbra pentru navbar */
