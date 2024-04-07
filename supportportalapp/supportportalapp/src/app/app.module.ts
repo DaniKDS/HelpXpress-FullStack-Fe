@@ -19,7 +19,6 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { LogoutComponent } from './logout/logout.component';
 import { OrganizationComponent } from './organization/organization.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { MenuComponent } from './menu/menu.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ContactComponent } from './contact/contact.component';
@@ -37,7 +36,6 @@ import { RecenzieComponent } from './recenzie/recenzie.component';
     FooterComponent,
     LogoutComponent,
     OrganizationComponent,
-    WelcomeComponent,
     MenuComponent,
     ContactComponent,
     ServiciiComponent,

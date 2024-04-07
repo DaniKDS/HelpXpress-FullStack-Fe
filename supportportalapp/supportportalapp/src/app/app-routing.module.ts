@@ -6,6 +6,7 @@ import { UserComponent } from './user/user.component';
 import { AuthenticationGuard } from './guard/authentication.guard';
 import {AboutComponent} from './about/about.component';
 import {LogoutComponent} from './logout/logout.component';
+// @ts-ignore
 import {WelcomeComponent} from './welcome/welcome.component';
 import {HomeComponent} from './home/home.component';
 import {ContactComponent} from './contact/contact.component';
@@ -26,7 +27,7 @@ const routes: Routes = [
   { path: 'servicii', component: ServiciiComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'recenzie', component: RecenzieComponent, canActivate: [AuthenticationGuard] }
+  { path: 'recenzie', component: RecenzieComponent }
 ];
 
 @NgModule({
