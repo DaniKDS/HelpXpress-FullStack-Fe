@@ -10,6 +10,7 @@ import {WelcomeComponent} from './welcome/welcome.component';
 import {HomeComponent} from './home/home.component';
 import {ContactComponent} from './contact/contact.component';
 import {ServiciiComponent} from './servicii/servicii.component';
+import {RecenzieComponent} from './recenzie/recenzie.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   { path: 'servicii', component: ServiciiComponent },
-  { path: 'contact', component: ContactComponent }
+  { path: 'contact', component: ContactComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'recenzie', component: RecenzieComponent, canActivate: [AuthenticationGuard] }
 ];
 
 @NgModule({

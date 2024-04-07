@@ -15,8 +15,7 @@
 
             <li class="nav-item"><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/home"
                                     class="nav-link">Acasă</a></li>
-            <!--      <li class="nav-item"><a *ngIf="authenticationService.isUserLoggedIn()"-->
-            <!--                              routerLink="/welcome" class="nav-link">Welcome</a></li>-->
+
             <li class="nav-item"><a routerLink="/about" class="nav-link">Despre noi</a></li>
 
             <li class="nav-item">
@@ -26,12 +25,12 @@
             <li class="nav-item">
               <a class="nav-link" href="/contact">Contact</a>
             </li>
+<!--            <li class="nav-item" *ngIf="authenticationService.isUserLoggedIn()">-->
+<!--              <span class="recenzie">Recenzie</span>-->
+<!--            </li>-->
 
-            <li class="nav-item" *ngIf="authenticationService.isUserLoggedIn()">
-              <span class="report-issue">Raportare Problema</span>
-            </li>
-            <li class="nav-item" *ngIf="authenticationService.isUserLoggedIn()">
-              <span class="review">Recenzie</span>
+            <li class="nav-item">
+              <a class="nav-link" href="/recenzie">Recenzie</a>
             </li>
 
           </ul>
@@ -41,7 +40,7 @@
         <a *ngIf="!authenticationService.isUserLoggedIn()" class="btn btn-primary ml-lg-3 my-2 my-lg-0"
            href="/register">Inregistreaza-ma</a>
         <a *ngIf="authenticationService.isUserLoggedIn()" class="btn btn-primary ml-lg-3 my-2 my-lg-0"
-           href="/register">Profil</a>
+           href="/register">Profilul meu</a>
 
       </div>
     </div>
