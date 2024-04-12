@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { FileUploadStatus } from '../model/file-upload.status';
 import { Role } from '../enum/role.enum';
 import {Appointment} from '../model/appointment';
-import {filter} from 'rxjs/operators';
+import {Doctor} from '../model/doctor';
 
 @Component({
   selector: 'app-user',
@@ -59,7 +59,8 @@ export class UserComponent implements OnInit, OnDestroy {
   private currentUsername: string;
   public fileStatus = new FileUploadStatus();
   public appointments: Appointment[];
-
+  public doctors: Doctor[];
+  newAppointment: Appointment = new Appointment();
   public activeTab = 'profile';
 
   ngOnInit(): void {
@@ -67,7 +68,24 @@ export class UserComponent implements OnInit, OnDestroy {
     if (this.user && this.user.username) {
       this.loadUserAppointmentsByUsername(this.user.username);
     }
+
+    this.loadDoctorsForSpecialUserByUsername(this.user.username);
     this.getUsers(true);
+  }
+
+
+
+  loadDoctorsForSpecialUserByUsername(username: string): void {
+    this.userService.getDoctorsBySpecialUserUsername(username).subscribe({
+      next: (doctors) => {
+        console.log('Doctors loaded:', doctors);
+        this.doctors = doctors;
+      },
+      error: (error) => {
+        console.error('Error fetching doctors:', error);
+        this.sendNotification(NotificationType.ERROR, 'Could not load doctors.');
+      }
+    });
   }
 
   private loadUserAppointmentsByUsername(username: string): void {

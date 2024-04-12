@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import { User } from '../model/user';
 import { CustomHttpRespone } from '../model/custom-http-response';
 import {Appointment} from '../model/appointment';
+import {Doctor} from '../model/doctor';
+import {catchError, tap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -68,5 +70,15 @@ export class UserService {
 
   public getAppointmentBySpecialUserUsername(username: string): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.host}/appointment/findBySpecialUserUsername/${username}`);
+  }
+  public getDoctorsBySpecialUserUsername(username: string): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(`${this.host}/special-users/by-username/${username}/doctors`)
+      .pipe(
+        tap(doctors => console.log('Doctors fetched:', doctors)),
+        catchError(error => {
+          console.error('Error fetching doctors:', error);
+          return throwError(() => new Error('Error fetching doctors'));
+        })
+      );
   }
 }

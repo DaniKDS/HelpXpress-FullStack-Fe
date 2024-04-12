@@ -1,0 +1,44 @@
+.card-header {
+  font-size: 1.2rem;
+}
+
+.card-title {
+  color: #0056b3; /* Dark blue for emphasis */
+}
+
+.card-text small.text-muted {
+  font-size: 0.9rem; /* Smaller font for less critical info */
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 0.4em 0.6em;
+}
+
+.fa-clinic-medical, .fa-user-md, .fa-user-nurse, .fa-clock {
+  margin-right: 5px; /* Adds a small space after the icons for better readability */
+}
+
+/* Hover effect for cards */
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  box-shadow: 0 2px 4px 0 rgba(40, 167, 69, 0.2);
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+/* Enhance hover effect for cards within appointments */
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+}
