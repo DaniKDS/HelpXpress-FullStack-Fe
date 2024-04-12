@@ -71,21 +71,28 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private loadUserAppointmentsByUsername(username: string): void {
-    this.subscriptions.push(
-      this.userService.getAppointmentBySpecialUserUsername(username).subscribe(
-        (data: Appointment[]) => {
-          if (data && data.length > 0) {
-            this.appointments = data;
-          } else {
-            this.sendNotification(NotificationType.INFO, 'Nu există programări.');
+    // Check if the user role is ROLE_USER before proceeding
+    if (this.getUserRole() === 'ROLE_USER') {
+      this.subscriptions.push(
+        this.userService.getAppointmentBySpecialUserUsername(username).subscribe(
+          (data: Appointment[]) => {
+            if (data && data.length > 0) {
+              this.appointments = data;
+            } else {
+              this.sendNotification(NotificationType.INFO, 'Nu există programări.');
+            }
+          },
+          (error: HttpErrorResponse) => {
+            console.error('Error loading appointments by username', error);
+            this.sendNotification(NotificationType.ERROR, error.error.message);
           }
-        },
-        (error: HttpErrorResponse) => {
-          console.error('Error loading appointments by username', error);
-          this.sendNotification(NotificationType.ERROR, error.error.message);
-        }
-      )
-    );
+        )
+      );
+    } else {
+      // Handle cases where the user does not have ROLE_USER, if needed
+      // For example:
+      // this.sendNotification(NotificationType.INFO, 'Not authorized to view appointments.');
+    }
   }
   public changeTitle(title: string): void {
     this.activeTab = title;
