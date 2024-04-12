@@ -13,17 +13,9 @@ export class User {
   public role: string;
   public authorities: [];
   public age: number;
-  public birthDate?: Date;
-  public disease?: string;
-  public diseaseType?: string;
-  public gender?: string;
-  // Relațiile complexe pot necesita modele separate sau simplificări, depinzând de cazul de utilizare
-  // public organizations: Organization[];
-  // public reports: Report[];
-  // public reviews: Review[];
-  // public appointments: Appointment[];
-  // public doctorAppointments: Appointment[];
-
+  public birthDate: Date;
+  public gender: string;
+  public phone: string;
 
   constructor() {
     this.userId = '';
@@ -39,6 +31,10 @@ export class User {
     this.notLocked = false;
     this.role = '';
     this.authorities = [];
+    this.age = 0;
+    this.birthDate = null;
+    this.gender = '';
+    this.phone = '';
   }
 
 }

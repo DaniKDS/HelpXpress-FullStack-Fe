@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../model/user';
 import { CustomHttpRespone } from '../model/custom-http-response';
+import {Appointment} from '../model/appointment';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -56,6 +57,8 @@ export class UserService {
     formData.append('lastName', user.lastName);
     formData.append('username', user.username);
     formData.append('email', user.email);
+    formData.append('phone', user.phone);
+    formData.append('gender', user.gender);
     formData.append('role', user.role);
     formData.append('profileImage', profileImage);
     formData.append('isActive', JSON.stringify(user.active));
@@ -63,4 +66,7 @@ export class UserService {
     return formData;
   }
 
+  public getAppointmentBySpecialUserUsername(username: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.host}/appointment/findBySpecialUserUsername/${username}`);
+  }
 }

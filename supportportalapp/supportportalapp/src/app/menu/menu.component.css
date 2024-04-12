@@ -3,7 +3,7 @@
   transition: color 0.3s ease-in-out; /* Tranziție lină pentru hover și color */
   font-size: 1.4em; /* Mărimea textului pentru linkuri */
   font-weight: 600; /* Grosimea textului */
-  padding: 8px 12px; /* Ajustează padding-ul dacă este necesar */
+  padding: 4px 12px; /* Ajustează padding-ul dacă este necesar */
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
@@ -60,7 +60,7 @@
   background-size: cover;
   background-position: center center;
   color: #fff;
-  height: auto;
+  height: 80px;
   overflow: visible;
   font-family: 'Arial', sans-serif;
   /* Înlăturăm height: 100vh pentru a permite scroll-ul */
@@ -138,7 +138,7 @@ a, .navbar .nav-link {
 }
 /* Adăugăm stiluri pentru content-ul header-ului */
 .header-content {
-  padding: 40px 0;
+  padding: 20px 0;
   color: #fff;
   /* Menține culoarea albă pentru contrastul cu fundalul întunecat */
 }

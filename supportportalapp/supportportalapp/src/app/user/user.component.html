@@ -15,16 +15,44 @@
   <nav class="navbar navbar-expand-md breadcrumb">
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="nav nav-pills">
-        <a class="nav-item nav-link active ml-1" (click)="changeTitle('Users')" data-toggle="tab" href="#users">
+
+        <a [hidden]="isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link active ml-1" (click)="changeTitle('Utilizatori')" data-toggle="tab" href="#users">
           <i class="fa fa-users"></i>
-          Users
+          Utilizatori
         </a>
+
         <a [hidden]="!isAdmin" class="nav-item nav-link ml-3" (click)="changeTitle('Settings')" data-toggle="tab"
            href="#reset-password">
           <i class="fa fa-cogs"></i>
           Settings
         </a>
-        <a class="nav-item nav-link move-right mr-3" (click)="changeTitle('Profile')" data-toggle="tab" href="#profile">
+
+        <!-- nab bar for special user -->
+        <!--pt special user-->
+        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="setActiveTab('appointments')" data-toggle="tab"
+           href="#programare">
+          <i class="fas fa-calendar"></i>
+          Programarile mele
+        </a>
+        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Doctorii mei')" data-toggle="tab"
+           href="#doctor">
+          <i class="fas fa-user-md"></i>
+          Doctorii mei
+        </a>
+        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Asistentul meu personal')" data-toggle="tab"
+           href="#asistent">
+          <i class="fas fa-user-tie"></i>
+          Asistentul meu
+        </a>
+
+        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare')" data-toggle="tab"
+           href="#spital-centrurecuperare">
+          <i class="fas fa-hospital"></i>
+          Spital/centru recuperare
+        </a>
+
+
+        <a class="nav-item nav-link move-right mr-3" (click)="setActiveTab('profile')" data-toggle="tab" href="#profile">
           Welcome, {{ user?.firstName }}
           <i class="fa fa-user"></i>
         </a>
@@ -35,7 +63,7 @@
   <!-- main content -->
   <div class="tab-content mt-3" id="myTabContent">
     <!-- user table -->
-    <div class="tab-pane fade show active" id="users">
+    <div [hidden]="isSpecialuser || isDoctor || isAssistant" class="tab-pane fade show active" id="users">
       <div class="mb-3 float-right">
         <div class="btn-group mr-2">
           <form class="form-inline my-2 my-lg-0 justify-content-center">
@@ -119,8 +147,48 @@
       </form>
     </div>
 
+    <div *ngIf="activeTab === 'appointments'">
+      <div [hidden]="!isSpecialuser">
+        <div *ngIf="appointments?.length > 0; else noAppointments" class="tab-pane fade show active" id="programare">
+          <h3 class="mb-4">Programările Mele</h3>
+          <div class="list-group">
+            <a *ngFor="let appointment of appointments" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                  <i class="fas fa-clinic-medical" style="color: #17a2b8;"></i>
+                  {{ appointment.organization.name }}
+                </h5>
+                <small class="text-muted">
+                  <i class="far fa-clock" style="color: #f0ad4e;"></i>
+                  {{ appointment.appointmentTime | date:'short' }}
+                </small>
+              </div>
+              <p class="mb-1">
+                <i class="fas fa-user-md" style="color: #28a745;"></i>
+                Doctor: {{ appointment.doctor.user.firstName }} {{ appointment.doctor.user.lastName }}
+              </p>
+              <p class="mb-1">
+                <i class="fas fa-user-nurse" style="color: #007bff;"></i>
+                Asistent: {{ appointment.specialUser.assistant.user.firstName }} {{ appointment.specialUser.assistant.user.lastName }}
+              </p>
+              <small class="badge" [ngClass]="{'badge-success': appointment.status === 'Confirmată', 'badge-warning': appointment.status === 'În așteptare', 'badge-danger': appointment.status === 'Anulată'}">
+                {{ appointment.status }}
+              </small>
+            </a>
+          </div>
+        </div>
+        <ng-template #noAppointments>
+          <div class="alert alert-info" role="alert">
+            Nu există programări.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+
+
     <!-- user profile -->
-    <div class="tab-pane fade" id="profile">
+    <div *ngIf="activeTab === 'profile'" id="profile">
       <div class="container">
         <div class="row flex-lg-nowrap">
           <div class="col">
@@ -171,14 +239,14 @@
                                 <div class="row">
                                   <div class="col">
                                     <div class="form-group">
-                                      <label>First Name</label>
+                                      <label>Prenume</label>
                                       <input type="text" name="firstName" required [(ngModel)]="user.firstName"
                                              class="form-control">
                                     </div>
                                   </div>
                                   <div class="col">
                                     <div class="form-group">
-                                      <label>Last Name</label>
+                                      <label>Nume de familie</label>
                                       <input type="text" name="lastName" required [(ngModel)]="user.lastName"
                                              class="form-control">
                                     </div>
@@ -192,6 +260,13 @@
                                              class="form-control">
                                     </div>
                                   </div>
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label>Telefon</label>
+                                      <input type="text" name="phone" required [(ngModel)]="user.phone"
+                                             class="form-control">
+                                    </div>
+                                  </div>
                                 </div>
                                 <div class="row">
                                   <div class="col">
@@ -201,7 +276,31 @@
                                              class="form-control">
                                     </div>
                                   </div>
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label>Varsta</label>
+                                      <input type="text" name="age" required [(ngModel)]="user.age"
+                                             class="form-control">
+                                    </div>
+                                  </div>
                                 </div>
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label>Data nasterii</label>
+                                      <input type="text" name="birthDate" required [(ngModel)]="user.birthDate"
+                                             class="form-control">
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label>Gen</label>
+                                      <input type="text" name="gender" required [(ngModel)]="user.gender"
+                                             class="form-control">
+                                    </div>
+                                  </div>
+                                </div>
+
                                 <div class="row">
                                   <div class="col mb-3">
                                     <div class="form-group">
@@ -211,8 +310,8 @@
                                         <option [hidden]="!isAdmin" value="ROLE_MANAGER">MANAGER</option>
                                         <option [hidden]="!isAdmin" value="ROLE_ADMIN">ADMIN</option>
                                         <option [hidden]="!isAdmin" value="ROLE_SUPER_ADMIN">SUPER ADMIN</option>
-                                        <option [hidden]="!isAdmin" value="ROLE_DOCTOR">SUPER DOCTOR</option>
-                                        <option [hidden]="!isAdmin" value="ROLE_ASSISTANT">SUPER ASSISTANT</option>
+                                        <option [hidden]="!isAdmin" value="ROLE_DOCTOR">DOCTOR</option>
+                                        <option [hidden]="!isAdmin" value="ROLE_ASSISTANT">ASISTENT PERSONAL</option>
                                       </select>
                                     </div>
                                   </div>
@@ -253,6 +352,7 @@
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>

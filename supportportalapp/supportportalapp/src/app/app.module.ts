@@ -24,6 +24,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ContactComponent } from './contact/contact.component';
 import { ServiciiComponent } from './servicii/servicii.component';
 import { RecenzieComponent } from './recenzie/recenzie.component';
+import { AppointmentComponent } from './appointment/appointment.component';
+import { AssistantComponent } from './assistant/assistant.component';
+import { DoctorComponent } from './doctor/doctor.component';
+import { SpecialuserComponent } from './specialuser/specialuser.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { RecenzieComponent } from './recenzie/recenzie.component';
     MenuComponent,
     ContactComponent,
     ServiciiComponent,
-    RecenzieComponent
+    RecenzieComponent,
+    AppointmentComponent,
+    AssistantComponent,
+    DoctorComponent,
+    SpecialuserComponent
   ],
   imports: [
     BrowserModule,

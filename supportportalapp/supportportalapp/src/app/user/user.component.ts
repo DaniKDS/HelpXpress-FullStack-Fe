@@ -11,6 +11,8 @@ import { AuthenticationService } from '../service/authentication.service';
 import { Router } from '@angular/router';
 import { FileUploadStatus } from '../model/file-upload.status';
 import { Role } from '../enum/role.enum';
+import {Appointment} from '../model/appointment';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -18,6 +20,32 @@ import { Role } from '../enum/role.enum';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit, OnDestroy {
+
+  constructor(private router: Router, private authenticationService: AuthenticationService,
+              private userService: UserService, private notificationService: NotificationService) {}
+
+  public get isAdmin(): boolean {
+    return this.getUserRole() === Role.ADMIN || this.getUserRole() === Role.SUPER_ADMIN;
+  }
+
+  public get isManager(): boolean {
+    return this.isAdmin || this.getUserRole() === Role.MANAGER;
+  }
+
+  public get isAdminOrManager(): boolean {
+    return this.isAdmin || this.isManager;
+  }
+
+  public get isDoctor(): boolean {
+    return this.getUserRole() === Role.DOCTOR;
+  }
+
+  public get isAssistant(): boolean {
+    return this.getUserRole() === Role.ASSISTANT;
+  }
+  public get isSpecialuser(): boolean {
+    return this.getUserRole() === Role.USER;
+  }
   private titleSubject = new BehaviorSubject<string>('Users');
   public titleAction$ = this.titleSubject.asObservable();
   public users: User[];
@@ -30,20 +58,51 @@ export class UserComponent implements OnInit, OnDestroy {
   public editUser = new User();
   private currentUsername: string;
   public fileStatus = new FileUploadStatus();
+  public appointments: Appointment[];
 
-  constructor(private router: Router, private authenticationService: AuthenticationService,
-              private userService: UserService, private notificationService: NotificationService) {}
+  public activeTab = 'profile';
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
+    if (this.user && this.user.username) {
+      this.loadUserAppointmentsByUsername(this.user.username);
+    }
     this.getUsers(true);
   }
 
+  private loadUserAppointmentsByUsername(username: string): void {
+    this.subscriptions.push(
+      this.userService.getAppointmentBySpecialUserUsername(username).subscribe(
+        (data: Appointment[]) => {
+          if (data && data.length > 0) {
+            this.appointments = data;
+          } else {
+            this.sendNotification(NotificationType.INFO, 'Nu există programări.');
+          }
+        },
+        (error: HttpErrorResponse) => {
+          console.error('Error loading appointments by username', error);
+          this.sendNotification(NotificationType.ERROR, error.error.message);
+        }
+      )
+    );
+  }
   public changeTitle(title: string): void {
+    this.activeTab = title;
     this.titleSubject.next(title);
   }
 
+  public setActiveTab(tabName: string): void {
+    this.activeTab = tabName;
+  }
+
   public getUsers(showNotification: boolean): void {
+    // // Check if the user is an admin
+    if (!this.isAdmin) {
+      console.log('Access denied. Only admins can load user data.');
+      return; // Stop execution if not admin
+    }
+
     this.refreshing = true;
     this.subscriptions.push(
       this.userService.getUsers().subscribe(
@@ -173,6 +232,7 @@ export class UserComponent implements OnInit, OnDestroy {
           break;
         }
       default:
+        // tslint:disable-next-line:no-unused-expression
         `Finished all processes`;
     }
   }
@@ -239,26 +299,6 @@ export class UserComponent implements OnInit, OnDestroy {
     if (results.length === 0 || !searchTerm) {
       this.users = this.userService.getUsersFromLocalCache();
     }
-  }
-
-  public get isAdmin(): boolean {
-    return this.getUserRole() === Role.ADMIN || this.getUserRole() === Role.SUPER_ADMIN;
-  }
-
-  public get isManager(): boolean {
-    return this.isAdmin || this.getUserRole() === Role.MANAGER;
-  }
-
-  public get isAdminOrManager(): boolean {
-    return this.isAdmin || this.isManager;
-  }
-
-  public get isDoctor(): boolean {
-    return this.getUserRole() === Role.DOCTOR;
-  }
-
-  public get isAssistant(): boolean {
-    return this.getUserRole() === Role.ASSISTANT;
   }
 
   private getUserRole(): string {
