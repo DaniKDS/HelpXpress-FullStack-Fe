@@ -1,6 +1,5 @@
 import {User} from './user';
 
-
 export class Doctor {
   id: number;
   user: User;

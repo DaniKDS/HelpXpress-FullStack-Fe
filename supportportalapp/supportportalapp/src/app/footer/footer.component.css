@@ -1,7 +1,7 @@
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 50vh;
   margin: 0;
   background-color: #f8f8f8;
 }
@@ -11,24 +11,23 @@ body {
 }
 
 header, .footer {
-  background-color: rgb(0, 123, 255); /* Fundal semitransparent pentru a se potrivi cu header */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Umbra pentru coerență */
-  color: #0056b3; /* Culoarea textului pentru a se potrivi cu stilul header */
+  background-color: rgb(0, 123, 255); /* Fundal albastru */
+  color: #fff; /* Culoare text alb pentru contrast ridicat */
+  text-align: center; /* Centrarea textului */
+  padding: 20px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Umbra subtilă */
 }
 
 .footer {
-  width: 100%;
-  padding: 20px 0;
-  position: relative; /* Modificat la position: relative pentru a permite fluxul natural */
-  border-top: 1px solid #e7e7e7; /* Border pentru a separa footer de conținut */
-  text-align: center; /* Centrarea conținutului footer */
+  border-top: 2px solid rgba(255, 255, 255, 0.5); /* Linie de separare vizibilă */
+  position: relative;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px; /* Padding pentru a asigura spațiu în jurul conținutului */
+  padding: 0 10%; /* Padding pentru a asigura spațiu pe laterale */
 }
 
 .social-icons {
@@ -37,27 +36,27 @@ header, .footer {
 }
 
 .social-icons a {
-  display: inline-flex; /* Alinează corect iconițele */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .social-icons a img {
-  width: 30px;
-  height: 30px; /* Dimensiune uniformă pentru iconițe */
+  width: 36px;
+  height: 36px; /* Mărimea iconițelor mai mare pentru accesibilitate */
 }
 
 .footer-info {
-  font-size: 0.9em; /* Ajustează dimensiunea textului */
-  color: #333; /* Culoarea textului pentru contrast */
+  font-size: 14px; /* Text mai mare pentru lizibilitate */
 }
 
-@media (max-width: 991px) {
+@media (max-width: 400px) {
   .footer-content {
     flex-direction: column;
-    gap: 10px; /* Spațiu între elemente pe ecrane mai mici */
   }
 
   .social-icons, .footer-info {
-    justify-content: center;
-    width: 100%;
+    width: 80%;
+    margin-top: 5px;
   }
 }

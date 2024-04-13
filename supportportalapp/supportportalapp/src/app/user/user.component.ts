@@ -16,6 +16,7 @@ import {Doctor} from '../model/doctor';
 import {Assistant} from '../model/assistant';
 import {Organization} from '../model/organization';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import {SpecialUser} from '../model/specialuser';
 
 @Component({
   selector: 'app-user',
@@ -74,6 +75,7 @@ export class UserComponent implements OnInit, OnDestroy {
   public activeTab = 'profile';
   public assistant: Assistant;
   public organizations: Organization[];
+  public specialUser: SpecialUser;
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
@@ -82,8 +84,16 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadDoctorsForSpecialUserByUsername(this.user.username);
       this.loadAssistantForSpecialUserByUsername(this.user.username);
       this.loadOrganizations(this.user.username);
+      this.getSpecialUser(this.user.username);
     }
     this.getUsers(true);
+  }
+
+  getSpecialUser(username: string): void {
+    this.userService.getSpecialUserByDoctorUsername(username).subscribe(
+      (data: SpecialUser) => this.specialUser = data,
+      error => console.error(error)
+    );
   }
 
   loadOrganizations(username: string): void {

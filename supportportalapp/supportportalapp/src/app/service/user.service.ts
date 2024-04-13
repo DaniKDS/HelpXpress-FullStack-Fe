@@ -8,7 +8,8 @@ import {Appointment} from '../model/appointment';
 import {Doctor} from '../model/doctor';
 import {catchError, tap} from 'rxjs/operators';
 import {Assistant} from '../model/assistant';
-import {Organization} from "../model/organization";
+import {Organization} from '../model/organization';
+import {SpecialUser} from '../model/specialuser';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -100,5 +101,8 @@ export class UserService {
 
   public getOrganizationsByUsername(username: string): Observable<Organization[]> {
     return this.http.get<Organization[]>(`${this.host}/special-users/${username}/organizations`);
+  }
+  public getSpecialUserByDoctorUsername(username: string): Observable<SpecialUser> {
+    return this.http.get<SpecialUser>(`${this.host}/doctors/${username}/special-user`);
   }
 }

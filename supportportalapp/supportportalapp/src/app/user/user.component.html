@@ -44,9 +44,34 @@
         </a>
 
         <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare') ; setActiveTab('organization')" data-toggle="tab"
-           href="#spital-centrurecuperare">
+           href="#organization">
           <i class="fas fa-hospital"></i>
           Spital/centru recuperare
+        </a>
+
+        <!--#pt doctor-->
+        <a [hidden]="!isDoctor"class="nav-item nav-link active ml-1" (click)="changeTitle('Pacientii mei');setActiveTab('patients')" data-toggle="tab"
+           href="#patient">
+          <i class="fa fa-users"></i>
+          Pacienti
+        </a>
+
+        <a [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Spitale');setActiveTab('hospitals')" data-toggle="tab"
+           href="">
+          <i class="fas fa-hospital"></i>
+          Spitale / Centre recuperare
+        </a>
+
+        <a [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Programari');setActiveTab('appointments')" data-toggle="tab"
+           href="#programare">
+          <i class="fas fa-calendar"></i>
+          Programari
+        </a>
+
+        <a [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Feedback pacienti');setActiveTab('feedback')" data-toggle="tab"
+           href="#reset-password">
+          <i class="fas fa-comments"></i>
+          Feedback de la pacienti
         </a>
 
 
@@ -148,7 +173,7 @@
 
     <!-- programare -->
     <div *ngIf="activeTab === 'appointments'">
-      <div [hidden]="!isSpecialuser">
+      <div [hidden]="!isSpecialuser || isDoctor">
         <div *ngIf="appointments?.length > 0; else noAppointments" class="tab-pane fade show active" id="programare">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Programările Mele</h3>
@@ -346,6 +371,40 @@
       </ng-template>
     </div>
 
+<!-- patient -->
+
+    <div *ngIf="activeTab === 'patients'" class="tab-pane fade show active" id="patient">
+      <div *ngIf="specialUser; else noPatients">
+        <div class="card mb-3 patient-card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Pacient: {{ specialUser.user.firstName }} {{ specialUser.user.lastName }}
+          </div>
+          <div class="card-body">
+            <img src="{{ specialUser.user.profileImageUrl || 'path/to/default-image.jpg' }}" alt="Profile Image" class="img-thumbnail profile-image">
+            <div class="user-details">
+              <p><strong>Username:</strong> {{ specialUser.user.username }}</p>
+              <p><strong>Email:</strong> {{ specialUser.user.email }}</p>
+              <p><strong>Membru din:</strong> {{ specialUser.user.joinDate | date:'mediumDate' }}</p>
+              <p><strong>Telefon:</strong> {{ specialUser.user.phone }}</p>
+              <p><strong>Gen:</strong> {{ specialUser.user.gender }}</p>
+              <p><strong>Varsta:</strong> {{ specialUser.user.age }}</p>
+              <p><strong>Data nașterii:</strong> {{ specialUser.user.birthDate | date:'mediumDate' }}</p>
+              <p><strong>Boală:</strong> {{ specialUser.disease }}</p>
+              <p><strong>Tip Boală:</strong> {{ specialUser.diseaseType }}</p>
+              <p><strong>Asistent:</strong> {{ specialUser.assistant.user.firstName }} {{ specialUser.assistant.user.lastName }} - {{ specialUser.assistant.speciality }}</p>
+              <p><strong>Experiență Asistent:</strong> {{ specialUser.assistant.experienceYears }} ani</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noPatients>
+        <div class="alert alert-info">
+          <i class="fa fa-exclamation-circle"></i> Nu există pacienți atribuiți acestui doctor.
+        </div>
+      </ng-template>
+    </div>
+
     <!-- user profile -->
     <div *ngIf="activeTab === 'profile'" id="profile">
       <div class="container">
@@ -459,6 +518,23 @@
                                     </div>
                                   </div>
                                 </div>
+
+<!--                                <div *ngIf="isSpecialuser">-->
+<!--                                  <div class="row">-->
+<!--                                    <div class="col">-->
+<!--                                      <div class="form-group">-->
+<!--                                        <label>Afectiune</label>-->
+<!--                                        <input type="text" name="disease" [(ngModel)]="user.specialUser.disease" class="form-control">-->
+<!--                                      </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col">-->
+<!--                                      <div class="form-group">-->
+<!--                                        <label>Tipul afectiunii</label>-->
+<!--                                        <input type="text" name="diseaseType" [(ngModel)]="user.specialUser.diseaseType" class="form-control">-->
+<!--                                      </div>-->
+<!--                                    </div>-->
+<!--                                  </div>-->
+<!--                                </div>-->
 
                                 <div class="row">
                                   <div class="col mb-3">
