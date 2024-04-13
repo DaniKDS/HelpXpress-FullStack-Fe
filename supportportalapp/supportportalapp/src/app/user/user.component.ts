@@ -13,6 +13,7 @@ import { FileUploadStatus } from '../model/file-upload.status';
 import { Role } from '../enum/role.enum';
 import {Appointment} from '../model/appointment';
 import {Doctor} from '../model/doctor';
+import {Assistant} from "../model/assistant";
 
 @Component({
   selector: 'app-user',
@@ -62,18 +63,30 @@ export class UserComponent implements OnInit, OnDestroy {
   public doctors: Doctor[];
   newAppointment: Appointment = new Appointment();
   public activeTab = 'profile';
+  public assistant: Assistant;
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
     if (this.user && this.user.username) {
       this.loadUserAppointmentsByUsername(this.user.username);
+      this.loadDoctorsForSpecialUserByUsername(this.user.username);
+      this.loadAssistantForSpecialUserByUsername(this.user.username);
     }
-
-    this.loadDoctorsForSpecialUserByUsername(this.user.username);
     this.getUsers(true);
   }
 
-
+  loadAssistantForSpecialUserByUsername(username: string): void {
+    this.userService.getAssistantBySpecialUserUsername(username).subscribe({
+      next: (assistant) => {
+        console.log('Assistant loaded:', assistant);
+        this.assistant = assistant;
+      },
+      error: (error) => {
+        console.error('Error fetching assistant:', error);
+        this.sendNotification(NotificationType.ERROR, 'Could not load assistant.');
+      }
+    });
+  }
 
   loadDoctorsForSpecialUserByUsername(username: string): void {
     this.userService.getDoctorsBySpecialUserUsername(username).subscribe({

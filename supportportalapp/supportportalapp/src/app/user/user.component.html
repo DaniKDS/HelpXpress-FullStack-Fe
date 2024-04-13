@@ -29,20 +29,18 @@
 
         <!-- nab bar for special user -->
         <!--pt special user-->
-        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="setActiveTab('appointments')" data-toggle="tab"
+        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="changeTitle('Programarile mele'); setActiveTab('appointments')" data-toggle="tab"
            href="#programare">
           <i class="fas fa-calendar"></i>
           Programarile mele
         </a>
-        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="setActiveTab('doctors')" data-toggle="tab"
+        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="changeTitle('Doctorii mei'); setActiveTab('doctors')" data-toggle="tab"
            href="#doctors">
           <i class="fas fa-user-md"></i>
           Doctorii mei
         </a>
-        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Asistentul meu personal')" data-toggle="tab"
-           href="#asistent">
-          <i class="fas fa-user-tie"></i>
-          Asistentul meu
+        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Asistentul meu personal'); setActiveTab('assistant')" data-toggle="tab" href="#assistant">
+          <i class="fas fa-user-tie"></i> Asistentul meu
         </a>
 
         <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare')" data-toggle="tab"
@@ -147,12 +145,14 @@
       </form>
     </div>
 
+
+    <!-- programare -->
     <div *ngIf="activeTab === 'appointments'">
       <div [hidden]="!isSpecialuser">
         <div *ngIf="appointments?.length > 0; else noAppointments" class="tab-pane fade show active" id="programare">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Programările Mele</h3>
-            <button class="btn btn-success" (click)="toggleAddAppointmentForm()">Adaugă Programare</button>
+            <button class="btn btn-success" >Adaugă Programare</button>
           </div>
           <div class="row">
             <div class="col-md-6 col-lg-4" *ngFor="let appointment of appointments">
@@ -235,6 +235,82 @@
           </div>
         </ng-template>
       </div>
+    </div>
+
+    <!-- ASSISTANT -->
+    <div *ngIf="activeTab === 'assistant'" class="tab-pane fade show active" id="assistant" role="tabpanel" aria-labelledby="assistant-tab">
+      <div *ngIf="assistant; else noAssistant">
+        <div class="container">
+          <div class="row flex-lg-nowrap">
+            <div class="col">
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="card" aria-live="polite" aria-atomic="true">
+                    <div class="card-body">
+                      <div class="e-profile">
+                        <div class="row">
+                          <div class="col-12 col-sm-auto mb-3">
+                            <div class="mx-auto" style="width: 140px;">
+                              <img class="rounded-circle" height="140" width="140"
+                                   [src]="assistant.user.profileImageUrl || 'path/to/default-assistant-image.jpg'"
+                                   alt="Imagine de profil a {{ assistant.user.firstName }} {{ assistant.user.lastName }}">
+                            </div>
+                          </div>
+                          <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                            <div class="text-center text-sm-left mb-2 mb-sm-0">
+                              <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ assistant.user.firstName }} {{ assistant.user.lastName }}</h4>
+                              <p class="mb-0">{{ assistant.user.username }}</p>
+                              <div class="text-muted"><small>Specialitate: {{ assistant.speciality }}</small></div>
+                              <div class="text-muted"><small>Vârsta: {{ assistant.user.age }}</small></div>
+                            </div>
+                            <div class="text-center text-sm-right">
+                              <span class="badge badge-secondary">{{ assistant.grade }}</span>
+                              <div class="text-muted"><small>Experiență: {{ assistant.experienceYears }} ani</small></div>
+                              <div class="text-muted"><small>Sex: {{ assistant.user.gender }}</small></div>
+                              <div class="text-muted"><small>Data nașterii: {{ assistant.user.birthDate | date: 'mediumDate' }}</small></div>
+                              <div class="text-muted"><small>Data înscrierii: {{ assistant.user.joinDate | date: 'mediumDate' }}</small></div>
+                              <div class="text-muted"><small>Rol: {{ assistant.user.role }}</small></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-content pt-3">
+                          <div class="tab-pane active">
+                            <div class="row">
+                              <div class="col">
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="email">Email</label>
+                                      <input id="email" class="form-control" type="text" value="{{ assistant.user.email }}" readonly aria-describedby="emailHelp">
+                                      <small id="emailHelp" class="form-text text-muted">Adresa de email a asistentului.</small>
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="phone">Telefon</label>
+                                      <input id="phone" class="form-control" type="text" value="{{ assistant.user.phone }}" readonly aria-describedby="phoneHelp">
+                                      <small id="phoneHelp" class="form-text text-muted">Numărul de telefon al asistentului.</small>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noAssistant>
+        <div class="alert alert-info" role="alert">
+          Niciun asistent personal găsit.
+        </div>
+      </ng-template>
     </div>
     <!-- user profile -->
     <div *ngIf="activeTab === 'profile'" id="profile">

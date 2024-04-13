@@ -7,6 +7,7 @@ import { CustomHttpRespone } from '../model/custom-http-response';
 import {Appointment} from '../model/appointment';
 import {Doctor} from '../model/doctor';
 import {catchError, tap} from 'rxjs/operators';
+import {Assistant} from '../model/assistant';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -81,4 +82,20 @@ export class UserService {
         })
       );
   }
+
+  public getAssistantBySpecialUserUsername(username: string): Observable<Assistant> {
+    return this.http.get<Assistant>(`${this.host}/special-users/${username}/assistant`)
+      .pipe(
+        tap(assistant => console.log('Assistant fetched:', assistant)),
+        catchError(this.handleError)
+      );
+  }
+
+  // Method to handle errors
+  private handleError(error: any) {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Error fetching data'));
+  }
+
+
 }

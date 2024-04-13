@@ -42,3 +42,13 @@
   transform: scale(1.03);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
 }
+ .assistant-card-container {
+   display: flex;
+   justify-content: center;
+ }
+.assistant-card {
+  max-width: 35rem; /* Adjust the width as you see fit */
+}
+.assistant-img {
+  object-fit: cover; /* Ensures the image covers the area nicely */
+}
