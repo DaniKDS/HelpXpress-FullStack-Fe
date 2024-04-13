@@ -105,4 +105,8 @@ export class UserService {
   public getSpecialUserByDoctorUsername(username: string): Observable<SpecialUser> {
     return this.http.get<SpecialUser>(`${this.host}/doctors/${username}/special-user`);
   }
+  public getAppointmentsByDoctorUsername(username: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.host}/doctors/${username}/appointments`);
+  }
+
 }

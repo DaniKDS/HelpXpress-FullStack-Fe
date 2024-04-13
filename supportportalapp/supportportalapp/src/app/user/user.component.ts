@@ -85,8 +85,20 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadAssistantForSpecialUserByUsername(this.user.username);
       this.loadOrganizations(this.user.username);
       this.getSpecialUser(this.user.username);
+      this.getDoctorAppointments(this.user.username);
     }
     this.getUsers(true);
+  }
+
+  getDoctorAppointments(username: string): void {
+    this.userService.getAppointmentsByDoctorUsername(username).subscribe(
+      (data: Appointment[]) => {
+        this.appointments = data;
+      },
+      error => {
+        console.error('Error fetching appointments:', error);
+      }
+    );
   }
 
   getSpecialUser(username: string): void {

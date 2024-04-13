@@ -29,53 +29,47 @@
 
         <!-- nab bar for special user -->
         <!--pt special user-->
-        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="changeTitle('Programarile mele'); setActiveTab('appointments')" data-toggle="tab"
+        <a [class.active]="activeTab === 'appointments'" [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="changeTitle('Programarile mele'); setActiveTab('appointments')" data-toggle="tab"
            href="#programare">
           <i class="fas fa-calendar"></i>
           Programarile mele
         </a>
-        <a [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="changeTitle('Doctorii mei'); setActiveTab('doctors')" data-toggle="tab"
+        <a [class.active]="activeTab === 'doctors'" [hidden]="!isSpecialuser || isDoctor || isAssistant" class="nav-item nav-link ml-3" (click)="changeTitle('Doctorii mei'); setActiveTab('doctors')" data-toggle="tab"
            href="#doctors">
           <i class="fas fa-user-md"></i>
           Doctorii mei
         </a>
-        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Asistentul meu personal'); setActiveTab('assistant')" data-toggle="tab" href="#assistant">
+        <a [class.active]="activeTab === 'assistant'" [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Asistentul meu personal'); setActiveTab('assistant')" data-toggle="tab" href="#assistant">
           <i class="fas fa-user-tie"></i> Asistentul meu
         </a>
 
-        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare') ; setActiveTab('organization')" data-toggle="tab"
+        <a [class.active]="activeTab === 'organization'" [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare') ; setActiveTab('organization')" data-toggle="tab"
            href="#organization">
           <i class="fas fa-hospital"></i>
           Spital/centru recuperare
         </a>
 
         <!--#pt doctor-->
-        <a [hidden]="!isDoctor"class="nav-item nav-link active ml-1" (click)="changeTitle('Pacientii mei');setActiveTab('patients')" data-toggle="tab"
-           href="#patient">
+        <a [class.active]="activeTab === 'patients'" [hidden]="!isDoctor"class="nav-item nav-link active ml-1" (click)="changeTitle('Pacientii mei');setActiveTab('patients')" data-toggle="tab"
+           href="#patients">
           <i class="fa fa-users"></i>
           Pacienti
         </a>
 
-        <a [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Spitale');setActiveTab('hospitals')" data-toggle="tab"
-           href="">
-          <i class="fas fa-hospital"></i>
-          Spitale / Centre recuperare
-        </a>
-
-        <a [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Programari');setActiveTab('appointments')" data-toggle="tab"
-           href="#programare">
+        <a [class.active]="activeTab === 'programare1'" [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Programari');setActiveTab('programare1')" data-toggle="tab"
+           href="#programare1">
           <i class="fas fa-calendar"></i>
           Programari
         </a>
 
-        <a [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Feedback pacienti');setActiveTab('feedback')" data-toggle="tab"
-           href="#reset-password">
+        <a [class.active]="activeTab === 'feedback'" [hidden]="!isDoctor" class="nav-item nav-link ml-3" (click)="changeTitle('Feedback pacienti');setActiveTab('feedback')" data-toggle="tab"
+           href="#feedback">
           <i class="fas fa-comments"></i>
           Feedback de la pacienti
         </a>
 
 
-        <a class="nav-item nav-link move-right mr-3" (click)="setActiveTab('profile')" data-toggle="tab" href="#profile">
+        <a [class.active]="activeTab === 'profile'" class="nav-item nav-link move-right mr-3" (click)="changeTitle('Welcome'); setActiveTab('profile')" data-toggle="tab" href="#profile">
           Welcome, {{ user?.firstName }}
           <i class="fa fa-user"></i>
         </a>
@@ -373,7 +367,7 @@
 
 <!-- patient -->
 
-    <div *ngIf="activeTab === 'patients'" class="tab-pane fade show active" id="patient">
+    <div *ngIf="activeTab === 'patients'" class="tab-pane fade show active" id="patients">
       <div *ngIf="specialUser; else noPatients">
         <div class="card mb-3 patient-card">
           <div class="card-header">
@@ -401,6 +395,60 @@
       <ng-template #noPatients>
         <div class="alert alert-info">
           <i class="fa fa-exclamation-circle"></i> Nu există pacienți atribuiți acestui doctor.
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Panoul pentru Programari -->
+    <div *ngIf="activeTab === 'programare1'" id="programare1" class="tab-pane fade show active">
+      <div *ngIf="appointments.length > 0; else noAppointments">
+        <!-- Lista de programari -->
+        <div class="list-group">
+          <div *ngFor="let appointment of appointments" class="list-group-item list-group-item-action mb-2 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="mb-0">
+                <i class="fas fa-clinic-medical text-primary mr-2"></i>
+                {{ appointment.organization.name }}
+              </h5>
+              <div>
+            <span class="badge badge-info mr-2">
+              <i class="fas fa-hourglass-start mr-1"></i>
+              {{ appointment.appointmentTime | date:'short' }}
+            </span>
+                <span class="badge badge-info">
+              <i class="fas fa-hourglass-end mr-1"></i>
+                  {{ appointment.appointmentEndTime | date:'short' }}
+            </span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="mb-0">
+                  <i class="fas fa-notes-medical text-warning mr-1"></i>
+                  Note: {{ appointment.notes }}
+                </p>
+                <p class="mb-0">
+                  <i class="fas fa-user-injured text-secondary mr-1"></i>
+                  Pacient: {{ appointment.specialUser.user.firstName }} {{ appointment.specialUser.user.lastName }}
+                </p>
+                <p class="mb-0">
+                  <i class="fas fa-virus text-danger mr-1"></i>
+                  Boală: {{ appointment.specialUser.disease }} - {{ appointment.specialUser.diseaseType }}
+                </p>
+              </div>
+            </div>
+            <div class="mt-2">
+              <p class="mb-0">
+                <i class="fas fa-user-nurse text-success mr-1"></i>
+                Asistent: {{ appointment.specialUser.assistant.user.firstName }} {{ appointment.specialUser.assistant.user.lastName }} - {{ appointment.specialUser.assistant.speciality }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noAppointments>
+        <div class="alert alert-info">
+          <i class="fas fa-exclamation-triangle"></i> Nu există programări pentru acest doctor.
         </div>
       </ng-template>
     </div>

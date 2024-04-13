@@ -1,5 +1,3 @@
-import {SpecialUser} from "./specialuser";
-
 export class User {
   public userId: string;
   public firstName: string;

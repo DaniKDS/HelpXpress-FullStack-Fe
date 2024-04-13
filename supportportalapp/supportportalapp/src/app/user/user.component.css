@@ -1,3 +1,7 @@
+.nav-item .nav-link.active {
+  background-color: #007bff; /* Schimbă culoarea de fundal */
+  color: white; /* Schimbă culoarea textului */
+}
 .card-header {
   font-size: 1.2rem;
 }
@@ -135,3 +139,86 @@
 .alert-info i {
   margin-right: 5px;
 }
+
+/* Stiluri generale pentru list-group și itemi */
+.list-group-item {
+  display: block;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.list-group-item-action:hover {
+  background-color: #f8f9fa;
+}
+
+/* Stiluri pentru antetul programării */
+.appointment-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e3e3e3;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.appointment-title {
+  font-size: 1.25rem;
+  color: #007bff; /* Culoare albastră Bootstrap */
+}
+
+.appointment-title i,
+.appointment-time i,
+.appointment-notes i,
+.patient-title i,
+.assistant-title i {
+  margin-right: 0.5rem;
+}
+
+/* Stiluri pentru corpul programării și detaliile pacientului/asistentului */
+.appointment-body,
+.patient-info,
+.assistant-info,
+.appointment-notes {
+  padding-left: 1.5rem;
+}
+
+.patient-details,
+.assistant-details {
+  padding-left: 2rem;
+}
+
+.notes-text,
+.status-text,
+.patient-title,
+.assistant-title {
+  margin-left: 0.5rem;
+}
+
+.appointment-time,
+.appointment-end-time {
+  margin: 0 0.5rem;
+  font-weight: bold;
+  background-color: #ffc107; /* Culoare distinctă pentru timpul de sfârșit */
+}
+
+.status-text {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* Stiluri pentru text */
+.appointment-notes,
+.patient-info p,
+.assistant-info p {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+
+
