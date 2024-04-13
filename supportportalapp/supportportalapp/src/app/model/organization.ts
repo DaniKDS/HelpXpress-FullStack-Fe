@@ -3,10 +3,14 @@ export class Organization {
   name: string;
   type: string;
   address: string;
-  constructor() {
+  phone: string;
+  description: string;
+    constructor() {
     this.id = 0;
     this.name = '';
     this.type = '';
     this.address = '';
+    this.phone = '';
+    this.description = '';
   }
 }

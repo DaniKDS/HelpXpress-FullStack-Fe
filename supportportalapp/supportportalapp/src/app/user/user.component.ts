@@ -13,12 +13,22 @@ import { FileUploadStatus } from '../model/file-upload.status';
 import { Role } from '../enum/role.enum';
 import {Appointment} from '../model/appointment';
 import {Doctor} from '../model/doctor';
-import {Assistant} from "../model/assistant";
+import {Assistant} from '../model/assistant';
+import {Organization} from '../model/organization';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  animations: [
+    trigger('listAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-15px)' }),
+        animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ])
+  ]
 })
 export class UserComponent implements OnInit, OnDestroy {
 
@@ -61,9 +71,9 @@ export class UserComponent implements OnInit, OnDestroy {
   public fileStatus = new FileUploadStatus();
   public appointments: Appointment[];
   public doctors: Doctor[];
-  newAppointment: Appointment = new Appointment();
   public activeTab = 'profile';
   public assistant: Assistant;
+  public organizations: Organization[];
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
@@ -71,8 +81,20 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadUserAppointmentsByUsername(this.user.username);
       this.loadDoctorsForSpecialUserByUsername(this.user.username);
       this.loadAssistantForSpecialUserByUsername(this.user.username);
+      this.loadOrganizations(this.user.username);
     }
     this.getUsers(true);
+  }
+
+  loadOrganizations(username: string): void {
+    this.userService.getOrganizationsByUsername(username).subscribe({
+      next: (data) => {
+        this.organizations = data;
+      },
+      error: (err) => {
+        console.error('Error fetching organizations:', err);
+      }
+    });
   }
 
   loadAssistantForSpecialUserByUsername(username: string): void {

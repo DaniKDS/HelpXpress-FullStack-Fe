@@ -52,3 +52,36 @@
 .assistant-img {
   object-fit: cover; /* Ensures the image covers the area nicely */
 }
+
+.organization-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.125);
+}
+
+.organization-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.list-group-item {
+  border: none;
+}
+
+.card-title i, .card-subtitle i, .list-group-item i, .card-link i {
+  margin-right: 5px; /* Spațiere între iconiță și text */
+  color: #007bff; /* O culoare coordonată pentru iconițe */
+}
+
+.organization-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.125);
+}
+
+.organization-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.list-group-item {
+  border: none;
+}

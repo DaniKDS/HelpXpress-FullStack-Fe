@@ -43,7 +43,7 @@
           <i class="fas fa-user-tie"></i> Asistentul meu
         </a>
 
-        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare')" data-toggle="tab"
+        <a [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare') ; setActiveTab('organization')" data-toggle="tab"
            href="#spital-centrurecuperare">
           <i class="fas fa-hospital"></i>
           Spital/centru recuperare
@@ -312,6 +312,40 @@
         </div>
       </ng-template>
     </div>
+
+    <!-- spital/centru recuperare -->
+    <div *ngIf="activeTab === 'organization'" id="organization" class="tab-pane fade show active">
+      <div *ngIf="organizations && organizations.length > 0; else noOrganizations">
+        <!-- List container -->
+        <div class="list-group">
+          <!-- Card for each hospital/recovery center -->
+          <div *ngFor="let organization of organizations" class="list-group-item animate__animated animate__fadeIn">
+            <div class="card organization-card mb-3 shadow">
+              <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-hospital-symbol"></i> {{ organization.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-clinic-medical"></i> {{ organization.type }}</h6>
+                <p class="card-text"><i class="fas fa-info-circle"></i> {{ organization.description }}</p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><i class="fas fa-map-marker-alt"></i> Adresă: {{ organization.address }}</li>
+                  <li class="list-group-item"><i class="fas fa-phone"></i> Telefon: {{ organization.phone }}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="#" class="card-link"><i class="fas fa-ellipsis-h"></i> Detalii</a>
+                  <a href="#" class="card-link"><i class="fas fa-calendar-check"></i> Programare</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noOrganizations>
+        <div class="alert alert-info" role="alert">
+          Nu s-au găsit spitale sau centre de recuperare pentru acest utilizator.
+        </div>
+      </ng-template>
+    </div>
+
     <!-- user profile -->
     <div *ngIf="activeTab === 'profile'" id="profile">
       <div class="container">

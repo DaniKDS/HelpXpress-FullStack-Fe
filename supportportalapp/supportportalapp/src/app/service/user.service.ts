@@ -8,6 +8,7 @@ import {Appointment} from '../model/appointment';
 import {Doctor} from '../model/doctor';
 import {catchError, tap} from 'rxjs/operators';
 import {Assistant} from '../model/assistant';
+import {Organization} from "../model/organization";
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -97,5 +98,7 @@ export class UserService {
     return throwError(() => new Error('Error fetching data'));
   }
 
-
+  public getOrganizationsByUsername(username: string): Observable<Organization[]> {
+    return this.http.get<Organization[]>(`${this.host}/special-users/${username}/organizations`);
+  }
 }
