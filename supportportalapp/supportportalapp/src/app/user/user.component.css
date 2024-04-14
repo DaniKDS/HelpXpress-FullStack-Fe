@@ -1,3 +1,8 @@
+@media (max-width: 1200px) {
+  .nav-item {
+    flex: 1 0 21%; /* Forțează o lățime care permite doar 4 butoane pe rând */
+  }
+}
 .nav-item .nav-link.active {
   background-color: #007bff; /* Schimbă culoarea de fundal */
   color: white; /* Schimbă culoarea textului */

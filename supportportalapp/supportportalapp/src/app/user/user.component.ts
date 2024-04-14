@@ -17,6 +17,7 @@ import {Assistant} from '../model/assistant';
 import {Organization} from '../model/organization';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {SpecialUser} from '../model/specialuser';
+import {Review} from '../model/review';
 
 @Component({
   selector: 'app-user',
@@ -76,6 +77,7 @@ export class UserComponent implements OnInit, OnDestroy {
   public assistant: Assistant;
   public organizations: Organization[];
   public specialUser: SpecialUser;
+  public reviews: Review[] = [];
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
@@ -86,8 +88,21 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadOrganizations(this.user.username);
       this.getSpecialUser(this.user.username);
       this.getDoctorAppointments(this.user.username);
+      console.log('Username for reviews:', this.user.username);
+      this.getDoctorReviews(this.user.username);
     }
     this.getUsers(true);
+  }
+  getDoctorReviews(username: string): void {
+    this.userService.getReviewsByDoctorUsername(username).subscribe(
+      (data: Review[]) => {
+        console.log('Reviews:', data); // Check the data structure
+        this.reviews = data;
+      },
+      error => {
+        console.error('Error fetching reviews:', error);
+      }
+    );
   }
 
   getDoctorAppointments(username: string): void {
@@ -146,7 +161,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private loadUserAppointmentsByUsername(username: string): void {
-    // Check if the user role is ROLE_USER before proceeding
     if (this.getUserRole() === 'ROLE_USER') {
       this.subscriptions.push(
         this.userService.getAppointmentBySpecialUserUsername(username).subscribe(
@@ -163,10 +177,6 @@ export class UserComponent implements OnInit, OnDestroy {
           }
         )
       );
-    } else {
-      // Handle cases where the user does not have ROLE_USER, if needed
-      // For example:
-      // this.sendNotification(NotificationType.INFO, 'Not authorized to view appointments.');
     }
   }
   public changeTitle(title: string): void {
