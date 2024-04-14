@@ -584,7 +584,7 @@
                 </p>
                 <p class="mb-0">
                   <i class="fas fa-user-injured text-secondary mr-1"></i>
-                  Pacient: {{ appointment.specialUser.user.firstName }} {{ appointment.specialUser.user.lastName }}
+                  Pacient: {{ appointment.specialUser?.user?.firstName }} {{ appointment.specialUser?.user?.lastName }}
                 </p>
                 <p class="mb-0">
                   <i class="fas fa-virus text-danger mr-1"></i>
@@ -595,8 +595,8 @@
             <div class="mt-2">
               <p class="mb-0">
                 <i class="fas fa-user-nurse text-success mr-1"></i>
-                Asistent: {{ appointment.specialUser.assistant.user.firstName }} {{ appointment.specialUser.assistant.user.lastName }}
-                - {{ appointment.specialUser.assistant.speciality }}
+                Asistent: {{ appointment.specialUser?.assistant?.user?.firstName }} {{ appointment.specialUser?.assistant?.user?.lastName }}
+                - {{ appointment.specialUser?.assistant?.speciality }}
               </p>
             </div>
           </div>
