@@ -92,8 +92,21 @@ export class UserComponent implements OnInit, OnDestroy {
       this.getDoctorReviews(this.user.username);
       this.loadSpecialUserForAssistant(this.user.username);
       this.loadDoctorsForMySpecialUser(this.user.username);
+      this.loadAppointmentsForMySpecialUser(this.user.username);
     }
     this.getUsers(true);
+  }
+
+  loadAppointmentsForMySpecialUser(username: string): void {
+    this.userService.getAppointmentsByAssistantUsername(username).subscribe(
+      (data: Appointment[]) => {
+        this.appointments = data;
+        console.log('Appointments data:', data);
+      },
+      error => {
+        console.error('Error fetching appointments:', error);
+      }
+    );
   }
 
   loadDoctorsForMySpecialUser(username: string): void {
@@ -445,5 +458,9 @@ export class UserComponent implements OnInit, OnDestroy {
 
   editSpecialUser() {
     this.clickButton('edit-special-user');
+  }
+
+  addPatientAppointment() {
+    this.clickButton('add-appointment-for-special-user');
   }
 }

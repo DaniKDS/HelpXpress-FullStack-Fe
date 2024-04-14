@@ -100,16 +100,16 @@
             <i class="fas fa-calendar-check"></i>
             Programarile pacientului meu
           </a>
-          <!--#pt asistent personal-->
+
           <a [class.active]="activeTab === 'reviews'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
              (click)="changeTitle('Review-uri');setActiveTab('reviews')" data-toggle="tab"
              href="#reviews">
             <i class="fas fa-check"></i>
             Review-uri
           </a>
-          <a [class.active]="activeTab === 'programari2'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
-             (click)="changeTitle('Programari');setActiveTab('programari2')" data-toggle="tab"
-             href="#programari2">
+          <a [class.active]="activeTab === 'new'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
+             (click)="changeTitle('Nou');setActiveTab('new')" data-toggle="tab"
+             href="#new">
             <i class="fas fa-calendar-check"></i>
             Programarile pacientului
           </a>
@@ -202,7 +202,7 @@
         <fieldset>
           <legend>User Password Management</legend>
           <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputEmail">Email address</label>
             <input type="email" name="reset-password-email" required ngModel class="form-control"
                    placeholder="Enter email (example@email.com)">
             <small class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -214,6 +214,54 @@
           </button>
         </fieldset>
       </form>
+    </div>
+
+
+    <!-- Appointments Tab Content for asistent personal -->
+    <div *ngIf="activeTab === 'programari2'" id="programari2" class="tab-pane fade"
+         [class.show]="activeTab === 'programari2'" [class.active]="activeTab === 'programari2'">
+      <div *ngIf="appointments && appointments.length > 0; else noAppointments">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="mb-0">Programările Pacientului Meu</h3>
+          <button class="btn btn-primary" (click)="addPatientAppointment()">Adaugă Programare</button>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-4" *ngFor="let appointment of appointments">
+            <div class="card mb-3">
+              <div class="card-header bg-primary text-white">
+                <i class="fas fa-clinic-medical"></i> {{ appointment.organization.name }}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fas fa-user-md" style="color: #28a745;"></i>
+                  Doctor: {{ appointment.doctor?.user?.firstName }} {{ appointment.doctor?.user?.lastName }}
+                </h5>
+                <p>
+                  Boala: {{ appointment.specialUser.disease }} ({{ appointment.specialUser.diseaseType }})
+                </p>
+                <p class="card-text"><small class="text-muted">
+                  <i class="far fa-clock"></i>
+                  Start: {{ appointment.appointmentTime | date:'short' }}
+                  <br>
+                  End: {{ appointment.appointmentEndTime | date:'short' }}
+                </small></p>
+              </div>
+              <div class="card-footer text-muted">
+                Status: <span class="badge" [ngClass]="{
+                  'badge-success': appointment.status === 'Confirmată',
+                  'badge-warning': appointment.status === 'În așteptare',
+                  'badge-danger': appointment.status === 'Anulată'
+                }">{{ appointment.status }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noAppointments>
+        <div class="alert alert-info" role="alert">
+          Nu există programări pentru pacientul dumneavoastră.
+        </div>
+      </ng-template>
     </div>
 
     <!-- doctori asistent personal-->

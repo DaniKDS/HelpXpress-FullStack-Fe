@@ -122,4 +122,7 @@ export class UserService {
   getDoctorsBySpecialUserOfAssistant(assistantUsername: string): Observable<Doctor[]> {
     return this.http.get<Doctor[]>(`${this.host}/assistant/${assistantUsername}/special-user/doctors`);
   }
+  getAppointmentsByAssistantUsername(assistantUsername: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.host}/appointmentsByAssistant/${assistantUsername}`);
+  }
 }
