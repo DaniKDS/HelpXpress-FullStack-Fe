@@ -225,5 +225,52 @@
   margin-bottom: 0.25rem;
 }
 
+.card.mb-3 {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card.mb-3:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.card-header {
+  background-color: #007bff; /* Culoare de accent pentru antetul cardului */
+  color: white;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Asigură că imaginea este rotundă */
+  object-fit: cover; /* Asigură că imaginea de profil este bine dimensionată */
+}
+
+.form-group label {
+  font-weight: bold; /* Face etichetele mai lizibile */
+}
+
+.form-control {
+  margin-top: 5px;
+  margin-bottom: 15px; /* Spațiere între câmpuri pentru un aspect aerisit */
+}
+
+.card-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee; /* O linie subtilă de separare */
+}
+
+.btn-success, .btn-primary {
+  margin-right: 5px; /* Spațiere între butoane */
+}
+
+/* Stiluri pentru iconițe */
+i.fa {
+  margin-right: 5px; /* Spațiu între iconiță și text */
+}
 
 

@@ -90,8 +90,34 @@ export class UserComponent implements OnInit, OnDestroy {
       this.getDoctorAppointments(this.user.username);
       console.log('Username for reviews:', this.user.username);
       this.getDoctorReviews(this.user.username);
+      this.loadSpecialUserForAssistant(this.user.username);
+      this.loadDoctorsForMySpecialUser(this.user.username);
     }
     this.getUsers(true);
+  }
+
+  loadDoctorsForMySpecialUser(username: string): void {
+    this.userService.getDoctorsBySpecialUserOfAssistant(username).subscribe(
+      (data: Doctor[]) => {
+        this.doctors = data;
+        console.log('Doctors data:', data);
+      },
+      error => {
+        console.error('Error fetching doctors:', error);
+      }
+    );
+  }
+
+  loadSpecialUserForAssistant(username: string): void {
+    this.userService.getSpecialUserByAssistantUsername(username).subscribe(
+      (data: SpecialUser) => {
+        console.log('SpecialUser data:', data);
+        this.specialUser = data;
+      },
+      error => {
+        console.error('Error fetching special user data:', error);
+      }
+    );
   }
   getDoctorReviews(username: string): void {
     this.userService.getReviewsByDoctorUsername(username).subscribe(
@@ -413,4 +439,11 @@ export class UserComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  saveSpecialUser() {
+    this.clickButton('save-special-user');
+  }
+
+  editSpecialUser() {
+    this.clickButton('edit-special-user');
+  }
 }

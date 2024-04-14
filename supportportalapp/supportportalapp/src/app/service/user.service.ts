@@ -114,4 +114,12 @@ export class UserService {
     return this.http.get<Review[]>(`${this.host}/review/doctor/${username}`);
   }
 
+  // Metoda pentru a obține SpecialUser-ul după username-ul asistentului
+  getSpecialUserByAssistantUsername(username: string): Observable<SpecialUser> {
+    return this.http.get<SpecialUser>(`${this.host}/assistant/${username}/patient`);
+  }
+
+  getDoctorsBySpecialUserOfAssistant(assistantUsername: string): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(`${this.host}/assistant/${assistantUsername}/special-user/doctors`);
+  }
 }

@@ -80,18 +80,18 @@
 
           <!--#pt asistent-personal-->
 
+          <a [class.active]="activeTab === 'pacient'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
+             (click)="changeTitle('Programari');setActiveTab('pacient')" data-toggle="tab"
+             href="#pacient">
+            <i class="fas fa-file-medical"></i>
+            Pacientul meu
+          </a>
+
           <a [class.active]="activeTab === 'doctori2'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
-             (click)="changeTitle('Doctori');setActiveTab('doctori2')" data-toggle="tab"
+             (click)="changeTitle('Doctorii pacientului meu'); setActiveTab('doctori2')" data-toggle="tab"
              href="#doctori2">
             <i class="fas fa-stethoscope"></i>
-            Doctorii
-          </a>
-          <!--#pt asistent personal-->
-          <a [class.active]="activeTab === 'reviews'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
-             (click)="changeTitle('Review-uri');setActiveTab('reviews')" data-toggle="tab"
-             href="#reviews">
-            <i class="fas fa-check"></i>
-            Review-uri
+            Doctorii pacientului meu
           </a>
 
           <a [class.active]="activeTab === 'programari2'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
@@ -100,12 +100,21 @@
             <i class="fas fa-calendar-check"></i>
             Programarile pacientului meu
           </a>
+          <!--#pt asistent personal-->
+          <a [class.active]="activeTab === 'reviews'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
+             (click)="changeTitle('Review-uri');setActiveTab('reviews')" data-toggle="tab"
+             href="#reviews">
+            <i class="fas fa-check"></i>
+            Review-uri
+          </a>
           <a [class.active]="activeTab === 'programari2'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
              (click)="changeTitle('Programari');setActiveTab('programari2')" data-toggle="tab"
              href="#programari2">
-            <i class="fas fa-file-medical"></i>
-            Pacientul meu
+            <i class="fas fa-calendar-check"></i>
+            Programarile pacientului
           </a>
+
+
 
           <a [class.active]="activeTab === 'profile'" class="nav-item nav-link move-right mr-3"
              (click)="changeTitle('Welcome'); setActiveTab('profile')" data-toggle="tab" href="#profile">
@@ -116,6 +125,8 @@
       </div>
     </div>
   </nav>
+
+
 
   <!-- main content -->
   <div class="tab-content mt-3" id="myTabContent">
@@ -203,6 +214,95 @@
           </button>
         </fieldset>
       </form>
+    </div>
+
+    <!-- doctori asistent personal-->
+    <div *ngIf="activeTab === 'doctori2'" class="tab-pane fade show active" id="doctori2">
+      <div [hidden]="!isAssistant">
+        <div *ngIf="doctors && doctors.length > 0; else noDoctors">
+          <h3 class="mb-4">Doctorii pacientului meu</h3>
+          <div class="row">
+            <div class="col-md-4" *ngFor="let doctor of doctors">
+              <div class="card mb-4 shadow-sm">
+                <img class="bd-placeholder-img card-img-top" width="100%"
+                     [src]="doctor.user.profileImageUrl || 'path/to/default-image.jpg'"
+                     alt="Doctor Image">
+                <div class="card-body">
+                  <h5 class="card-title">Dr. {{ doctor.user.firstName }} {{ doctor.user.lastName }}</h5>
+                  <p class="card-text">
+                    Specialitate: {{ doctor.speciality }}<br>
+                    Experiență: {{ doctor.experienceYears }} ani
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Vizualizează</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Editează</button>
+                    </div>
+                    <small class="text-muted">9 min</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noDoctors>
+          <div class="alert alert-info" role="alert">
+            Nu există doctori pentru acest pacient.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- pacient asistent -->
+    <div *ngIf="activeTab === 'pacient'">
+      <div [hidden]="!isAssistant"> <!-- Asigură-te că acest tab este accesibil doar asistenților -->
+        <div *ngIf="specialUser; else noSpecialUser" class="tab-pane fade show active" id="pacient">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Detalii Pacient</h3>
+            <button class="btn btn-success" (click)="editSpecialUser()">
+              <i class="fas fa-edit"></i> Editare
+            </button>
+          </div>
+          <div class="card mb-3">
+            <div class="card-header bg-primary text-white d-flex align-items-center">
+              <img [src]="specialUser.user.profileImageUrl" class="rounded-circle mr-2" style="width: 50px; height: 50px;">
+              <div>
+                <h5>{{ specialUser.user.firstName }} {{ specialUser.user.lastName }}</h5>
+                <small><i class="fas fa-user"></i> {{ specialUser.user.username }}</small>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label><i class="fas fa-envelope"></i> <strong>Email:</strong></label>
+                <input class="form-control" [(ngModel)]="specialUser.user.email">
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-phone"></i> <strong>Telefon:</strong></label>
+                <input class="form-control" [(ngModel)]="specialUser.user.phone">
+              </div>
+              <p><i class="fas fa-venus-mars"></i> <strong>Gen:</strong> {{ specialUser.user.gender }}</p>
+              <p><i class="fas fa-birthday-cake"></i> <strong>Data nașterii:</strong> {{ specialUser.user.birthDate | date: 'mediumDate' }}</p>
+              <p><i class="fas fa-sign-in-alt"></i> <strong>Ultima logare:</strong> {{ specialUser.user.lastLoginDate | date: 'medium' }}</p>
+              <p><i class="fas fa-calendar-plus"></i> <strong>Data înscrierii:</strong> {{ specialUser.user.joinDate | date: 'mediumDate' }}</p>
+              <p><i class="fas fa-user-check"></i> <strong>Status cont:</strong> {{ specialUser.user.active ? 'Activ' : 'Inactiv' }} / {{ specialUser.user.notLocked ? 'Neblocat' : 'Blocat' }}</p>
+              <div class="disease-info">
+                <p><i class="fas fa-heartbeat"></i> <strong>Boală:</strong> {{ specialUser.disease }}</p>
+                <p><i class="fas fa-stethoscope"></i> <strong>Tip boală:</strong> {{ specialUser.diseaseType }}</p>
+              </div>
+            </div>
+            <div class="card-footer text-muted">
+              <button class="btn btn-primary" (click)="saveSpecialUser()">
+                <i class="fas fa-save"></i> Salvează Modificările
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noSpecialUser>
+          <div class="alert alert-info" role="alert">
+            Nu există detalii disponibile pentru pacient.
+          </div>
+        </ng-template>
+      </div>
     </div>
 
 
