@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'servicii', component: ServiciiComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'recenzie', component: RecenzieComponent }
+  { path: 'recenzie', component: RecenzieComponent },
 ];
 
 @NgModule({

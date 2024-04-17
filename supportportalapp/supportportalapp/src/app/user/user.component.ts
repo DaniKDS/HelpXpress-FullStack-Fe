@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, NgIterable} from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { User } from '../model/user';
 import { UserService } from '../service/user.service';
@@ -18,6 +18,7 @@ import {Organization} from '../model/organization';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {SpecialUser} from '../model/specialuser';
 import {Review} from '../model/review';
+import {Job} from '../model/job';
 
 @Component({
   selector: 'app-user',
@@ -78,6 +79,12 @@ export class UserComponent implements OnInit, OnDestroy {
   public organizations: Organization[];
   public specialUser: SpecialUser;
   public reviews: Review[] = [];
+  jobs: Job[] = []; // Inițializare cu un array gol
+  showMap: boolean;
+  filteredJobs: Job[] = [];
+  selectedDisabilityType = '';
+  filterText = '';
+  sortKey = 'name';
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
@@ -95,6 +102,43 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadAppointmentsForMySpecialUser(this.user.username);
     }
     this.getUsers(true);
+
+    this.userService.getJobs().subscribe(
+      (jobs: Job[]) => {
+        this.jobs = jobs;
+        this.filteredJobs = [...this.jobs];
+        // this.sortJobs(); // Temporarily disable sorting to isolate filtering issues
+        this.filterJobs();
+      },
+      error => {
+        console.error('Failed to load jobs', error);
+      }
+    );
+
+  }
+
+  filterJobs() {
+    console.log('Filtering jobs with Text:', this.filterText, 'and Disability:', this.selectedDisabilityType);
+    this.filteredJobs = this.jobs.filter(job => {
+      const matchesText = !this.filterText || job.description.toLowerCase().includes(this.filterText.toLowerCase()) || job.name.toLowerCase().includes(this.filterText.toLowerCase());
+      const matchesDisability = !this.selectedDisabilityType || job.disabilityType === this.selectedDisabilityType;
+      console.log(`Job ${job.name}: Matches Text: ${matchesText}, Matches Disability: ${matchesDisability}`);
+      return matchesText && matchesDisability;
+    });
+    console.log('Filtered Jobs:', this.filteredJobs);
+  }
+
+  sortJobs(): void {
+    this.filteredJobs.sort((a, b) => {
+      if (a[this.sortKey] < b[this.sortKey]) { return -1; }
+      if (a[this.sortKey] > b[this.sortKey]) { return 1; }
+      return 0;
+    });
+  }
+
+  setSortKey(key: string) {
+    // Implement sorting logic here
+    this.filteredJobs.sort((a, b) => (a[key] > b[key] ? 1 : -1));
   }
 
   loadAppointmentsForMySpecialUser(username: string): void {
@@ -205,7 +249,9 @@ export class UserComponent implements OnInit, OnDestroy {
         this.userService.getAppointmentBySpecialUserUsername(username).subscribe(
           (data: Appointment[]) => {
             if (data && data.length > 0) {
+              console.log(data);
               this.appointments = data;
+              console.log('App loaded:', this.appointments);
             } else {
               this.sendNotification(NotificationType.INFO, 'Nu există programări.');
             }
@@ -224,7 +270,11 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   public setActiveTab(tabName: string): void {
+    this.showMap = false;
     this.activeTab = tabName;
+    if (tabName === 'map-romania') {
+      this.showMap = true; // Arată harta doar când acest tab este activ
+    }
   }
 
   public getUsers(showNotification: boolean): void {
@@ -462,5 +512,16 @@ export class UserComponent implements OnInit, OnDestroy {
 
   addPatientAppointment() {
     this.clickButton('add-appointment-for-special-user');
+  }
+
+  selectCounty(cluj: string) {
+    // tslint:disable-line
+    console.log(cluj);
+  }
+
+  prepareMap(): void {
+    this.showMap = true;
+    this.changeTitle('Harta Accesibilități');
+    this.setActiveTab('map-romania');
   }
 }

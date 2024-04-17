@@ -1,3 +1,44 @@
+#map-romania path {
+  cursor: pointer;
+  stroke: #ffffff;
+  stroke-width: 1;
+}
+
+#map-romania path:hover {
+  fill: #004080; /* Culoare mai închisă la hover */
+}
+
+#map-container {
+  display: flex;
+  justify-content: flex-end; /* Aliniază conținutul la capătul din dreapta */
+  align-items: center;       /* Centrare verticală */
+  height: 90vh;              /* Înălțimea containerului */
+  background-color: #007bff; /* Fundal albastru */
+}
+
+#map-romania {
+  width: 80%;                /* Lățimea hărții */
+  height: 80%;               /* Înălțimea hărții, asigură proporții bune */
+  max-width: 800px;          /* Lățimea maximă pentru a preveni ca harta să devină prea mare */
+  max-height: 600px;         /* Înălțimea maximă din același motiv */
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 20px 20px rgba(255, 215, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+  }
+}
+
+.helpxpress-button {
+  animation: pulse-glow 2s infinite;
+}
+
 @media (max-width: 1200px) {
   .nav-item {
     flex: 1 0 21%; /* Forțează o lățime care permite doar 4 butoane pe rând */
@@ -163,7 +204,7 @@
 /* Stiluri pentru antetul programării */
 .appointment-header {
   display: flex;
-  justify-content: between;
+  justify-content:space-between;
   align-items: center;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #e3e3e3;
@@ -273,4 +314,72 @@ i.fa {
   margin-right: 5px; /* Spațiu între iconiță și text */
 }
 
+.filters select, .filters input[type="text"], .filters button {
+  margin-right: 10px; /* Spacing between filter inputs/buttons */
+}
+
+.card-title {
+  color: #0056b3; /* Dark blue for the job title */
+}
+
+.card-text {
+  font-size: 0.9rem;
+}/* Smaller text for job descriptions */
+
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: start;
+}
+
+.filters input, .filters select, .filters button {
+  flex: 1 1 auto;
+  margin-bottom: 10px; /* Consistent bottom margin */
+}
+
+
+.card-title {
+  color: #0056b3; /* Dark blue, as specified */
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.card-text {
+  font-size: 0.9rem; /* Smaller text for descriptions */
+  color: #ffffff; /* Medium gray for less emphasis */
+}
+
+/* Icons within cards */
+.fas {
+  color: rgb(0, 86, 179); /* Bootstrap info blue for icons */
+  margin-right: 5px; /* Space between icon and text */
+}
+
+/* List styles within cards */
+.list-unstyled {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+/* Button Styles */
+.btn-info {
+  background-color: #007bff; /* Bootstrap info blue */
+  color: white;
+}
+
+.btn-info:hover {
+  background-color: #007bff; /* Darker shade for hover */
+}
+
+.btn-outline-primary {
+  border-color: #007bff; /* Bootstrap primary blue */
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
 

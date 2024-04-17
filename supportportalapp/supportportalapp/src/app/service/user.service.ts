@@ -11,6 +11,7 @@ import {Assistant} from '../model/assistant';
 import {Organization} from '../model/organization';
 import {SpecialUser} from '../model/specialuser';
 import {Review} from '../model/review';
+import {Job} from "../model/job";
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -124,5 +125,8 @@ export class UserService {
   }
   getAppointmentsByAssistantUsername(assistantUsername: string): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.host}/appointmentsByAssistant/${assistantUsername}`);
+  }
+  getJobs(): Observable<Job[]> {
+    return this.http.get<Job[]>(`${this.host}/job/all`);
   }
 }

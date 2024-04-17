@@ -24,39 +24,74 @@
             Utilizatori
           </a>
 
-          <a [hidden]="!isAdmin" class="nav-item nav-link ml-3" (click)="changeTitle('Settings')" data-toggle="tab"
+          <a [hidden]="!isAdmin" class="nav-item nav-link ml-3" (click)="changeTitle('Settings'); setActiveTab('users')"
+             data-toggle="tab"
              href="#reset-password">
             <i class="fa fa-cogs"></i>
             Settings
           </a>
 
           <!-- nab bar for special user -->
-          <a [class.active]="activeTab === 'appointments'" [hidden]="!isSpecialuser || isDoctor || isAssistant"
-             class="nav-item nav-link ml-3" (click)="changeTitle('Programarile mele'); setActiveTab('appointments')"
-             data-toggle="tab"
-             href="#programare">
-            <i class="fas fa-calendar"></i>
-            Programarile mele
-          </a>
-          <a [class.active]="activeTab === 'doctors'" [hidden]="!isSpecialuser || isDoctor || isAssistant"
-             class="nav-item nav-link ml-3" (click)="changeTitle('Doctorii mei'); setActiveTab('doctors')"
-             data-toggle="tab"
-             href="#doctors">
-            <i class="fas fa-user-md"></i>
-            Doctorii mei
-          </a>
-          <a [class.active]="activeTab === 'assistant'" [hidden]="!isSpecialuser" class="nav-item nav-link ml-3"
-             (click)="changeTitle('Asistentul meu personal'); setActiveTab('assistant')" data-toggle="tab"
-             href="#assistant">
-            <i class="fas fa-user-tie"></i> Asistentul meu
-          </a>
+          <!-- Dropdown pentru Managementul Personal -->
+          <div [hidden]="!isSpecialuser" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Managementul Personal <i class="fas fa-users-cog"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a [class.active]="activeTab === 'appointment'" [hidden]="!isSpecialuser || isDoctor || isAssistant"
+                 class="dropdown-item" (click)="changeTitle('Programările mele'); setActiveTab('appointment');"
+                 [routerLink]="['/programare']">
+                <i class="fas fa-calendar"></i> Programările mele
+              </a>
+              <a [class.active]="activeTab === 'doctors'" [hidden]="!isSpecialuser || isDoctor || isAssistant"
+                 class="dropdown-item" (click)="changeTitle('Doctorii mei'); setActiveTab('doctors');"
+                 [routerLink]="['/doctors']">
+                <i class="fas fa-user-md"></i> Doctorii mei
+              </a>
+              <a [class.active]="activeTab === 'assistant'" [hidden]="!isSpecialuser"
+                 class="dropdown-item" (click)="changeTitle('Asistentul meu personal'); setActiveTab('assistant');"
+                 [routerLink]="['/assistant']">
+                <i class="fas fa-user-tie"></i> Asistentul meu
+              </a>
+              <a [class.active]="activeTab === 'organization'" [hidden]="!isSpecialuser"
+                 class="dropdown-item" (click)="changeTitle('Spital/centru recuperare'); setActiveTab('organization');"
+                 [routerLink]="['/organization']">
+                <i class="fas fa-hospital"></i> Spital/centru recuperare
+              </a>
+            </div>
+          </div>
 
-          <a [class.active]="activeTab === 'organization'" [hidden]="!isSpecialuser" class="nav-item nav-link ml-3"
-             (click)="changeTitle('Spital/centru recuperare') ; setActiveTab('organization')" data-toggle="tab"
-             href="#organization">
-            <i class="fas fa-hospital"></i>
-            Spital/centru recuperare
-          </a>
+          <!-- Dropdown pentru Servicii HelpXpress -->
+          <div [hidden]="!isSpecialuser" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle helpxpress-button" id="navbarDropdownMenuLink" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Servicii HelpXpress <i class="fas fa-plus-circle"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <!-- Buton pentru Harta Accesibilități -->
+              <a [class.active]="activeTab === 'map-romania'" [hidden]="!isSpecialuser"
+                 class="dropdown-item"
+                 (click)="prepareMap()"
+                 [routerLink]="['/map-romania']">
+                <i class="fas fa-map-marked-alt"></i> Harta Accesibilități
+              </a>
+
+              <!-- Locuri de muncă -->
+              <a [class.active]="activeTab === 'jobs'" [hidden]="!isSpecialuser"
+                 class="dropdown-item" (click)="changeTitle('Locuri de muncă'); setActiveTab('jobs');"
+                 [routerLink]="['/jobs']">
+                <i class="fas fa-briefcase"></i> Locuri de muncă
+              </a>
+
+              <!-- Servicii la benzinării -->
+              <a [class.active]="activeTab === 'fuel-service'" [hidden]="!isSpecialuser"
+                 class="dropdown-item" (click)="changeTitle('Servicii la benzinării'); setActiveTab('fuel-service');"
+                 [routerLink]="['/fuel-service']">
+                <i class="fas fa-gas-pump"></i> Servicii la benzinării
+              </a>
+            </div>
+          </div>
 
           <!--#pt doctor-->
           <a [class.active]="activeTab === 'patients'" [hidden]="!isDoctor" class="nav-item nav-link active ml-1"
@@ -115,7 +150,6 @@
           </a>
 
 
-
           <a [class.active]="activeTab === 'profile'" class="nav-item nav-link move-right mr-3"
              (click)="changeTitle('Welcome'); setActiveTab('profile')" data-toggle="tab" href="#profile">
             Welcome, {{ user?.firstName }}
@@ -126,6 +160,16 @@
     </div>
   </nav>
 
+
+  <!-- Container pentru Harta României, afișată doar când showMap este true -->
+  <div *ngIf="showMap" style="width: 100%; height: 100vh;" id="map-container">
+    <div id="map-romania" style="width: 80%; height: 500px; background-color: #007bff;">
+      <!-- Aici inserăm SVG-ul hărții României sau un iframe cu o hartă interactivă -->
+      <!-- Placeholder pentru SVG-ul hărții României sau alte tehnologii de mapare -->
+      <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+              src="https://wheelmap.org/your-specific-map?embed=true"></iframe>
+    </div>
+  </div>
 
 
   <!-- main content -->
@@ -195,6 +239,7 @@
     </button>
     <button [hidden]="true" type="button" id="openUserEdit" data-toggle="modal" data-target="#editUserModal">
     </button>
+
 
     <!-- change password  -->
     <div [hidden]="!isAdmin" class="tab-pane fade" id="reset-password">
@@ -313,7 +358,8 @@
           </div>
           <div class="card mb-3">
             <div class="card-header bg-primary text-white d-flex align-items-center">
-              <img [src]="specialUser.user.profileImageUrl" class="rounded-circle mr-2" style="width: 50px; height: 50px;">
+              <img [src]="specialUser.user.profileImageUrl" class="rounded-circle mr-2"
+                   style="width: 50px; height: 50px;">
               <div>
                 <h5>{{ specialUser.user.firstName }} {{ specialUser.user.lastName }}</h5>
                 <small><i class="fas fa-user"></i> {{ specialUser.user.username }}</small>
@@ -329,10 +375,15 @@
                 <input class="form-control" [(ngModel)]="specialUser.user.phone">
               </div>
               <p><i class="fas fa-venus-mars"></i> <strong>Gen:</strong> {{ specialUser.user.gender }}</p>
-              <p><i class="fas fa-birthday-cake"></i> <strong>Data nașterii:</strong> {{ specialUser.user.birthDate | date: 'mediumDate' }}</p>
-              <p><i class="fas fa-sign-in-alt"></i> <strong>Ultima logare:</strong> {{ specialUser.user.lastLoginDate | date: 'medium' }}</p>
-              <p><i class="fas fa-calendar-plus"></i> <strong>Data înscrierii:</strong> {{ specialUser.user.joinDate | date: 'mediumDate' }}</p>
-              <p><i class="fas fa-user-check"></i> <strong>Status cont:</strong> {{ specialUser.user.active ? 'Activ' : 'Inactiv' }} / {{ specialUser.user.notLocked ? 'Neblocat' : 'Blocat' }}</p>
+              <p><i class="fas fa-birthday-cake"></i> <strong>Data
+                nașterii:</strong> {{ specialUser.user.birthDate | date: 'mediumDate' }}</p>
+              <p><i class="fas fa-sign-in-alt"></i> <strong>Ultima
+                logare:</strong> {{ specialUser.user.lastLoginDate | date: 'medium' }}</p>
+              <p><i class="fas fa-calendar-plus"></i> <strong>Data
+                înscrierii:</strong> {{ specialUser.user.joinDate | date: 'mediumDate' }}</p>
+              <p><i class="fas fa-user-check"></i> <strong>Status
+                cont:</strong> {{ specialUser.user.active ? 'Activ' : 'Inactiv' }}
+                / {{ specialUser.user.notLocked ? 'Neblocat' : 'Blocat' }}</p>
               <div class="disease-info">
                 <p><i class="fas fa-heartbeat"></i> <strong>Boală:</strong> {{ specialUser.disease }}</p>
                 <p><i class="fas fa-stethoscope"></i> <strong>Tip boală:</strong> {{ specialUser.diseaseType }}</p>
@@ -355,7 +406,7 @@
 
 
     <!-- programare -->
-    <div *ngIf="activeTab === 'appointments'">
+    <div *ngIf="activeTab === 'appointment'">
       <div [hidden]="!isSpecialuser || isDoctor">
         <div *ngIf="appointments?.length > 0; else noAppointments" class="tab-pane fade show active" id="programare">
           <div class="d-flex justify-content-between align-items-center mb-3">
@@ -374,10 +425,6 @@
                     <i class="fas fa-user-md" style="color: #28a745;"></i>
                     Doctor: {{ appointment.doctor?.user?.firstName }} {{ appointment.doctor?.user?.lastName }}
                   </h5>
-                  <p class="card-text">
-                    <i class="fas fa-user-nurse" style="color: #007bff;"></i>
-                    Asistent: {{ appointment.specialUser?.assistant?.user?.firstName }} {{ appointment.specialUser?.assistant?.user?.lastName }}
-                  </p>
                   <p>
                     Boala: {{ appointment.specialUser.disease }} ({{ appointment.specialUser.diseaseType }})
                   </p>
@@ -572,25 +619,27 @@
         <div class="card mb-3 patient-card">
           <div class="card-header">
             <i class="fa fa-user"></i>
-            Pacient: {{ specialUser.user.firstName }} {{ specialUser.user.lastName }}
+            Pacient: {{ specialUser.user?.firstName }} {{ specialUser.user?.lastName }}
           </div>
           <div class="card-body">
-            <img src="{{ specialUser.user.profileImageUrl || 'path/to/default-image.jpg' }}" alt="Profile Image"
+            <img src="{{ specialUser.user?.profileImageUrl || 'path/to/default-image.jpg' }}" alt="Profile Image"
                  class="img-thumbnail profile-image">
             <div class="user-details">
-              <p><strong>Username:</strong> {{ specialUser.user.username }}</p>
-              <p><strong>Email:</strong> {{ specialUser.user.email }}</p>
-              <p><strong>Membru din:</strong> {{ specialUser.user.joinDate | date:'mediumDate' }}</p>
-              <p><strong>Telefon:</strong> {{ specialUser.user.phone }}</p>
-              <p><strong>Gen:</strong> {{ specialUser.user.gender }}</p>
-              <p><strong>Varsta:</strong> {{ specialUser.user.age }}</p>
-              <p><strong>Data nașterii:</strong> {{ specialUser.user.birthDate | date:'mediumDate' }}</p>
+              <p><strong>Username:</strong> {{ specialUser.user?.username }}</p>
+              <p><strong>Email:</strong> {{ specialUser.user?.email }}</p>
+              <p><strong>Membru din:</strong> {{ specialUser.user?.joinDate | date:'mediumDate' }}</p>
+              <p><strong>Telefon:</strong> {{ specialUser.user?.phone }}</p>
+              <p><strong>Gen:</strong> {{ specialUser.user?.gender }}</p>
+              <p><strong>Varsta:</strong> {{ specialUser.user?.age }}</p>
+              <p><strong>Data nașterii:</strong> {{ specialUser.user?.birthDate | date:'mediumDate' }}</p>
               <p><strong>Boală:</strong> {{ specialUser.disease }}</p>
               <p><strong>Tip Boală:</strong> {{ specialUser.diseaseType }}</p>
               <p>
-                <strong>Asistent:</strong> {{ specialUser.assistant.user.firstName }} {{ specialUser.assistant.user.lastName }}
-                - {{ specialUser.assistant.speciality }}</p>
-              <p><strong>Experiență Asistent:</strong> {{ specialUser.assistant.experienceYears }} ani</p>
+                <strong>Asistent:</strong>
+                {{ specialUser?.assistant?.user?.firstName }} {{ specialUser?.assistant?.user?.lastName }}
+                {{ specialUser.assistant?.speciality || 'Mara Popa' }}
+              </p>
+              <p><strong>Experiență Asistent:</strong> {{ specialUser?.assistant?.experienceYears || '6' }} ani</p>
             </div>
           </div>
         </div>
@@ -601,7 +650,6 @@
         </div>
       </ng-template>
     </div>
-
     <!-- Panoul pentru Programari -->
     <div *ngIf="activeTab === 'programare1'" id="programare1" class="tab-pane fade show active">
       <div *ngIf="appointments.length > 0; else noAppointments">
@@ -641,10 +689,10 @@
               </div>
             </div>
             <div class="mt-2">
-              <p class="mb-0">
-                <i class="fas fa-user-nurse text-success mr-1"></i>
-                Asistent: {{ appointment.specialUser?.assistant?.user?.firstName }} {{ appointment.specialUser?.assistant?.user?.lastName }}
-                - {{ appointment.specialUser?.assistant?.speciality }}
+              <p>
+                <strong>Asistent:</strong>
+                {{ specialUser?.assistant?.user?.firstName }} {{ specialUser?.assistant?.user?.lastName }}
+                {{ specialUser.assistant?.speciality || 'Mara Popa' }}
               </p>
             </div>
           </div>
@@ -657,6 +705,73 @@
       </ng-template>
     </div>
 
+    <!-- jobs -->
+
+    <div *ngIf="activeTab === 'jobs'" class="tab-pane fade show active" id="jobs">
+      <div [hidden]="!isSpecialuser">
+        <div *ngIf="jobs && jobs.length > 0; else noJobs">
+          <h3 class="mb-4" style="color: #c0277b;">Joburi Disponibile HelpXpress</h3> <!-- Green color for header -->
+
+          <!-- Filters with style improvements -->
+          <div class="filters mb-4">
+            <input type="text" class="form-control mb-2" [(ngModel)]="filterText" (ngModelChange)="filterJobs()"
+                   placeholder="Filtrează joburile..." style="width: 300px; display: inline-block;">
+
+            <select class="custom-select mb-2" [(ngModel)]="selectedDisabilityType" (ngModelChange)="filterJobs()">
+              <option value="">Alege tipul de dizabilitate</option>
+              <!-- Ensure these values match those in your jobs array -->
+              <option value="vizuala">Vizual</option>
+              <option value="auditiva">Auditiv</option>
+              <option value="motorie">Motor</option>
+              <option value="neurologica">Neurologică</option>
+            </select>
+
+            <button class="btn btn-info" (click)="setSortKey('name')"><i class="fas fa-sort-alpha-down"></i> Sortează după Nume
+            </button>
+            <button class="btn btn-info" (click)="setSortKey('city')"><i class="fas fa-city"></i> Sortează după Oraș</button>
+            <button class="btn btn-info" (click)="setSortKey('region')"><i class="fas fa-map-marker-alt"></i> Sortează după Regiune
+            </button>
+          </div>
+
+          <!-- Enhanced Job Cards -->
+          <div class="row">
+            <div class="col-md-6" *ngFor="let job of filteredJobs">
+              <div class="card mb-4 shadow">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">{{ job.name }}</h5>
+                  <p class="card-text">{{ job.description }}</p>
+                  <ul class="list-unstyled mb-3">
+                    <li><i class="fas fa-map-signs"></i> Regiune: {{ job.region }}</li>
+                    <li><i class="fas fa-building"></i> Județ: {{ job.county }}</li>
+                    <li><i class="fas fa-city"></i> Oraș: {{ job.city }}</li>
+                    <li><i class="fas fa-wheelchair"></i> Tipul de dizabilitate: {{ job.disabilityType }}</li>
+                    <li><i class="fas fa-briefcase"></i> Tip angajare: {{ job.employmentType }}</li>
+                    <li><i class="fas fa-money-bill-wave"></i> Salariu: {{ job.salaryRange }}</li>
+                    <li><i class="fas fa-network-wired"></i> Remote: {{ job.isRemote ? 'Da' : 'Nu' }}</li>
+                    <li><i class="fas fa-industry"></i> Numele angajatorului: {{ job.employerName }}</li>
+                    <li><i class="fas fa-phone"></i> Numărul de telefon al angajatorului: {{ job.employerPhone }}</li>
+                    <li><i class="fas fa-clipboard-check"></i> Stare: {{ job.status }}</li>
+                  </ul>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-outline-primary btn-sm">Vizualizează</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm">Editează</button>
+                    </div>
+                    <small class="text-muted"><i class="fas fa-clock"></i> Postat
+                      la: {{ job.postingDate | date:'mediumDate' }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noJobs>
+          <div class="alert alert-info" role="alert">
+            Nu s-au găsit joburi pentru această căutare.
+          </div>
+        </ng-template>
+      </div>
+    </div>
     <!-- feedback -->
 
     <div *ngIf="activeTab === 'reviews'" id="reviews" class="tab-pane fade show active">
