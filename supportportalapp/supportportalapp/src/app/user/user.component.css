@@ -1,26 +1,38 @@
-#map-romania path {
-  cursor: pointer;
-  stroke: #ffffff;
-  stroke-width: 1;
-}
-
-#map-romania path:hover {
-  fill: #004080; /* Culoare mai închisă la hover */
-}
-
 #map-container {
+  position: relative;
+  width: 100%;
+  height: 200vh;
   display: flex;
-  justify-content: flex-end; /* Aliniază conținutul la capătul din dreapta */
-  align-items: center;       /* Centrare verticală */
-  height: 90vh;              /* Înălțimea containerului */
-  background-color: #007bff; /* Fundal albastru */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;/* fundal deschis pentru contrast */
+  color: #333; /* culoare text */
+  font-family: Arial, sans-serif; /* stil de font */
+}
+#map-container h2 {
+  margin-top: 20px;
+  color: #0056b3; /* Albastru HelpXpress */
+  font-size: 24px;
+  font-weight: bold;
 }
 
 #map-romania {
-  width: 80%;                /* Lățimea hărții */
-  height: 80%;               /* Înălțimea hărții, asigură proporții bune */
-  max-width: 800px;          /* Lățimea maximă pentru a preveni ca harta să devină prea mare */
-  max-height: 600px;         /* Înălțimea maximă din același motiv */
+  width: 90%;
+  height: 1000px;
+  background-color: transparent;
+  border: 3px solid #0056b3; /* contur albastru elegant */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* umbră subtilă pentru efect de profunzime */
+}
+
+#select-judet {
+  margin: 20px 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 2px solid #0056b3; /* bordură albastră */
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 @keyframes pulse-glow {
@@ -341,19 +353,16 @@ i.fa {
 
 
 .card-title {
-  color: #0056b3; /* Dark blue, as specified */
   font-size: 1.25rem;
   font-weight: 500;
 }
 
 .card-text {
   font-size: 0.9rem; /* Smaller text for descriptions */
-  color: #ffffff; /* Medium gray for less emphasis */
 }
 
 /* Icons within cards */
 .fas {
-  color: rgb(0, 86, 179); /* Bootstrap info blue for icons */
   margin-right: 5px; /* Space between icon and text */
 }
 
@@ -365,21 +374,40 @@ i.fa {
 
 /* Button Styles */
 .btn-info {
-  background-color: #007bff; /* Bootstrap info blue */
-  color: white;
+  color: rgba(223, 219, 231, 0.62);
 }
 
-.btn-info:hover {
-  background-color: #007bff; /* Darker shade for hover */
-}
-
-.btn-outline-primary {
-  border-color: #007bff; /* Bootstrap primary blue */
-  color: #007bff;
-}
 
 .btn-outline-primary:hover {
-  background-color: #007bff;
-  color: white;
+
+  color: rgb(255, 255, 255);
 }
+
+/* Stil general pentru rândul care conține coloanele */
+.row.mb-2.mt-2.text-center {
+  background-color: #f8f9fa; /* O nuanță foarte deschisă de gri pentru fundalul general al rândului */
+  padding: 20px 0; /* Adaugă padding vertical pentru a da mai mult spațiu */
+}
+
+/* Stil pentru coloana centrală, care conține conținutul important */
+.col-md-4:nth-child(2) { /* Selectează doar a doua coloană din rând */
+  background-color: #ffffff; /* Fundal alb pentru a evidenția secțiunea */
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1); /* Adaugă o umbră ușoară pentru efect de adâncime */
+  border-radius: 3px; /* Colțuri rotunjite */
+  padding: 8px; /* Spațiu în interiorul coloanei */
+}
+
+/* Stil pentru titlu */
+.col-md-4:nth-child(2) h5 {
+  color: #0056b3; /* Culoare albastru intens pentru titlu */
+  margin-bottom: 3px; /* Spațiu sub titlu */
+}
+
+/* Stil pentru textul mic */
+.col-md-4:nth-child(2) small {
+  color: #6c757d; /* Gri standard, bun pentru textul mic */
+  display: block; /* Asigură-te că textul mic este întotdeauna pe linie nouă */
+}
+
+
 

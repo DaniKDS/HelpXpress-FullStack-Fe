@@ -129,4 +129,11 @@ export class UserService {
   getJobs(): Observable<Job[]> {
     return this.http.get<Job[]>(`${this.host}/job/all`);
   }
+  getJudete(): Observable<string[]> {
+    return this.http.get<string[]>('${this.host}/api/judete');
+  }
+
+  getLocatii(judet: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.host}/api/locatii/${judet}`);
+  }
 }

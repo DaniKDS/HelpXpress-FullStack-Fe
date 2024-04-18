@@ -34,6 +34,7 @@ import {Job} from '../model/job';
   ]
 })
 export class UserComponent implements OnInit, OnDestroy {
+  private map: google.maps.Map<HTMLElement>;
 
   constructor(private router: Router, private authenticationService: AuthenticationService,
               private userService: UserService, private notificationService: NotificationService) {}
@@ -80,11 +81,19 @@ export class UserComponent implements OnInit, OnDestroy {
   public specialUser: SpecialUser;
   public reviews: Review[] = [];
   jobs: Job[] = []; // Inițializare cu un array gol
-  showMap: boolean;
   filteredJobs: Job[] = [];
   selectedDisabilityType = '';
   filterText = '';
-  sortKey = 'name';
+  selectedJudet = '';
+  showMap = false;
+  judete: string[] = [
+    'Alba', 'Arad', 'Argeș', 'Bacău', 'Bihor', 'Bistrița-Năsăud', 'Botoșani', 'Brașov',
+    'Brăila', 'București', 'Buzău', 'Caraș-Severin', 'Călărași', 'Cluj', 'Constanța',
+    'Covasna', 'Dâmbovița', 'Dolj', 'Galați', 'Giurgiu', 'Gorj', 'Harghita', 'Hunedoara',
+    'Ialomița', 'Iași', 'Ilfov', 'Maramureș', 'Mehedinți', 'Mureș', 'Neamț', 'Olt',
+    'Prahova', 'Satu Mare', 'Sălaj', 'Sibiu', 'Suceava', 'Teleorman', 'Timiș', 'Tulcea',
+    'Vaslui', 'Vâlcea', 'Vrancea'
+  ];
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
@@ -114,12 +123,163 @@ export class UserComponent implements OnInit, OnDestroy {
         console.error('Failed to load jobs', error);
       }
     );
+    this.loadGoogleMapsScript();
+    this.showMap = false;
+  }
+  loadGoogleMapsScript() {
+    if ((window as any).google && (window as any).google.maps) {
+      // Dacă scriptul este deja încărcat și harta nu a fost inițializată, inițializează harta.
+      this.initMap();
+    } else if (!(window as any).loadingGoogleMaps) { // Verifică dacă scriptul este deja în curs de încărcare
+      (window as any).loadingGoogleMaps = true; // Setează un flag pentru a preveni reîncărcarea scriptului
+      const script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDBxYGaVDm4TB1RLmKsVC-FNNddDhshutM';
+      script.defer = true;
+      script.async = true;
+      document.head.appendChild(script);
+      script.onload = () => {
+        this.initMap();
+        (window as any).loadingGoogleMaps = false; // Resetează flag-ul după încărcare
+      };
+    }
+  }
+  initMap() {
+    setTimeout(() => {
+      const mapElement = document.getElementById('map-romania'); // Asigură-te că ID-ul este corect
+      if (mapElement) {
+        const map = new google.maps.Map(mapElement, {
+          center: { lat: 45.9432, lng: 24.9668 }, // Coordonatele aproximative pentru centrul României
+          zoom: 6.5 // Zoom suficient pentru a vedea toată țara
+        });
+        this.map = map; // Salvează instanța hărții dacă ai nevoie să o accesezi ulterior
+      } else {
+        console.error('Map container not found');
+      }
+    }, 300); // Așteaptă să se actualizeze DOM-ul, ajustează timpul dacă este necesar
+  }
 
+  onJudetSelected(event: any) {
+    const selectedJudet = event.target.value;
+    if (selectedJudet && this.map) {  // Verifică dacă un județ a fost selectat și dacă harta a fost inițializată
+      this.loadMapWithLocations(selectedJudet);
+    }
+  }
+  loadMapWithLocations(judet: string) {
+    const coords = this.getCoordinatesForJudet(judet);
+    if (this.map && coords) {
+      this.map.setCenter(new google.maps.LatLng(coords.lat, coords.lng));
+      this.map.setZoom(10); // Zoom pentru a focaliza mai aproape de județul selectat
+
+      this.addLocations(this.map, judet);
+    } else {
+      console.error('Map not initialized or coordinates not found');
+    }
+  }
+  getCoordinatesForJudet(judet: string): { lat: number, lng: number } {
+    const coordinates = {
+      Alba: { lat: 46.077171, lng: 23.580040 },
+      Arad: { lat: 46.186560, lng: 21.312267 },
+      Argeș: { lat: 45.139551, lng: 24.679379 },
+      Bacău: { lat: 46.567472, lng: 26.913631 },
+      Bihor: { lat: 47.046501, lng: 21.918944 },
+      'Bistrița-Năsăud': { lat: 47.137142, lng: 24.513914 },
+      Botoșani: { lat: 47.747981, lng: 26.666719 },
+      Brașov: { lat: 45.657975, lng: 25.601198 },
+      Brăila: { lat: 45.269194, lng: 27.957472 },
+      București: { lat: 44.426767, lng: 26.102538 },
+      Buzău: { lat: 45.148620, lng: 26.823580 },
+      'Caraș-Severin': { lat: 45.333333, lng: 21.883333 },
+      Călărași: { lat: 44.206939, lng: 27.325918 },
+      Cluj: { lat: 46.766667, lng: 23.600000 },
+      Constanța: { lat: 44.159801, lng: 28.634813 },
+      Covasna: { lat: 45.851659, lng: 26.184553 },
+      Dâmbovița: { lat: 44.935753, lng: 25.459707 },
+      Dolj: { lat: 44.330179, lng: 23.794881 },
+      Galați: { lat: 45.455441, lng: 28.045873 },
+      Giurgiu: { lat: 43.903708, lng: 25.969926 },
+      Gorj: { lat: 45.046925, lng: 23.274736 },
+      Harghita: { lat: 46.350000, lng: 25.550000 },
+      Hunedoara: { lat: 45.750000, lng: 22.900000 },
+      Ialomița: { lat: 44.567020, lng: 27.382746 },
+      Iași: { lat: 47.158455, lng: 27.601442 },
+      Ilfov: { lat: 44.564227, lng: 26.076335 },
+      Maramureș: { lat: 47.672778, lng: 23.787778 },
+      Mehedinți: { lat: 44.636925, lng: 22.665887 },
+      Mureș: { lat: 46.545556, lng: 24.557778 },
+      Neamț: { lat: 46.975869, lng: 26.381876 },
+      Olt: { lat: 44.433333, lng: 24.366667 },
+      Prahova: { lat: 45.100000, lng: 26.016667 },
+      'Satu Mare': { lat: 47.791923, lng: 22.885253 },
+      Sălaj: { lat: 47.175671, lng: 23.063255 },
+      Sibiu: { lat: 45.798327, lng: 24.125583 },
+      Suceava: { lat: 47.651388, lng: 26.255556 },
+      Teleorman: { lat: 44.116667, lng: 25.366667 },
+      Timiș: { lat: 45.748872, lng: 21.208679 },
+      Tulcea: { lat: 45.179494, lng: 28.806414 },
+      Vaslui: { lat: 46.640692, lng: 27.727647 },
+      Vâlcea: { lat: 45.109165, lng: 24.342619 },
+      Vrancea: { lat: 45.700000, lng: 27.183333 }
+    };
+
+    return coordinates[judet] || null; // Returnează coordonatele sau null dacă nu sunt găsite
+  }
+  prepareMap(): void {
+    this.showMap = true;  // Afișează harta
+    this.loadGoogleMapsScript();  // Asigură-te că scriptul este încărcat și harta inițializată
+  }
+
+  hideMap(): void {
+    this.showMap = false;  // Ascunde harta
+  }
+
+  addLocations(map: any, judet: string) {
+    const locations = [
+      { lat: '46.067747', lng: '23.56479', info: 'DGASPC Alba Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Abrud, Str. Republicii, nr.2-4' },
+      { lat: '46.07212', lng: '23.56600', info: 'DGASPC Alba Locuința Maxim Protejată pentru Persoane Adulte cu Dizabilități nr.14 Abrud, Str. Ion Agârbiceanu, nr. 6' },
+      { lat: '46.78170', lng: '23.61103', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Cluj Napoca, Cluj-Napoca, bd. 21 Decembrie 1989, nr. 138' },
+      { lat: '46.76953', lng: '23.60302', info: 'DGASPC Cluj Centrul de Abilitare și Reabilitare pentru Persoane Adulte cu Dizabilități Gherla, Gherla, Str. Plugarilor nr. 24' },
+      { lat: '46.77427', lng: '23.57288', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Câțcău, Câțcău, str. Principală nr. 90' },
+      { lat: '46.77310', lng: '23.57425', info: 'DGASPC Cluj Locuința Minim Protejată pentru Persoane Adulte cu Dizabilități Buna Vestire Câțcău, Câțcău, nr. 90A' },
+      { lat: '', lng: '', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Luna de Jos, Com Dăbâca, sat Luna de Jos, str. Principală, nr. 17' },
+      { lat: '46.79704', lng: '24.02848', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Sfântul Nicolae Mociu, Mociu, str. Principală nr. 127' },
+      { lat: '46.77848', lng: '23.63163', info: 'Fundația Febe CAbRPAD, Cluj-Napoca, str. Târnavelor, nr. 1' },
+      { lat: '44.40917', lng: '26.14340', info: 'DGASPC Ilfov Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Vidra, Vidra, Str. Principală, Nr.46' },
+      { lat: '44.39151', lng: '26.28954', info: 'DGASPC Ilfov Centrul de Abilitare și Reabilitare Bălaceanca, Str. Gării, Nr.58, Sat Bălăceanca, Comuna Cernica, Județul Ilfov' },
+      { lat: '44.40919', lng: '16.14351', info: 'DGASPC Ilfov Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Ciolpani, Calea București, Nr. 348, Comuna Ciolpani, Județul Ilfov' },
+      { lat: '45.02951', lng: '26.26769', info: 'DGASPC Ilfov Centrul de Abilitare și Reabilitare pentru Persoane Adulte cu Dizabilități Tâncăbești, Aleea Reînvierii, Nr.260, Sat Tâncăbești, Comuna Snagov, Județul Ilfov' },
+      { lat: '45.07219', lng: '26.27043', info: 'Asociația Prietenia LMPPAD Casa Livezilor, Pantelimon, str. Sf. Gheorghe, nr. 46' },
+      { lat: '44.49284', lng: '26.19867', info: 'Asociația Organizația Suedeză pentru Ajutor Umanitar Individual CAbRPAD – Nils, Voluntari, str. Școlii, nr. 5' },
+      { lat: '44.41272', lng: '26.14411', info: 'Asociația Pro Act Suport CPVIPAD „Tineretului”, sat Dudu, Com. Chiajna, str. Tineretului, nr. 2B' },
+      { lat: '44.50357', lng: '26.13302', info: 'Asociația Sfântul Gabriel cel Viteaz CIAPAD „Sfântul Gabriel cel Viteaz”, Voluntari, str. Ștefan cel Mare, nr. 38' },
+      { lat: '44.50678', lng: '26.22076', info: 'Asociația Sfântul Gabriel cel Viteaz CIAPAD „Armonia”, Afumați, șos. București-Urziceni, nr. 36A' },
+      { lat: '44.43882', lng: '26.12263', info: 'Asociația Casa Toma Casa Austrului Centru Rezidențial de îngrijire și asistență persoane adulte cu dizabilități, Mogoșoaia, str. Austrului, nr. 1A' },
+      { lat: '44.36574', lng: '25.96949', info: 'Fundația Motivation România Centrul de îngrijire și asistență pentru persoanele cu handicap Clinceni nr 2, Bragadiru, șos. Clinceni, nr. 36' },
+      { lat: '44.36600', lng: '25.97105', info: 'Fundația Motivation România Centrul de îngrijire și asistență pentru persoanele cu handicap Clinceni 1, Bragadiru, șos. Clinceni, nr. 36' }
+
+    ];
+
+    locations.forEach(loc => {
+      const marker = new google.maps.Marker({
+        position: new google.maps.LatLng(loc.lat, loc.lng),
+        map,
+        title: loc.info
+      });
+
+      const infowindow = new google.maps.InfoWindow({
+        content: loc.info
+      });
+
+      // tslint:disable-next-line:only-arrow-functions
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    });
   }
 
   filterJobs() {
     console.log('Filtering jobs with Text:', this.filterText, 'and Disability:', this.selectedDisabilityType);
     this.filteredJobs = this.jobs.filter(job => {
+      // tslint:disable-next-line:max-line-length
       const matchesText = !this.filterText || job.description.toLowerCase().includes(this.filterText.toLowerCase()) || job.name.toLowerCase().includes(this.filterText.toLowerCase());
       const matchesDisability = !this.selectedDisabilityType || job.disabilityType === this.selectedDisabilityType;
       console.log(`Job ${job.name}: Matches Text: ${matchesText}, Matches Disability: ${matchesDisability}`);
@@ -128,13 +288,6 @@ export class UserComponent implements OnInit, OnDestroy {
     console.log('Filtered Jobs:', this.filteredJobs);
   }
 
-  sortJobs(): void {
-    this.filteredJobs.sort((a, b) => {
-      if (a[this.sortKey] < b[this.sortKey]) { return -1; }
-      if (a[this.sortKey] > b[this.sortKey]) { return 1; }
-      return 0;
-    });
-  }
 
   setSortKey(key: string) {
     // Implement sorting logic here
@@ -270,10 +423,11 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   public setActiveTab(tabName: string): void {
-    this.showMap = false;
     this.activeTab = tabName;
-    if (tabName === 'map-romania') {
-      this.showMap = true; // Arată harta doar când acest tab este activ
+    this.showMap = (tabName === 'map-romania');
+    if (this.showMap) {
+      // Dacă este tabul de hartă, pregătește harta
+      this.prepareMap();
     }
   }
 
@@ -512,16 +666,5 @@ export class UserComponent implements OnInit, OnDestroy {
 
   addPatientAppointment() {
     this.clickButton('add-appointment-for-special-user');
-  }
-
-  selectCounty(cluj: string) {
-    // tslint:disable-line
-    console.log(cluj);
-  }
-
-  prepareMap(): void {
-    this.showMap = true;
-    this.changeTitle('Harta Accesibilități');
-    this.setActiveTab('map-romania');
   }
 }

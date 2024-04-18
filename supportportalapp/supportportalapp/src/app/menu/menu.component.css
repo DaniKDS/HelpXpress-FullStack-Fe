@@ -1,170 +1,262 @@
-.navbar-light .navbar-nav .nav-link {
-  color: #0056b3; /* Culoarea linkurilor */
-  transition: color 0.3s ease-in-out; /* Tranziție lină pentru hover și color */
-  font-size: 1.4em; /* Mărimea textului pentru linkuri */
-  font-weight: 600; /* Grosimea textului */
-  padding: 4px 12px; /* Ajustează padding-ul dacă este necesar */
-}
+/*.navbar-light .navbar-nav .nav-link {*/
+/*  color: #0056b3; !* Culoarea linkurilor *!*/
+/*  transition: color 0.3s ease-in-out; !* Tranziție lină pentru hover și color *!*/
+/*  font-size: 1.4em; !* Mărimea textului pentru linkuri *!*/
+/*  font-weight: 600; !* Grosimea textului *!*/
+/*  padding: 4px 12px; !* Ajustează padding-ul dacă este necesar *!*/
+/*}*/
 
-.navbar-light .navbar-nav .nav-link:hover,
-.navbar-light .navbar-nav .nav-link:focus {
-  color: #00376b; /* Culoarea linkurilor la hover sau focus */
-  background-color: rgba(223, 219, 231, 0.62); /* Fundalul linkurilor la hover sau focus */
-  border-radius: 5px; /* Marginile rotunjite pentru linkuri */
-}
+/*.navbar-light .navbar-nav .nav-link:hover,*/
+/*.navbar-light .navbar-nav .nav-link:focus {*/
+/*  color: #00376b; !* Culoarea linkurilor la hover sau focus *!*/
+/*  background-color: rgba(223, 219, 231, 0.62); !* Fundalul linkurilor la hover sau focus *!*/
+/*  border-radius: 5px; !* Marginile rotunjite pentru linkuri *!*/
+/*}*/
 
-.navbar .navbar-toggler {
-  border-color: rgba(0,0,0,.1); /* Culoarea bordurii pentru toggler */
-}
+/*.navbar .navbar-toggler {*/
+/*  border-color: rgba(0,0,0,.1); !* Culoarea bordurii pentru toggler *!*/
+/*}*/
 
-.navbar .navbar-toggler-icon {
-  background-image: url('/assets/elevate-GqC_kGJOuaM-unsplash.jpg'); /* Imaginea pentru toggler */
-}
+/*.navbar .navbar-toggler-icon {*/
+/*  background-image: url('/assets/elevate-GqC_kGJOuaM-unsplash.jpg'); !* Imaginea pentru toggler *!*/
+/*}*/
 
-.navbar-nav .nav-link.btn-logare, .navbar-nav .nav-link.btn {
-  background-color: #008cff; /* Fundalul pentru butoane */
-  color: #ffffff; /* Culoarea textului pentru butoane */
-  border-radius: 5px; /* Marginile rotunjite pentru butoane */
-  padding: 10px 15px; /* Padding pentru butoane */
-  margin-left: 1rem; /* Marginea stângă pentru butoane */
-  font-size: 1.2em; /* Mărimea textului pentru butoane */
-  transition: all 0.3s ease-in-out; /* Tranziție lină pentru efecte hover și focus */
-}
+/*.navbar-nav .nav-link.btn-logare, .navbar-nav .nav-link.btn {*/
+/*  background-color: #008cff; !* Fundalul pentru butoane *!*/
+/*  color: #ffffff; !* Culoarea textului pentru butoane *!*/
+/*  border-radius: 5px; !* Marginile rotunjite pentru butoane *!*/
+/*  padding: 10px 15px; !* Padding pentru butoane *!*/
+/*  margin-left: 1rem; !* Marginea stângă pentru butoane *!*/
+/*  font-size: 1.2em; !* Mărimea textului pentru butoane *!*/
+/*  transition: all 0.3s ease-in-out; !* Tranziție lină pentru efecte hover și focus *!*/
+/*}*/
 
-.navbar-nav .nav-link.btn-logare:hover,
-.navbar-nav .nav-link.btn:hover {
-  background-color: #0056b3; /* Fundalul butoanelor la hover */
-  color: white; /* Culoarea textului pentru butoane la hover */
-}
+/*.navbar-nav .nav-link.btn-logare:hover,*/
+/*.navbar-nav .nav-link.btn:hover {*/
+/*  background-color: #0056b3; !* Fundalul butoanelor la hover *!*/
+/*  color: white; !* Culoarea textului pentru butoane la hover *!*/
+/*}*/
 
-@media (max-width: 991px) {
-  .navbar-toggler {
-    border-color: #0056b3; /* Culoarea bordurii pentru toggler în view-porturi mici */
-  }
-  .navbar-collapse {
-    background-color: #f8f9fa; /* Fundalul pentru navbar-collapse în view-porturi mici */
-  }
-}
+/*@media (max-width: 991px) {*/
+/*  .navbar-toggler {*/
+/*    border-color: #0056b3; !* Culoarea bordurii pentru toggler în view-porturi mici *!*/
+/*  }*/
+/*  .navbar-collapse {*/
+/*    background-color: #f8f9fa; !* Fundalul pentru navbar-collapse în view-porturi mici *!*/
+/*  }*/
+/*}*/
 
-.btn-outline-primary {
-  font-size: 1.25em; /* Mărimea textului pentru butonul outline */
-  padding: 10px 20px; /* Padding pentru butonul outline */
-}
+/*.btn-outline-primary {*/
+/*  font-size: 1.25em; !* Mărimea textului pentru butonul outline *!*/
+/*  padding: 10px 20px; !* Padding pentru butonul outline *!*/
+/*}*/
 
-.container {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  padding: 50px;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/cover20-cover-850.jpg');
-  background-size: cover;
-  background-position: center center;
-  color: #fff;
-  height: 80px;
-  overflow: visible;
-  font-family: 'Arial', sans-serif;
-  /* Înlăturăm height: 100vh pentru a permite scroll-ul */
-}
+/*.container {*/
+/*  max-width: 100%;*/
+/*  margin: 0 auto;*/
+/*  text-align: center;*/
+/*  padding: 50px;*/
+/*  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/cover20-cover-850.jpg');*/
+/*  background-size: cover;*/
+/*  background-position: center center;*/
+/*  color: #fff;*/
+/*  height: 80px;*/
+/*  overflow: visible;*/
+/*  font-family: 'Arial', sans-serif;*/
+/*  !* Înlăturăm height: 100vh pentru a permite scroll-ul *!*/
+/*}*/
 
-h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
+/*h1 {*/
+/*  font-size: 3em;*/
+/*  margin-bottom: 20px;*/
+/*  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);*/
+/*}*/
 
-p {
-  font-size: 1.5em;
-  margin-bottom: 30px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
+/*p {*/
+/*  font-size: 1.5em;*/
+/*  margin-bottom: 30px;*/
+/*  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);*/
+/*}*/
 
-a, .navbar .nav-link {
-  text-shadow: none; /* Anulăm umbra textului pentru linkuri, pentru lizibilitate */
-}
+/*a, .navbar .nav-link {*/
+/*  text-shadow: none; !* Anulăm umbra textului pentru linkuri, pentru lizibilitate *!*/
+/*}*/
 
-.site-header {
-  position: page;
-  top: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.95); /* fundal semitransparent */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
+/*.site-header {*/
+/*  position: page;*/
+/*  top: 0;*/
+/*  width: 100%;*/
+/*  background: rgba(255, 255, 255, 0.95); !* fundal semitransparent *!*/
+/*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);*/
+/*  z-index: 1000;*/
+/*}*/
 
-.main-content {
-  padding-top: 20px; /* ajustează această valoare dacă navbar-ul tău este mai înalt */
-}
+/*.main-content {*/
+/*  padding-top: 20px; !* ajustează această valoare dacă navbar-ul tău este mai înalt *!*/
+/*}*/
 
-.navbar-brand {
-  font-weight: bold;
-  color: #0056b3;
-  font-size: 2em;
-}
+/*.navbar-brand {*/
+/*  font-weight: bold;*/
+/*  color: #0056b3;*/
+/*  font-size: 2em;*/
+/*}*/
 
-.navbar-nav .nav-link.btn-logare:hover,
-.navbar-nav .nav-link.btn:hover {
-  background-color: #0056b3;
-  color: white;
-}
+/*.navbar-nav .nav-link.btn-logare:hover,*/
+/*.navbar-nav .nav-link.btn:hover {*/
+/*  background-color: #0056b3;*/
+/*  color: white;*/
+/*}*/
 
-/* Adăugăm media query pentru a gestiona stilurile specifice pentru ecrane mici */
-@media (max-width: 991px) {
-  .navbar-toggler {
-    border-color: #0056b3;
-  }
-  .navbar-collapse {
-    background-color: #f8f9fa;
-  }
-}
+/*!* Adăugăm media query pentru a gestiona stilurile specifice pentru ecrane mici *!*/
+/*@media (max-width: 991px) {*/
+/*  .navbar-toggler {*/
+/*    border-color: #0056b3;*/
+/*  }*/
+/*  .navbar-collapse {*/
+/*    background-color: #f8f9fa;*/
+/*  }*/
+/*}*/
 
-@media (max-width: 991px) {
-  .navbar-collapse {
-    background-color: #f8f9fa;
-  }
+/*@media (max-width: 991px) {*/
+/*  .navbar-collapse {*/
+/*    background-color: #f8f9fa;*/
+/*  }*/
 
-  .navbar-toggler {
-    border-color: #0056b3;
-  }
-}
+/*  .navbar-toggler {*/
+/*    border-color: #0056b3;*/
+/*  }*/
+/*}*/
 
-@media (max-width: 991px) {
-  .navbar-toggler {
-    border-color: #0056b3;
-  }
-  .navbar-collapse {
-    background-color: #f8f9fa;
-  }
-  /* Alte stiluri specifice pentru ecrane mici */
-}
-/* Adăugăm stiluri pentru content-ul header-ului */
-.header-content {
-  padding: 20px 0;
-  color: #fff;
-  /* Menține culoarea albă pentru contrastul cu fundalul întunecat */
-}
+/*@media (max-width: 991px) {*/
+/*  .navbar-toggler {*/
+/*    border-color: #0056b3;*/
+/*  }*/
+/*  .navbar-collapse {*/
+/*    background-color: #f8f9fa;*/
+/*  }*/
+/*  !* Alte stiluri specifice pentru ecrane mici *!*/
+/*}*/
+/*!* Adăugăm stiluri pentru content-ul header-ului *!*/
+/*.header-content {*/
+/*  padding: 20px 0;*/
+/*  color: #fff;*/
+/*  !* Menține culoarea albă pentru contrastul cu fundalul întunecat *!*/
+/*}*/
 
 
-.display-4 {
-  font-weight: bold;
-  color: #333; /* Asigură-te că această culoare oferă suficient contrast */
-  font-size: 4em; /* Mărește dimensiunea fontului */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adaugă o umbră textului pentru lizibilitate îmbunătățită */
-}
+/*.display-4 {*/
+/*  font-weight: bold;*/
+/*  color: #333; !* Asigură-te că această culoare oferă suficient contrast *!*/
+/*  font-size: 4em; !* Mărește dimensiunea fontului *!*/
+/*  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); !* Adaugă o umbră textului pentru lizibilitate îmbunătățită *!*/
+/*}*/
 
-.lead {
-  font-size: 2em; /* Mărește și acest font dacă este necesar */
-  color: #0f4ad5; /* Poti să schimbi culoarea pentru mai mult contrast dacă este nevoie */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* De asemenea, poți adăuga o umbră textului */
-}
+/*.lead {*/
+/*  font-size: 2em; !* Mărește și acest font dacă este necesar *!*/
+/*  color: #0f4ad5; !* Poti să schimbi culoarea pentru mai mult contrast dacă este nevoie *!*/
+/*  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); !* De asemenea, poți adăuga o umbră textului *!*/
+/*}*/
 
-@media (max-width: 991px) {
-  .navbar-toggler {
-    border-color: #0056b3;
-  }
-}
+/*@media (max-width: 991px) {*/
+/*  .navbar-toggler {*/
+/*    border-color: #0056b3;*/
+/*  }*/
+/*}*/
+
+/*body {*/
+/*  font-family: 'Arial', sans-serif;*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*  box-sizing: border-box;*/
+/*  background-color: #f8f8f8;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  min-height: 100vh;*/
+/*}*/
+
+/*.navbar {*/
+/*  background: rgba(255, 255, 255, 0.95); !* Fundal semitransparent *!*/
+/*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); !* Umbra pentru navbar *!*/
+/*}*/
+
+/*.navbar-brand {*/
+/*  font-weight: bold;*/
+/*  color: #0056b3; !* Culoarea brandului *!*/
+/*  font-size: 2em; !* Mărimea textului pentru brand *!*/
+/*}*/
+
+
+/*@media (max-width: 991px) {*/
+/*  .navbar-toggler {*/
+/*    border-color: #0056b3; !* Culoarea bordurii pentru toggler în view-porturi mici *!*/
+/*  }*/
+/*  .navbar-collapse {*/
+/*    background-color: #f8f9fa; !* Fundalul pentru navbar-collapse în view-porturi mici *!*/
+/*  }*/
+/*}*/
+
+/*.report-issue,*/
+/*.review {*/
+/*  color: #ffffff;*/
+/*  margin-right: 10px;*/
+/*  cursor: pointer;*/
+/*  padding: .5rem 1rem; !* Ajustează padding-ul după preferințe *!*/
+/*  display: inline-block; !* Face elementele să se comporte ca linkuri *!*/
+/*  text-decoration: none; !* Elimină sublinierea linkurilor *!*/
+/*}*/
+
+/*!* Stiluri pentru 'Raportare Problema' și 'Recenzie' *!*/
+/*.report-issue, .review {*/
+/*  color: #0056b3;*/
+/*  padding: .5rem 1rem; !* Ajustează padding-ul conform designului tău *!*/
+/*  font-size: 1.4em;*/
+/*  font-weight: 600;*/
+/*  cursor: pointer;*/
+/*  !* Îmbunătățirea accesibilității prin includerea 'display: inline-block' *!*/
+/*  display: inline-block;*/
+/*}*/
+
+/*.report-issue:hover, .review:hover {*/
+/*  color: #00376b;*/
+/*  background-color: rgba(223, 219, 231, 0.62);*/
+/*  border-radius: 5px;*/
+/*}*/
+
+/*.btn-primary {*/
+/*  font-size: 1.2em; !* Ajustează mărimea fontului la 1.2em sau conform preferințelor *!*/
+/*  font-weight: 600; !* Face textul mai gros *!*/
+/*  transition: transform 0.3s ease, box-shadow 0.3s ease; !* Tranziție pentru hover effects *!*/
+/*}*/
+
+/*.btn-primary:hover, .btn-primary:focus {*/
+/*  transform: scale(1.05); !* Mărește ușor butonul când este hover sau focus *!*/
+/*  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); !* Adaugă o umbră pentru efectul de profunditate *!*/
+/*}*/
+
+/*@keyframes pulseAnimation {*/
+/*  0% {*/
+/*    transform: scale(1);*/
+/*    box-shadow: 0 0 0 rgba(0, 0, 0, 0);*/
+/*  }*/
+/*  50% {*/
+/*    transform: scale(1.05);*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+/*  }*/
+/*  100% {*/
+/*    transform: scale(1);*/
+/*    box-shadow: 0 0 0 rgba(0, 0, 0, 0);*/
+/*  }*/
+/*}*/
+
+/*.btn-primary {*/
+/*  animation: pulseAnimation 2s infinite ease-in-out;*/
+/*}*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -175,79 +267,89 @@ body {
 }
 
 .navbar {
-  background: rgba(255, 255, 255, 0.95); /* Fundal semitransparent */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Umbra pentru navbar */
+  background: rgba(255, 255, 255, 0.98); /* Slightly transparent white */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Subtle shadow for depth and refinement */
+  padding: 0.5rem 2rem; /* Reduced vertical padding for a narrower appearance */
 }
 
 .navbar-brand {
-  font-weight: bold;
-  color: #0056b3; /* Culoarea brandului */
-  font-size: 2em; /* Mărimea textului pentru brand */
-}
-
-
-@media (max-width: 991px) {
-  .navbar-toggler {
-    border-color: #0056b3; /* Culoarea bordurii pentru toggler în view-porturi mici */
-  }
-  .navbar-collapse {
-    background-color: #f8f9fa; /* Fundalul pentru navbar-collapse în view-porturi mici */
-  }
-}
-
-.report-issue,
-.review {
-  color: #ffffff;
-  margin-right: 10px;
-  cursor: pointer;
-  padding: .5rem 1rem; /* Ajustează padding-ul după preferințe */
-  display: inline-block; /* Face elementele să se comporte ca linkuri */
-  text-decoration: none; /* Elimină sublinierea linkurilor */
-}
-
-/* Stiluri pentru 'Raportare Problema' și 'Recenzie' */
-.report-issue, .review {
+  font-weight: 700;
   color: #0056b3;
-  padding: .5rem 1rem; /* Ajustează padding-ul conform designului tău */
-  font-size: 1.4em;
-  font-weight: 600;
-  cursor: pointer;
-  /* Îmbunătățirea accesibilității prin includerea 'display: inline-block' */
-  display: inline-block;
+  font-size: 1.8em; /* Slightly larger for emphasis */
 }
 
-.report-issue:hover, .review:hover {
+.navbar-light .navbar-nav .nav-link {
+  color: #0056b3;
+  transition: color 0.3s ease-in-out;
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 8px 12px;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
   color: #00376b;
-  background-color: rgba(223, 219, 231, 0.62);
+  background-color: rgba(223, 219, 231, 0.6);
   border-radius: 5px;
 }
 
-.btn-primary {
-  font-size: 1.2em; /* Ajustează mărimea fontului la 1.2em sau conform preferințelor */
-  font-weight: 600; /* Face textul mai gros */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Tranziție pentru hover effects */
+.navbar-toggler {
+  border-color: transparent;
+  outline: none;
+  padding: 8px 12px;
 }
 
-.btn-primary:hover, .btn-primary:focus {
-  transform: scale(1.05); /* Mărește ușor butonul când este hover sau focus */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adaugă o umbră pentru efectul de profunditate */
-}
-
-@keyframes pulseAnimation {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  }
+.navbar-toggler-icon {
+  background-image: url('/assets/toggle-icon.svg'); /* Modern SVG icon */
 }
 
 .btn-primary {
-  animation: pulseAnimation 2s infinite ease-in-out;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+  }
+}
+
+.header-content {
+  padding: 20px 0;
+  color: #fff;
+  text-align: center;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Enhanced shadow for a stylish lift */
+  z-index: 1000;
+}
+
+.main-content {
+  padding-top: 80px; /* Adjusted for a narrower header */
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.5em; /* Smaller font size for mobile */
+  }
+  .navbar-brand img {
+    height: 40px; /* Smaller logo for mobile */
+    margin-right: 5px; /* Less space on mobile */
+  }
 }

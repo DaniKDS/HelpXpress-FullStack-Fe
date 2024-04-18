@@ -3,7 +3,7 @@
   <div class="row mb-2 mt-2 text-center">
     <div class="col-md-4">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" id="central-column">
       <h5>HelpXpress Management Portal</h5>
       <small *ngIf="titleAction$ | async as title">{{ title }}</small>
     </div>
@@ -72,7 +72,7 @@
               <!-- Buton pentru Harta Accesibilități -->
               <a [class.active]="activeTab === 'map-romania'" [hidden]="!isSpecialuser"
                  class="dropdown-item"
-                 (click)="prepareMap()"
+                 (click)="changeTitle('Harta de accesibilitati');setActiveTab('map-romania')"
                  [routerLink]="['/map-romania']">
                 <i class="fas fa-map-marked-alt"></i> Harta Accesibilități
               </a>
@@ -159,18 +159,19 @@
       </div>
     </div>
   </nav>
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBxYGaVDm4TB1RLmKsVC-FNNddDhshutM&callback=initMap">
+  </script>
 
-
-  <!-- Container pentru Harta României, afișată doar când showMap este true -->
+  <!-- Container pentru harta care va fi afișată doar după selecția județului -->
   <div *ngIf="showMap" style="width: 100%; height: 100vh;" id="map-container">
-    <div id="map-romania" style="width: 80%; height: 500px; background-color: #007bff;">
-      <!-- Aici inserăm SVG-ul hărții României sau un iframe cu o hartă interactivă -->
-      <!-- Placeholder pentru SVG-ul hărții României sau alte tehnologii de mapare -->
-      <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
-              src="https://wheelmap.org/your-specific-map?embed=true"></iframe>
-    </div>
+    <h2>Harta de Accesibilități HelpXpress</h2>
+    <select id="select-judet" (change)="onJudetSelected($event)">
+      <option value="">Selectează un județ</option>
+      <option *ngFor="let judet of judete" [value]="judet">{{ judet }}</option>
+    </select>
+    <div id="map-romania"></div>
   </div>
-
 
   <!-- main content -->
   <div class="tab-content mt-3" id="myTabContent">

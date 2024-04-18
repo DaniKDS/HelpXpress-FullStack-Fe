@@ -34,7 +34,7 @@ a, .navbar .nav-link {
   top: 0;
   width: 100%;
   background: rgba(255, 255, 255, 0.95); /* fundal semitransparent */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
   z-index: 1000;
 }
 
@@ -46,6 +46,7 @@ a, .navbar .nav-link {
   font-weight: bold;
   color: #0056b3;
   font-size: 2em;
+  border-radius: 3px; /* Colțuri rotunjite */
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -56,7 +57,7 @@ a, .navbar .nav-link {
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus {
   color: #00376b;
-  background-color: rgba(169, 146, 190, 0.62);
+  background-color: rgba(49, 74, 243, 0.62);
   border-radius: 5px;
 }
 
@@ -115,23 +116,30 @@ a, .navbar .nav-link {
 }
 /* Adăugăm stiluri pentru content-ul header-ului */
 .header-content {
-  padding: 14px 0;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px;
+  background: url('/assets/img_5.png') no-repeat center center fixed;
+  background-size: cover;
   color: #fff;
-  /* Menține culoarea albă pentru contrastul cu fundalul întunecat */
+  height: 100vh; /* Ajustează înălțimea la 100% din înălțimea viewport-ului */
+  overflow: visible;
+  font-family: 'Arial', sans-serif;
 }
 
 
 .display-4 {
   font-weight: bold;
-  color: #333; /* Asigură-te că această culoare oferă suficient contrast */
+  color: #262121; /* Asigură-te că această culoare oferă suficient contrast */
   font-size: 4em; /* Mărește dimensiunea fontului */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adaugă o umbră textului pentru lizibilitate îmbunătățită */
+  text-shadow: 2px 2px 4px rgb(0, 123, 255); /* Adaugă o umbră textului pentru lizibilitate îmbunătățită */
 }
 
 .lead {
   font-size: 2em; /* Mărește și acest font dacă este necesar */
-  color: #0f4ad5; /* Poti să schimbi culoarea pentru mai mult contrast dacă este nevoie */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* De asemenea, poți adăuga o umbră textului */
+  color: #262121; /* Poti să schimbi culoarea pentru mai mult contrast dacă este nevoie */
+  text-shadow: 2px 2px 4px rgb(200, 209, 229); /* De asemenea, poți adăuga o umbră textului */
 }
 
 @media (max-width: 991px) {
@@ -233,5 +241,4 @@ body {
   font-size: 1.25em; /* Mărimea textului pentru butonul outline */
   padding: 10px 20px; /* Padding pentru butonul outline */
 }
-
 
