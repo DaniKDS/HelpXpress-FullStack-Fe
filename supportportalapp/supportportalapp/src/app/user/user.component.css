@@ -409,5 +409,52 @@ i.fa {
   display: block; /* Asigură-te că textul mic este întotdeauna pe linie nouă */
 }
 
+.card-img-top {
+  height: 200px; /* Ajustează înălțimea după preferințe */
+  width: 100%; /* Lățimea este întotdeauna 100% a containerului părinte */
+  object-fit: cover; /* Acest lucru asigură că imaginea va acoperi spațiul disponibil fără a se distorsiona */
+}
+
+.modal-header, .modal-footer {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-body form .form-group label {
+  font-weight: bold;
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.form-control, .btn {
+  border-radius: 0.25rem;
+}
+
+.modal-header, .modal-footer {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-content {
+  border-radius: 0.3rem;
+}
+
+.form-control, .btn {
+  border-radius: 0.25rem;
+}
+
+/* Îmbunătățește spațiul din interiorul modalului pentru un aspect mai aerisit */
+.modal-body {
+  padding: 20px;
+}
+
+/* Ajustează iconițele pentru a fi mai aproape de text */
+i {
+  margin-right: 5px;
+}
+
+
 
 

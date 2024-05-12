@@ -19,6 +19,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import {SpecialUser} from '../model/specialuser';
 import {Review} from '../model/review';
 import {Job} from '../model/job';
+import {Benzinarie} from '../model/benzinarie';
 
 @Component({
   selector: 'app-user',
@@ -35,6 +36,7 @@ import {Job} from '../model/job';
 })
 export class UserComponent implements OnInit, OnDestroy {
   private map: google.maps.Map<HTMLElement>;
+  private activeBenzinarie: Benzinarie;
 
   constructor(private router: Router, private authenticationService: AuthenticationService,
               private userService: UserService, private notificationService: NotificationService) {}
@@ -81,6 +83,30 @@ export class UserComponent implements OnInit, OnDestroy {
   public specialUser: SpecialUser;
   public reviews: Review[] = [];
   jobs: Job[] = []; // Inițializare cu un array gol
+  benzinarii: any[] = [];
+  brandImages: { [brand: string]: string } = {
+    MOL: 'assets/mol.png',
+    PETROM: 'assets/petrom.png',
+    ROMPETROL: 'assets/rompetrol.png',
+    SOCAR: 'assets/socar.png',
+    OMW: 'assets/omw.png',
+    LUKOIL: 'assets/lukoil.png',
+    VEGAS: 'assets/vegas.png',
+    GAZPROM: 'assets/gazprom.png'
+  };
+  filteredBenzinarii: Benzinarie[];
+  selectedBrand = '';
+  brands: string[] = ['MOL', 'PETROM', 'ROMPETROL', 'SOCAR', 'OMW', 'LUKOIL', 'VEGAS', 'GAZPROM']; // Lista de branduri
+  carNumber = '';
+  carColor = '';
+  fuelType = '';
+  phoneNumber = '';
+  appointmentDate = '';    // Pentru data programării
+  appointmentTime = '';    // Pentru ora programării
+  arriveIn30Minutes = false; // Checkbox
+  selectedDoctor: string;
+  selectedOrganization: any;
+  appointmentDetails: string;
   filteredJobs: Job[] = [];
   selectedDisabilityType = '';
   filterText = '';
@@ -94,6 +120,7 @@ export class UserComponent implements OnInit, OnDestroy {
     'Prahova', 'Satu Mare', 'Sălaj', 'Sibiu', 'Suceava', 'Teleorman', 'Timiș', 'Tulcea',
     'Vaslui', 'Vâlcea', 'Vrancea'
   ];
+
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
@@ -125,7 +152,23 @@ export class UserComponent implements OnInit, OnDestroy {
     );
     this.loadGoogleMapsScript();
     this.showMap = false;
+
+    this.userService.getBenzinarii().subscribe({
+      next: (benzinarii) => {
+        this.benzinarii = benzinarii;
+        this.filteredBenzinarii = [...this.benzinarii];
+      },
+      error: (e) => console.error('Failed to load benzinarii', e)
+    });
   }
+  filterBenzinarii(): void {
+    if (!this.selectedBrand) {
+      this.filteredBenzinarii = [...this.benzinarii];
+    } else {
+      this.filteredBenzinarii = this.benzinarii.filter(b => b.brand === this.selectedBrand);
+    }
+  }
+
   loadGoogleMapsScript() {
     if ((window as any).google && (window as any).google.maps) {
       // Dacă scriptul este deja încărcat și harta nu a fost inițializată, inițializează harta.
@@ -666,5 +709,27 @@ export class UserComponent implements OnInit, OnDestroy {
 
   addPatientAppointment() {
     this.clickButton('add-appointment-for-special-user');
+  }
+
+  setActiveBenzinarie(benzinarie: Benzinarie): void {
+    this.activeBenzinarie = benzinarie;  // Stochează benzinarie activă pentru a folosi în cererea de asistență
+  }
+
+  submitAssistanceRequest(): void {
+    // Logica pentru a trimite cererea de asistență, folosind informațiile din modal
+    console.log('Cerere trimisă pentru:', this.activeBenzinarie, this.carNumber, this.carColor, this.fuelType, this.phoneNumber);
+    // Aici ai include apeluri de serviciu etc.
+  }
+
+  submitNewAppointment(): void {
+    const newAppointment = {
+      doctorId: this.selectedDoctor,
+      date: this.appointmentDate,
+      time: this.appointmentTime,
+      details: this.appointmentDetails
+    };
+    console.log('New appointment:', newAppointment);
+    // Aici adaugi logica pentru a trimite aceste date la backend
+    // De exemplu: this.appointmentService.addAppointment(newAppointment).subscribe(...)
   }
 }

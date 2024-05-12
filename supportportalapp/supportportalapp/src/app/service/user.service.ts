@@ -11,7 +11,8 @@ import {Assistant} from '../model/assistant';
 import {Organization} from '../model/organization';
 import {SpecialUser} from '../model/specialuser';
 import {Review} from '../model/review';
-import {Job} from "../model/job";
+import {Job} from '../model/job';
+import {Benzinarie} from '../model/benzinarie';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -136,4 +137,9 @@ export class UserService {
   getLocatii(judet: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.host}/api/locatii/${judet}`);
   }
+
+  getBenzinarii(): Observable<Benzinarie[]> {
+    return this.http.get<Benzinarie[]>(`${this.host}/api/benzinarii`);
+  }
+
 }

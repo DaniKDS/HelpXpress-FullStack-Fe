@@ -92,11 +92,11 @@
               </a>
 
               <!-- Servicii la parcari -->
-              <a [class.active]="activeTab === 'parking'" [hidden]="!isSpecialuser"
-                 class="dropdown-item" (click)="changeTitle('Rezerva o parcare pe loc special'); setActiveTab('parking');"
-                 [routerLink]="['/parking']">
-                <i class="fas fa-parking"></i> Parcari loc special
-              </a>
+<!--              <a [class.active]="activeTab === 'parking'" [hidden]="!isSpecialuser"-->
+<!--                 class="dropdown-item" (click)="changeTitle('Rezerva o parcare pe loc special'); setActiveTab('parking');"-->
+<!--                 [routerLink]="['/parking']">-->
+<!--                <i class="fas fa-parking"></i> Parcari loc special-->
+<!--              </a>-->
             </div>
           </div>
 
@@ -154,13 +154,7 @@
              (click)="changeTitle('Review-uri');setActiveTab('reviews')" data-toggle="tab"
              href="#reviews">
             <i class="fas fa-check"></i>
-            Review-uri
-          </a>
-          <a [class.active]="activeTab === 'new'" [hidden]="!isAssistant" class="nav-item nav-link ml-3"
-             (click)="changeTitle('Nou');setActiveTab('new')" data-toggle="tab"
-             href="#new">
-            <i class="fas fa-calendar-check"></i>
-            Programarile pacientului
+            Recenzii
           </a>
 
 
@@ -176,6 +170,99 @@
   <script async defer
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBxYGaVDm4TB1RLmKsVC-FNNddDhshutM&callback=initMap">
   </script>
+
+  <!-- Container pentru Servicii la Benzinării -->
+  <div *ngIf="activeTab === 'fuel-service'" class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-primary mb-3"><i class="fas fa-gas-pump"></i> Servicii la Benzinării</h2>
+        <!-- Select pentru alegerea brandului -->
+        <div class="form-group">
+          <label for="brandFilter"><i class="fas fa-filter"></i> Filtrează după Brand:</label>
+          <select class="form-control" id="brandFilter" [(ngModel)]="selectedBrand" (ngModelChange)="filterBenzinarii()">
+            <option value="">Toate</option>
+            <option *ngFor="let brand of brands">{{ brand }}</option>
+          </select>
+        </div>
+      </div>
+      <!-- Carduri pentru benzinării -->
+      <div *ngFor="let benzinarie of filteredBenzinarii" class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img [src]="brandImages[benzinarie.brand]" class="card-img-top" alt="Logo {{ benzinarie.brand }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ benzinarie.nume }}</h5>
+            <p class="card-text"><i class="fas fa-map-marker-alt"></i> Locație: {{ benzinarie.locatie }}</p>
+            <p class="card-text"><i class="fas fa-phone"></i> Telefon: {{ benzinarie.telefon }}</p>
+            <p class="card-text"><i class="fas fa-envelope"></i> Email: {{ benzinarie.email }}</p>
+            <p class="card-text"><i class="fas fa-tag"></i> Brand: {{ benzinarie.brand }}</p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#requestAssistanceModal" (click)="setActiveBenzinarie(benzinarie)">
+              <i class="fas fa-assistive-listening-systems"></i> Cere Asistență
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal pentru cererea de asistență -->
+  <div class="modal fade" id="requestAssistanceModal" tabindex="-1" role="dialog" aria-labelledby="requestAssistanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="requestAssistanceModalLabel"><i class="fas fa-tools"></i> Cere Asistență</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="carNumber"><i class="fas fa-car"></i> Număr mașină</label>
+              <input type="text" class="form-control" id="carNumber" [(ngModel)]="carNumber">
+            </div>
+            <div class="form-group">
+              <label for="carColor"><i class="fas fa-paint-brush"></i> Culoare mașină</label>
+              <input type="text" class="form-control" id="carColor" [(ngModel)]="carColor">
+            </div>
+            <div class="form-group">
+              <label for="fuelType"><i class="fas fa-gas-pump"></i> Tip combustibil</label>
+              <select class="form-control" id="fuelType" [(ngModel)]="fuelType">
+                <option>Benzină</option>
+                <option>Diesel</option>
+                <option>Electric</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber"><i class="fas fa-phone"></i> Număr de telefon</label>
+              <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber">
+            </div>
+
+            <div class="form-group">
+              <label for="appointmentDate"><i class="far fa-calendar-alt"></i> Data programării</label>
+              <input type="date" class="form-control" id="appointmentDate" [(ngModel)]="appointmentDate">
+            </div>
+            <div class="form-group">
+              <label for="appointmentTime"><i class="far fa-clock"></i> Ora programării</label>
+              <input type="time" class="form-control" id="appointmentTime" [(ngModel)]="appointmentTime">
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="arriveIn30Minutes" [(ngModel)]="arriveIn30Minutes">
+              <label class="form-check-label" for="arriveIn30Minutes">Sosesc în aproximativ 30 de minute +/- ?</label>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Închide</button>
+          <button type="button" class="btn btn-primary" (click)="submitAssistanceRequest()"><i class="fas fa-paper-plane"></i> Trimite Cererea</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Container pentru harta care va fi afișată doar după selecția județului -->
   <div *ngIf="showMap" style="width: 100%; height: 100vh;" id="map-container">
@@ -283,7 +370,9 @@
       <div *ngIf="appointments && appointments.length > 0; else noAppointments">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h3 class="mb-0">Programările Pacientului Meu</h3>
-          <button class="btn btn-primary" (click)="addPatientAppointment()">Adaugă Programare</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addAppointmentModal">
+            Adaugă Programare
+          </button>
         </div>
         <div class="row">
           <div class="col-md-6 col-lg-4" *ngFor="let appointment of appointments">
@@ -426,7 +515,10 @@
         <div *ngIf="appointments?.length > 0; else noAppointments" class="tab-pane fade show active" id="programare">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Programările Mele</h3>
-            <button class="btn btn-success">Adaugă Programare</button>
+            <!-- Buton pentru deschiderea modalei de adăugare programare -->
+            <button class="btn btn-success" data-toggle="modal" data-target="#addAppointmentModal">
+              Adaugă Programare
+            </button>
           </div>
           <div class="row">
             <div class="col-md-6 col-lg-4" *ngFor="let appointment of appointments">
@@ -474,6 +566,57 @@
         </ng-template>
       </div>
     </div>
+
+    <!-- Modal pentru adăugarea unei noi programări -->
+    <div class="modal fade" id="addAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addAppointmentModalLabel"><i class="fas fa-calendar-plus"></i> Adaugă o Nouă Programare</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="organizationSelect"><i class="fas fa-hospital"></i> Selectează Organizația:</label>
+              <select class="form-control" id="organizationSelect" [(ngModel)]="selectedOrganization">
+                <option *ngFor="let organization of organizations" [value]="organization.id">
+                  {{ organization.name }}
+                </option>
+              </select>
+            </div>
+            <form>
+              <div class="form-group">
+                <label for="doctorSelect"><i class="fas fa-user-md"></i> Selectează Doctorul:</label>
+                <select class="form-control" id="doctorSelect" [(ngModel)]="selectedDoctor">
+                  <option *ngFor="let doctor of doctors" [value]="doctor.id">
+                    {{ doctor.user.firstName }} {{ doctor.user.lastName }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="appointmentDate"><i class="far fa-calendar-alt"></i> Data Programării:</label>
+                <input type="date" class="form-control" id="appointmentDate" [(ngModel)]="appointmentDate">
+              </div>
+              <div class="form-group">
+                <label for="appointmentTime"><i class="far fa-clock"></i> Ora Programării:</label>
+                <input type="time" class="form-control" id="appointmentTime" [(ngModel)]="appointmentTime">
+              </div>
+              <div class="form-group">
+                <label for="details"><i class="fas fa-info-circle"></i> Detalii:</label>
+                <textarea class="form-control" id="details" [(ngModel)]="appointmentDetails"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Închide</button>
+            <button type="button" class="btn btn-primary" (click)="submitNewAppointment()"><i class="fas fa-save"></i> Salvează Programare</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- DOCTORS -->
     <div *ngIf="activeTab === 'doctors'" class="tab-pane fade show active" id="doctors">
