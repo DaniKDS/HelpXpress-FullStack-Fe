@@ -65,7 +65,7 @@
           <!-- Dropdown pentru Servicii HelpXpress -->
           <div [hidden]="!isSpecialuser" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle helpxpress-button" id="navbarDropdownMenuLink" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: red;">
               Servicii HelpXpress <i class="fas fa-plus-circle"></i>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -90,8 +90,22 @@
                  [routerLink]="['/fuel-service']">
                 <i class="fas fa-gas-pump"></i> Servicii la benzinării
               </a>
+
+              <!-- Servicii la parcari -->
+              <a [class.active]="activeTab === 'parking'" [hidden]="!isSpecialuser"
+                 class="dropdown-item" (click)="changeTitle('Rezerva o parcare pe loc special'); setActiveTab('parking');"
+                 [routerLink]="['/parking']">
+                <i class="fas fa-parking"></i> Parcari loc special
+              </a>
             </div>
           </div>
+
+          <a [class.active]="activeTab === 'notificari'" [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Notificarile mele'); setActiveTab('notificari')"
+             data-toggle="tab"
+             href="#notificari">
+            <i class="fas fa-bell"></i>
+            Notificarile mele
+          </a>
 
           <!--#pt doctor-->
           <a [class.active]="activeTab === 'patients'" [hidden]="!isDoctor" class="nav-item nav-link active ml-1"
@@ -422,10 +436,16 @@
                   {{ appointment.organization.name }}
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">
-                    <i class="fas fa-user-md" style="color: #28a745;"></i>
-                    Doctor: {{ appointment.doctor?.user?.firstName }} {{ appointment.doctor?.user?.lastName }}
-                  </h5>
+                  <div class="d-flex align-items-center">
+                    <!-- Profile Image -->
+                    <img [src]="appointment.doctor?.user?.profileImageUrl" class="img-fluid rounded-circle mr-2" alt="Doctor Image" style="width: 50px; height: 50px;">
+                    <div>
+                      <h5 class="card-title">
+                        <i style="color: #28a745;"></i>
+                        Doctor: {{ appointment.doctor?.user?.firstName }} {{ appointment.doctor?.user?.lastName }}
+                      </h5>
+                    </div>
+                  </div>
                   <p>
                     Boala: {{ appointment.specialUser.disease }} ({{ appointment.specialUser.diseaseType }})
                   </p>
@@ -438,10 +458,10 @@
                 </div>
                 <div class="card-footer text-muted">
                   Status: <span class="badge" [ngClass]="{
-                'badge-success': appointment.status === 'Confirmată',
-                'badge-warning': appointment.status === 'În așteptare',
-                'badge-danger': appointment.status === 'Anulată'
-              }">{{ appointment.status }}</span>
+            'badge-success': appointment.status === 'Confirmată',
+            'badge-warning': appointment.status === 'În așteptare',
+            'badge-danger': appointment.status === 'Anulată'
+          }">{{ appointment.status }}</span>
                 </div>
               </div>
             </div>
@@ -727,10 +747,10 @@
               <option value="neurologica">Neurologică</option>
             </select>
 
-            <button class="btn btn-info" (click)="setSortKey('name')"><i class="fas fa-sort-alpha-down"></i> Sortează după Nume
+            <button class="btn btn-outline-primary" (click)="setSortKey('name')"><i class="fas fa-sort-alpha-down"></i> Sortează după Nume
             </button>
-            <button class="btn btn-info" (click)="setSortKey('city')"><i class="fas fa-city"></i> Sortează după Oraș</button>
-            <button class="btn btn-info" (click)="setSortKey('region')"><i class="fas fa-map-marker-alt"></i> Sortează după Regiune
+            <button class="btn btn-outline-primary" (click)="setSortKey('city')"><i class="fas fa-city"></i> Sortează după Oraș</button>
+            <button class="btn btn-outline-primary" (click)="setSortKey('region')"><i class="fas fa-map-marker-alt"></i> Sortează după Regiune
             </button>
           </div>
 

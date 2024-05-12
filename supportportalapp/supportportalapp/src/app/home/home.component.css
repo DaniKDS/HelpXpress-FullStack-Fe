@@ -139,7 +139,7 @@ a, .navbar .nav-link {
 .lead {
   font-size: 2em; /* Mărește și acest font dacă este necesar */
   color: #262121; /* Poti să schimbi culoarea pentru mai mult contrast dacă este nevoie */
-  text-shadow: 2px 2px 4px rgb(200, 209, 229); /* De asemenea, poți adăuga o umbră textului */
+  text-shadow: 2px 2px 4px rgb(0, 86, 179); /* De asemenea, poți adăuga o umbră textului */
 }
 
 @media (max-width: 991px) {

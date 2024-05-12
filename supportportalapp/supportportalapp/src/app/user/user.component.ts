@@ -260,7 +260,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     locations.forEach(loc => {
       const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(loc.lat, loc.lng),
+        position: new google.maps.LatLng(Number(loc.lat), Number(loc.lng)),
         map,
         title: loc.info
       });
