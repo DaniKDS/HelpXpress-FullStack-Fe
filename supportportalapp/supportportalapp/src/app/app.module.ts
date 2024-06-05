@@ -28,7 +28,6 @@ import { AppointmentComponent } from './appointment/appointment.component';
 import { AssistantComponent } from './assistant/assistant.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { SpecialuserComponent } from './specialuser/specialuser.component';
-import {ModalModule} from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [
@@ -56,8 +55,7 @@ import {ModalModule} from "ngx-bootstrap/modal";
     FormsModule,
     HttpClientModule,
     NotificationModule,
-    BrowserAnimationsModule,
-    ModalModule.forRoot()
+    BrowserAnimationsModule
   ],
   providers: [NotificationService, AuthenticationGuard, AuthenticationService, UserService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } ],

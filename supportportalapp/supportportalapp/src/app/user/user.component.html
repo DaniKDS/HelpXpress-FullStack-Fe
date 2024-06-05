@@ -221,35 +221,35 @@
           <form>
             <div class="form-group">
               <label for="carNumber"><i class="fas fa-car"></i> Număr mașină</label>
-              <input type="text" class="form-control" id="carNumber" [(ngModel)]="carNumber">
+              <input type="text" class="form-control" id="carNumber" [(ngModel)]="requestDetails.carNumber" name="carNumber">
             </div>
             <div class="form-group">
               <label for="carColor"><i class="fas fa-paint-brush"></i> Culoare mașină</label>
-              <input type="text" class="form-control" id="carColor" [(ngModel)]="carColor">
+              <input type="text" class="form-control" id="carColor" [(ngModel)]="requestDetails.carColor" name="carColor">
             </div>
             <div class="form-group">
               <label for="fuelType"><i class="fas fa-gas-pump"></i> Tip combustibil</label>
-              <select class="form-control" id="fuelType" [(ngModel)]="fuelType">
-                <option>Benzină</option>
-                <option>Diesel</option>
-                <option>Electric</option>
+              <select class="form-control" id="fuelType" [(ngModel)]="requestDetails.fuelType" name="fuelType">
+                <option value="Benzină">Benzină</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
               </select>
             </div>
             <div class="form-group">
               <label for="phoneNumber"><i class="fas fa-phone"></i> Număr de telefon</label>
-              <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber">
+              <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="requestDetails.phoneNumber" name="phoneNumber">
             </div>
 
             <div class="form-group">
               <label for="appointmentDate"><i class="far fa-calendar-alt"></i> Data programării</label>
-              <input type="date" class="form-control" id="appointmentDate" [(ngModel)]="appointmentDate">
+              <input type="date" class="form-control" id="appointmentDate" [(ngModel)]="requestDetails.appointmentDate" name="appointmentDate">
             </div>
             <div class="form-group">
               <label for="appointmentTime"><i class="far fa-clock"></i> Ora programării</label>
-              <input type="time" class="form-control" id="appointmentTime" [(ngModel)]="appointmentTime">
+              <input type="time" class="form-control" id="appointmentTime" [(ngModel)]="requestDetails.appointmentTime" name="appointmentTime">
             </div>
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="arriveIn30Minutes" [(ngModel)]="arriveIn30Minutes">
+              <input type="checkbox" class="form-check-input" id="arriveIn30Minutes" [(ngModel)]="requestDetails.arrivalConfirmation" name="arrivalConfirmation">
               <label class="form-check-label" for="arriveIn30Minutes">Sosesc în aproximativ 30 de minute +/- ?</label>
             </div>
 
@@ -258,7 +258,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Închide</button>
-          <button type="button" class="btn btn-primary" (click)="submitAssistanceRequest()"><i class="fas fa-paper-plane"></i> Trimite Cererea</button>
+          <button type="button" class="btn btn-primary" (click)="sendAssistanceRequest()"><i class="fas fa-paper-plane"></i> Trimite Cererea</button>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import {UserService} from '../service/user.service';
 import {NotificationService} from '../service/notification.service';
 import {NotificationType} from '../enum/notification-type.enum';
 import {HttpErrorResponse, HttpEvent, HttpEventType} from '@angular/common/http';
-import {NgForm} from '@angular/forms';
+import {FormGroup, NgForm, Validators} from '@angular/forms';
 import {CustomHttpRespone} from '../model/custom-http-response';
 import {AuthenticationService} from '../service/authentication.service';
 import {Router} from '@angular/router';
@@ -20,7 +20,6 @@ import {SpecialUser} from '../model/specialuser';
 import {Review} from '../model/review';
 import {Job} from '../model/job';
 import {Benzinarie} from '../model/benzinarie';
-import {BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-user',
@@ -29,8 +28,8 @@ import {BsModalService} from "ngx-bootstrap/modal";
   animations: [
     trigger('listAnimation', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-15px)' }),
-        animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        style({opacity: 0, transform: 'translateY(-15px)'}),
+        animate('500ms ease-out', style({opacity: 1, transform: 'translateY(0)'}))
       ])
     ])
   ]
@@ -38,12 +37,25 @@ import {BsModalService} from "ngx-bootstrap/modal";
 export class UserComponent implements OnInit, OnDestroy {
   private map: google.maps.Map<HTMLElement>;
   private activeBenzinarie: Benzinarie;
+  requestDetails: any = {
+    carNumber: '',
+    carColor: '',
+    fuelType: 'Benzină',
+    phoneNumber: '',
+    appointmentDate: '',
+    appointmentTime: '',
+    arrivalConfirmation: false,
+    email: ''  // Adăugați emailul benzinăriei selectate
+  };
+
+  assistanceForm: FormGroup;
 
   newAppointment: Appointment = new Appointment();
+  private selectedGazStationId: any;
 
   constructor(private router: Router, private authenticationService: AuthenticationService,
-              private userService: UserService, private notificationService: NotificationService,
-              private modalService: BsModalService) {}
+              private userService: UserService, private notificationService: NotificationService) {
+  }
 
   public get isAdmin(): boolean {
     return this.getUserRole() === Role.ADMIN || this.getUserRole() === Role.SUPER_ADMIN;
@@ -64,9 +76,11 @@ export class UserComponent implements OnInit, OnDestroy {
   public get isAssistant(): boolean {
     return this.getUserRole() === Role.ASSISTANT;
   }
+
   public get isSpecialuser(): boolean {
     return this.getUserRole() === Role.USER;
   }
+
   private titleSubject = new BehaviorSubject<string>('Users');
   public titleAction$ = this.titleSubject.asObservable();
   public users: User[];
@@ -148,6 +162,7 @@ export class UserComponent implements OnInit, OnDestroy {
       console.error('Special user not found for the current user.');
     }
   }
+
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
     if (this.user && this.user.username) {
@@ -195,6 +210,7 @@ export class UserComponent implements OnInit, OnDestroy {
       error: (e) => console.error('Failed to load benzinarii', e)
     });
   }
+
   filterBenzinarii(): void {
     if (!this.selectedBrand) {
       this.filteredBenzinarii = [...this.benzinarii];
@@ -220,12 +236,13 @@ export class UserComponent implements OnInit, OnDestroy {
       };
     }
   }
+
   initMap() {
     setTimeout(() => {
       const mapElement = document.getElementById('map-romania'); // Asigură-te că ID-ul este corect
       if (mapElement) {
         const map = new google.maps.Map(mapElement, {
-          center: { lat: 45.9432, lng: 24.9668 }, // Coordonatele aproximative pentru centrul României
+          center: {lat: 45.9432, lng: 24.9668}, // Coordonatele aproximative pentru centrul României
           zoom: 6.5 // Zoom suficient pentru a vedea toată țara
         });
         this.map = map; // Salvează instanța hărții dacă ai nevoie să o accesezi ulterior
@@ -241,6 +258,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadMapWithLocations(selectedJudet);
     }
   }
+
   loadMapWithLocations(judet: string) {
     const coords = this.getCoordinatesForJudet(judet);
     if (this.map && coords) {
@@ -252,54 +270,56 @@ export class UserComponent implements OnInit, OnDestroy {
       console.error('Map not initialized or coordinates not found');
     }
   }
+
   getCoordinatesForJudet(judet: string): { lat: number, lng: number } {
     const coordinates = {
-      Alba: { lat: 46.077171, lng: 23.580040 },
-      Arad: { lat: 46.186560, lng: 21.312267 },
-      Argeș: { lat: 45.139551, lng: 24.679379 },
-      Bacău: { lat: 46.567472, lng: 26.913631 },
-      Bihor: { lat: 47.046501, lng: 21.918944 },
-      'Bistrița-Năsăud': { lat: 47.137142, lng: 24.513914 },
-      Botoșani: { lat: 47.747981, lng: 26.666719 },
-      Brașov: { lat: 45.657975, lng: 25.601198 },
-      Brăila: { lat: 45.269194, lng: 27.957472 },
-      București: { lat: 44.426767, lng: 26.102538 },
-      Buzău: { lat: 45.148620, lng: 26.823580 },
-      'Caraș-Severin': { lat: 45.333333, lng: 21.883333 },
-      Călărași: { lat: 44.206939, lng: 27.325918 },
-      Cluj: { lat: 46.766667, lng: 23.600000 },
-      Constanța: { lat: 44.159801, lng: 28.634813 },
-      Covasna: { lat: 45.851659, lng: 26.184553 },
-      Dâmbovița: { lat: 44.935753, lng: 25.459707 },
-      Dolj: { lat: 44.330179, lng: 23.794881 },
-      Galați: { lat: 45.455441, lng: 28.045873 },
-      Giurgiu: { lat: 43.903708, lng: 25.969926 },
-      Gorj: { lat: 45.046925, lng: 23.274736 },
-      Harghita: { lat: 46.350000, lng: 25.550000 },
-      Hunedoara: { lat: 45.750000, lng: 22.900000 },
-      Ialomița: { lat: 44.567020, lng: 27.382746 },
-      Iași: { lat: 47.158455, lng: 27.601442 },
-      Ilfov: { lat: 44.564227, lng: 26.076335 },
-      Maramureș: { lat: 47.672778, lng: 23.787778 },
-      Mehedinți: { lat: 44.636925, lng: 22.665887 },
-      Mureș: { lat: 46.545556, lng: 24.557778 },
-      Neamț: { lat: 46.975869, lng: 26.381876 },
-      Olt: { lat: 44.433333, lng: 24.366667 },
-      Prahova: { lat: 45.100000, lng: 26.016667 },
-      'Satu Mare': { lat: 47.791923, lng: 22.885253 },
-      Sălaj: { lat: 47.175671, lng: 23.063255 },
-      Sibiu: { lat: 45.798327, lng: 24.125583 },
-      Suceava: { lat: 47.651388, lng: 26.255556 },
-      Teleorman: { lat: 44.116667, lng: 25.366667 },
-      Timiș: { lat: 45.748872, lng: 21.208679 },
-      Tulcea: { lat: 45.179494, lng: 28.806414 },
-      Vaslui: { lat: 46.640692, lng: 27.727647 },
-      Vâlcea: { lat: 45.109165, lng: 24.342619 },
-      Vrancea: { lat: 45.700000, lng: 27.183333 }
+      Alba: {lat: 46.077171, lng: 23.580040},
+      Arad: {lat: 46.186560, lng: 21.312267},
+      Argeș: {lat: 45.139551, lng: 24.679379},
+      Bacău: {lat: 46.567472, lng: 26.913631},
+      Bihor: {lat: 47.046501, lng: 21.918944},
+      'Bistrița-Năsăud': {lat: 47.137142, lng: 24.513914},
+      Botoșani: {lat: 47.747981, lng: 26.666719},
+      Brașov: {lat: 45.657975, lng: 25.601198},
+      Brăila: {lat: 45.269194, lng: 27.957472},
+      București: {lat: 44.426767, lng: 26.102538},
+      Buzău: {lat: 45.148620, lng: 26.823580},
+      'Caraș-Severin': {lat: 45.333333, lng: 21.883333},
+      Călărași: {lat: 44.206939, lng: 27.325918},
+      Cluj: {lat: 46.766667, lng: 23.600000},
+      Constanța: {lat: 44.159801, lng: 28.634813},
+      Covasna: {lat: 45.851659, lng: 26.184553},
+      Dâmbovița: {lat: 44.935753, lng: 25.459707},
+      Dolj: {lat: 44.330179, lng: 23.794881},
+      Galați: {lat: 45.455441, lng: 28.045873},
+      Giurgiu: {lat: 43.903708, lng: 25.969926},
+      Gorj: {lat: 45.046925, lng: 23.274736},
+      Harghita: {lat: 46.350000, lng: 25.550000},
+      Hunedoara: {lat: 45.750000, lng: 22.900000},
+      Ialomița: {lat: 44.567020, lng: 27.382746},
+      Iași: {lat: 47.158455, lng: 27.601442},
+      Ilfov: {lat: 44.564227, lng: 26.076335},
+      Maramureș: {lat: 47.672778, lng: 23.787778},
+      Mehedinți: {lat: 44.636925, lng: 22.665887},
+      Mureș: {lat: 46.545556, lng: 24.557778},
+      Neamț: {lat: 46.975869, lng: 26.381876},
+      Olt: {lat: 44.433333, lng: 24.366667},
+      Prahova: {lat: 45.100000, lng: 26.016667},
+      'Satu Mare': {lat: 47.791923, lng: 22.885253},
+      Sălaj: {lat: 47.175671, lng: 23.063255},
+      Sibiu: {lat: 45.798327, lng: 24.125583},
+      Suceava: {lat: 47.651388, lng: 26.255556},
+      Teleorman: {lat: 44.116667, lng: 25.366667},
+      Timiș: {lat: 45.748872, lng: 21.208679},
+      Tulcea: {lat: 45.179494, lng: 28.806414},
+      Vaslui: {lat: 46.640692, lng: 27.727647},
+      Vâlcea: {lat: 45.109165, lng: 24.342619},
+      Vrancea: {lat: 45.700000, lng: 27.183333}
     };
 
     return coordinates[judet] || null; // Returnează coordonatele sau null dacă nu sunt găsite
   }
+
   prepareMap(): void {
     this.showMap = true;  // Afișează harta
     this.loadGoogleMapsScript();  // Asigură-te că scriptul este încărcat și harta inițializată
@@ -311,27 +331,107 @@ export class UserComponent implements OnInit, OnDestroy {
 
   addLocations(map: any, judet: string) {
     const locations = [
-      { lat: '46.067747', lng: '23.56479', info: 'DGASPC Alba Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Abrud, Str. Republicii, nr.2-4' },
-      { lat: '46.07212', lng: '23.56600', info: 'DGASPC Alba Locuința Maxim Protejată pentru Persoane Adulte cu Dizabilități nr.14 Abrud, Str. Ion Agârbiceanu, nr. 6' },
-      { lat: '46.78170', lng: '23.61103', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Cluj Napoca, Cluj-Napoca, bd. 21 Decembrie 1989, nr. 138' },
-      { lat: '46.76953', lng: '23.60302', info: 'DGASPC Cluj Centrul de Abilitare și Reabilitare pentru Persoane Adulte cu Dizabilități Gherla, Gherla, Str. Plugarilor nr. 24' },
-      { lat: '46.77427', lng: '23.57288', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Câțcău, Câțcău, str. Principală nr. 90' },
-      { lat: '46.77310', lng: '23.57425', info: 'DGASPC Cluj Locuința Minim Protejată pentru Persoane Adulte cu Dizabilități Buna Vestire Câțcău, Câțcău, nr. 90A' },
-      { lat: '', lng: '', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Luna de Jos, Com Dăbâca, sat Luna de Jos, str. Principală, nr. 17' },
-      { lat: '46.79704', lng: '24.02848', info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Sfântul Nicolae Mociu, Mociu, str. Principală nr. 127' },
-      { lat: '46.77848', lng: '23.63163', info: 'Fundația Febe CAbRPAD, Cluj-Napoca, str. Târnavelor, nr. 1' },
-      { lat: '44.40917', lng: '26.14340', info: 'DGASPC Ilfov Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Vidra, Vidra, Str. Principală, Nr.46' },
-      { lat: '44.39151', lng: '26.28954', info: 'DGASPC Ilfov Centrul de Abilitare și Reabilitare Bălaceanca, Str. Gării, Nr.58, Sat Bălăceanca, Comuna Cernica, Județul Ilfov' },
-      { lat: '44.40919', lng: '16.14351', info: 'DGASPC Ilfov Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Ciolpani, Calea București, Nr. 348, Comuna Ciolpani, Județul Ilfov' },
-      { lat: '45.02951', lng: '26.26769', info: 'DGASPC Ilfov Centrul de Abilitare și Reabilitare pentru Persoane Adulte cu Dizabilități Tâncăbești, Aleea Reînvierii, Nr.260, Sat Tâncăbești, Comuna Snagov, Județul Ilfov' },
-      { lat: '45.07219', lng: '26.27043', info: 'Asociația Prietenia LMPPAD Casa Livezilor, Pantelimon, str. Sf. Gheorghe, nr. 46' },
-      { lat: '44.49284', lng: '26.19867', info: 'Asociația Organizația Suedeză pentru Ajutor Umanitar Individual CAbRPAD – Nils, Voluntari, str. Școlii, nr. 5' },
-      { lat: '44.41272', lng: '26.14411', info: 'Asociația Pro Act Suport CPVIPAD „Tineretului”, sat Dudu, Com. Chiajna, str. Tineretului, nr. 2B' },
-      { lat: '44.50357', lng: '26.13302', info: 'Asociația Sfântul Gabriel cel Viteaz CIAPAD „Sfântul Gabriel cel Viteaz”, Voluntari, str. Ștefan cel Mare, nr. 38' },
-      { lat: '44.50678', lng: '26.22076', info: 'Asociația Sfântul Gabriel cel Viteaz CIAPAD „Armonia”, Afumați, șos. București-Urziceni, nr. 36A' },
-      { lat: '44.43882', lng: '26.12263', info: 'Asociația Casa Toma Casa Austrului Centru Rezidențial de îngrijire și asistență persoane adulte cu dizabilități, Mogoșoaia, str. Austrului, nr. 1A' },
-      { lat: '44.36574', lng: '25.96949', info: 'Fundația Motivation România Centrul de îngrijire și asistență pentru persoanele cu handicap Clinceni nr 2, Bragadiru, șos. Clinceni, nr. 36' },
-      { lat: '44.36600', lng: '25.97105', info: 'Fundația Motivation România Centrul de îngrijire și asistență pentru persoanele cu handicap Clinceni 1, Bragadiru, șos. Clinceni, nr. 36' }
+      {
+        lat: '46.067747',
+        lng: '23.56479',
+        info: 'DGASPC Alba Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Abrud, Str. Republicii, nr.2-4'
+      },
+      {
+        lat: '46.07212',
+        lng: '23.56600',
+        info: 'DGASPC Alba Locuința Maxim Protejată pentru Persoane Adulte cu Dizabilități nr.14 Abrud, Str. Ion Agârbiceanu, nr. 6'
+      },
+      {
+        lat: '46.78170',
+        lng: '23.61103',
+        info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Cluj Napoca, Cluj-Napoca, bd. 21 Decembrie 1989, nr. 138'
+      },
+      {
+        lat: '46.76953',
+        lng: '23.60302',
+        info: 'DGASPC Cluj Centrul de Abilitare și Reabilitare pentru Persoane Adulte cu Dizabilități Gherla, Gherla, Str. Plugarilor nr. 24'
+      },
+      {
+        lat: '46.77427',
+        lng: '23.57288',
+        info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Câțcău, Câțcău, str. Principală nr. 90'
+      },
+      {
+        lat: '46.77310',
+        lng: '23.57425',
+        info: 'DGASPC Cluj Locuința Minim Protejată pentru Persoane Adulte cu Dizabilități Buna Vestire Câțcău, Câțcău, nr. 90A'
+      },
+      {
+        lat: '',
+        lng: '',
+        info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Luna de Jos, Com Dăbâca, sat Luna de Jos, str. Principală, nr. 17'
+      },
+      {
+        lat: '46.79704',
+        lng: '24.02848',
+        info: 'DGASPC Cluj Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Sfântul Nicolae Mociu, Mociu, str. Principală nr. 127'
+      },
+      {lat: '46.77848', lng: '23.63163', info: 'Fundația Febe CAbRPAD, Cluj-Napoca, str. Târnavelor, nr. 1'},
+      {
+        lat: '44.40917',
+        lng: '26.14340',
+        info: 'DGASPC Ilfov Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Vidra, Vidra, Str. Principală, Nr.46'
+      },
+      {
+        lat: '44.39151',
+        lng: '26.28954',
+        info: 'DGASPC Ilfov Centrul de Abilitare și Reabilitare Bălaceanca, Str. Gării, Nr.58, Sat Bălăceanca, Comuna Cernica, Județul Ilfov'
+      },
+      {
+        lat: '44.40919',
+        lng: '16.14351',
+        info: 'DGASPC Ilfov Centrul de Îngrijire și Asistență pentru Persoane Adulte cu Dizabilități Ciolpani, Calea București, Nr. 348, Comuna Ciolpani, Județul Ilfov'
+      },
+      {
+        lat: '45.02951',
+        lng: '26.26769',
+        info: 'DGASPC Ilfov Centrul de Abilitare și Reabilitare pentru Persoane Adulte cu Dizabilități Tâncăbești, Aleea Reînvierii, Nr.260, Sat Tâncăbești, Comuna Snagov, Județul Ilfov'
+      },
+      {
+        lat: '45.07219',
+        lng: '26.27043',
+        info: 'Asociația Prietenia LMPPAD Casa Livezilor, Pantelimon, str. Sf. Gheorghe, nr. 46'
+      },
+      {
+        lat: '44.49284',
+        lng: '26.19867',
+        info: 'Asociația Organizația Suedeză pentru Ajutor Umanitar Individual CAbRPAD – Nils, Voluntari, str. Școlii, nr. 5'
+      },
+      {
+        lat: '44.41272',
+        lng: '26.14411',
+        info: 'Asociația Pro Act Suport CPVIPAD „Tineretului”, sat Dudu, Com. Chiajna, str. Tineretului, nr. 2B'
+      },
+      {
+        lat: '44.50357',
+        lng: '26.13302',
+        info: 'Asociația Sfântul Gabriel cel Viteaz CIAPAD „Sfântul Gabriel cel Viteaz”, Voluntari, str. Ștefan cel Mare, nr. 38'
+      },
+      {
+        lat: '44.50678',
+        lng: '26.22076',
+        info: 'Asociația Sfântul Gabriel cel Viteaz CIAPAD „Armonia”, Afumați, șos. București-Urziceni, nr. 36A'
+      },
+      {
+        lat: '44.43882',
+        lng: '26.12263',
+        info: 'Asociația Casa Toma Casa Austrului Centru Rezidențial de îngrijire și asistență persoane adulte cu dizabilități, Mogoșoaia, str. Austrului, nr. 1A'
+      },
+      {
+        lat: '44.36574',
+        lng: '25.96949',
+        info: 'Fundația Motivation România Centrul de îngrijire și asistență pentru persoanele cu handicap Clinceni nr 2, Bragadiru, șos. Clinceni, nr. 36'
+      },
+      {
+        lat: '44.36600',
+        lng: '25.97105',
+        info: 'Fundația Motivation România Centrul de îngrijire și asistență pentru persoanele cu handicap Clinceni 1, Bragadiru, șos. Clinceni, nr. 36'
+      }
 
     ];
 
@@ -347,7 +447,7 @@ export class UserComponent implements OnInit, OnDestroy {
       });
 
       // tslint:disable-next-line:only-arrow-functions
-      marker.addListener('click', function() {
+      marker.addListener('click', function () {
         infowindow.open(map, marker);
       });
     });
@@ -406,6 +506,7 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   getDoctorReviews(username: string): void {
     this.userService.getReviewsByDoctorUsername(username).subscribe(
       (data: Review[]) => {
@@ -494,6 +595,7 @@ export class UserComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   public changeTitle(title: string): void {
     this.activeTab = title;
     this.titleSubject.next(title);
@@ -541,7 +643,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   public onProfileImageChange(fileName: string, profileImage: File): void {
-    this.fileName =  fileName;
+    this.fileName = fileName;
     this.profileImage = profileImage;
   }
 
@@ -566,7 +668,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.profileImage = null;
         }
       )
-      );
+    );
   }
 
   public onUpdateUser(): void {
@@ -585,7 +687,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.profileImage = null;
         }
       )
-      );
+    );
   }
 
   public onUpdateCurrentUser(user: User): void {
@@ -607,7 +709,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.profileImage = null;
         }
       )
-      );
+    );
   }
 
   public onUpdateProfileImage(): void {
@@ -701,10 +803,10 @@ export class UserComponent implements OnInit, OnDestroy {
     const results: User[] = [];
     for (const user of this.userService.getUsersFromLocalCache()) {
       if (user.firstName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
-          user.lastName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
-          user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
-          user.userId.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-          results.push(user);
+        user.lastName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+        user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+        user.userId.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+        results.push(user);
       }
     }
     this.users = results;
@@ -759,9 +861,9 @@ export class UserComponent implements OnInit, OnDestroy {
     this.setSpecialUserForAppointment();
 
     const appointmentData: any = {
-      specialUser: { id: this.newAppointment.specialUser.id },
-      doctor: { id: this.newAppointment.doctor.id },
-      organization: { id: this.newAppointment.organization.id },
+      specialUser: {id: this.newAppointment.specialUser.id},
+      doctor: {id: this.newAppointment.doctor.id},
+      organization: {id: this.newAppointment.organization.id},
       appointmentTime: new Date(this.newAppointment.appointmentTime).toISOString(),
       appointmentEndTime: new Date(this.newAppointment.appointmentEndTime).toISOString(),
       status: 'programată',
@@ -772,12 +874,35 @@ export class UserComponent implements OnInit, OnDestroy {
       response => {
         console.log('Appointment created successfully', response);
         this.notificationService.notify(NotificationType.SUCCESS, 'Programarea a fost creată cu succes');
-        this.modalService.hide(1); // Ascunde modalul curent
         this.loadData(); // Reîncarcă datele sau pagina
       },
       error => {
         console.error('Error creating appointment', error);
         this.notificationService.notify(NotificationType.ERROR, 'A apărut o eroare la crearea programării');
+      }
+    );
+  }
+  sendAssistanceRequest() {
+    const requestDetails = {
+      carNumber: this.requestDetails.carNumber,
+      carColor: this.requestDetails.carColor,
+      fuelType: this.requestDetails.fuelType,
+      phoneNumber: this.requestDetails.phoneNumber,
+      appointmentDate: this.requestDetails.appointmentDate,
+      appointmentTime: this.requestDetails.appointmentTime,
+      arrivalConfirmation: this.requestDetails.arrivalConfirmation
+    };
+
+    console.log('Request Details:', requestDetails);  // Debugging: Log the request details
+
+    this.userService.sendAssistanceRequest(requestDetails).subscribe(
+      (response: any) => {
+        this.notificationService.notify(NotificationType.SUCCESS, 'Cererea a fost trimisă cu succes!');
+        setTimeout(() => location.reload(), 2000);  // Reîncarcă pagina după 2 secunde
+      },
+      (error: any) => {
+        console.error('Error details:', error);  // Debugging: Log the error details
+        this.notificationService.notify(NotificationType.ERROR, 'A apărut o eroare la trimiterea cererii.');
       }
     );
   }

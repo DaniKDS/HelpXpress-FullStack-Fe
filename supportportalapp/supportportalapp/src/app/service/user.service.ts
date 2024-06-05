@@ -151,4 +151,13 @@ export class UserService {
   addAppointment(appointment: Appointment): Observable<Appointment> {
     return this.http.post<Appointment>(this.appointmentUrl, appointment);
   }
+  // @ts-ignore
+  sendAssistanceRequest(data: any): Observable<any> {
+    this.http.post('http://localhost:8081/api/benzinarii/sendAssistanceRequest', data)
+      .subscribe(response => {
+        console.log('Request successful', response);
+      }, error => {
+        console.error('Request failed', error);
+      });
+  }
 }
