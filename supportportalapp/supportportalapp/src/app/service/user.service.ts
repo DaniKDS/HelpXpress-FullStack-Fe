@@ -17,8 +17,14 @@ import {Benzinarie} from '../model/benzinarie';
 @Injectable({providedIn: 'root'})
 export class UserService {
   private host = environment.apiUrl;
+  private apiUrl1 = 'http://localhost:8081/appointment/data/all';
+  private appointmentUrl = 'http://localhost:8081/appointment/add';
 
   constructor(private http: HttpClient) {}
+
+  getAllData(): Observable<any> {
+    return this.http.get<any>(this.apiUrl1);
+  }
 
   public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.host}/user/list`);
@@ -142,4 +148,7 @@ export class UserService {
     return this.http.get<Benzinarie[]>(`${this.host}/api/benzinarii`);
   }
 
+  addAppointment(appointment: Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>(this.appointmentUrl, appointment);
+  }
 }

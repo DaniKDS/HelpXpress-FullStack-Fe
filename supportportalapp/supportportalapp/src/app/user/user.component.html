@@ -578,40 +578,40 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="form-group">
-              <label for="organizationSelect"><i class="fas fa-hospital"></i> Selectează Organizația:</label>
-              <select class="form-control" id="organizationSelect" [(ngModel)]="selectedOrganization">
-                <option *ngFor="let organization of organizations" [value]="organization.id">
-                  {{ organization.name }}
-                </option>
-              </select>
-            </div>
-            <form>
+            <form (ngSubmit)="submitNewAppointment()">
+              <div class="form-group">
+                <label for="organizationSelect"><i class="fas fa-hospital"></i> Selectează Organizația:</label>
+                <select class="form-control" id="organizationSelect" [(ngModel)]="newAppointment.organization.id" name="organization" required>
+                  <option *ngFor="let organization of organizations" [value]="organization.id">
+                    {{ organization.name }}
+                  </option>
+                </select>
+              </div>
               <div class="form-group">
                 <label for="doctorSelect"><i class="fas fa-user-md"></i> Selectează Doctorul:</label>
-                <select class="form-control" id="doctorSelect" [(ngModel)]="selectedDoctor">
+                <select class="form-control" id="doctorSelect" [(ngModel)]="newAppointment.doctor.id" name="doctor" required>
                   <option *ngFor="let doctor of doctors" [value]="doctor.id">
                     {{ doctor.user.firstName }} {{ doctor.user.lastName }}
                   </option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="appointmentDate"><i class="far fa-calendar-alt"></i> Data Programării:</label>
-                <input type="date" class="form-control" id="appointmentDate" [(ngModel)]="appointmentDate">
+                <label for="appointmentTime"><i class="far fa-calendar-alt"></i> Data și Ora Programării:</label>
+                <input type="datetime-local" class="form-control" id="appointmentTime" [(ngModel)]="newAppointment.appointmentTime" name="appointmentTime" required>
               </div>
               <div class="form-group">
-                <label for="appointmentTime"><i class="far fa-clock"></i> Ora Programării:</label>
-                <input type="time" class="form-control" id="appointmentTime" [(ngModel)]="appointmentTime">
+                <label for="appointmentEndTime"><i class="far fa-clock"></i> Data și Ora de Încheiere:</label>
+                <input type="datetime-local" class="form-control" id="appointmentEndTime" [(ngModel)]="newAppointment.appointmentEndTime" name="appointmentEndTime" required>
               </div>
               <div class="form-group">
                 <label for="details"><i class="fas fa-info-circle"></i> Detalii:</label>
-                <textarea class="form-control" id="details" [(ngModel)]="appointmentDetails"></textarea>
+                <textarea class="form-control" id="details" [(ngModel)]="newAppointment.notes" name="notes" required></textarea>
               </div>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvează Programare</button>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Închide</button>
-            <button type="button" class="btn btn-primary" (click)="submitNewAppointment()"><i class="fas fa-save"></i> Salvează Programare</button>
           </div>
         </div>
       </div>

@@ -19,20 +19,14 @@ export class Appointment {
   status: string;
   notes: string;
 
-  constructor() {
-    this.id = 0;
-    this.specialUser = {
-      id: 0,
-      user: new User(),
-      disease: '',
-      diseaseType: '',
-      assistant: new Assistant()
-    };
-    this.doctor = new Doctor();
-    this.organization = new Organization();
-    this.appointmentTime = '';
-    this.appointmentEndTime = '';
-    this.status = '';
-    this.notes = '';
+  constructor(init?: Partial<Appointment>) {
+    this.id = init?.id || 0;
+    this.specialUser = init?.specialUser || { id: 0, user: new User(), disease: '', diseaseType: '', assistant: new Assistant() };
+    this.doctor = init?.doctor || new Doctor();
+    this.organization = init?.organization || new Organization();
+    this.appointmentTime = init?.appointmentTime || '';
+    this.appointmentEndTime = init?.appointmentEndTime || '';
+    this.status = init?.status || 'programată';
+    this.notes = init?.notes || '';
   }
 }

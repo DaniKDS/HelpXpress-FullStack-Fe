@@ -1,25 +1,26 @@
-import {Component, OnInit, OnDestroy, NgIterable} from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { User } from '../model/user';
-import { UserService } from '../service/user.service';
-import { NotificationService } from '../service/notification.service';
-import { NotificationType } from '../enum/notification-type.enum';
-import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
-import { CustomHttpRespone } from '../model/custom-http-response';
-import { AuthenticationService } from '../service/authentication.service';
-import { Router } from '@angular/router';
-import { FileUploadStatus } from '../model/file-upload.status';
-import { Role } from '../enum/role.enum';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {User} from '../model/user';
+import {UserService} from '../service/user.service';
+import {NotificationService} from '../service/notification.service';
+import {NotificationType} from '../enum/notification-type.enum';
+import {HttpErrorResponse, HttpEvent, HttpEventType} from '@angular/common/http';
+import {NgForm} from '@angular/forms';
+import {CustomHttpRespone} from '../model/custom-http-response';
+import {AuthenticationService} from '../service/authentication.service';
+import {Router} from '@angular/router';
+import {FileUploadStatus} from '../model/file-upload.status';
+import {Role} from '../enum/role.enum';
 import {Appointment} from '../model/appointment';
 import {Doctor} from '../model/doctor';
 import {Assistant} from '../model/assistant';
 import {Organization} from '../model/organization';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import {animate, style, transition, trigger} from '@angular/animations';
 import {SpecialUser} from '../model/specialuser';
 import {Review} from '../model/review';
 import {Job} from '../model/job';
 import {Benzinarie} from '../model/benzinarie';
+import {BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-user',
@@ -38,8 +39,11 @@ export class UserComponent implements OnInit, OnDestroy {
   private map: google.maps.Map<HTMLElement>;
   private activeBenzinarie: Benzinarie;
 
+  newAppointment: Appointment = new Appointment();
+
   constructor(private router: Router, private authenticationService: AuthenticationService,
-              private userService: UserService, private notificationService: NotificationService) {}
+              private userService: UserService, private notificationService: NotificationService,
+              private modalService: BsModalService) {}
 
   public get isAdmin(): boolean {
     return this.getUserRole() === Role.ADMIN || this.getUserRole() === Role.SUPER_ADMIN;
@@ -77,6 +81,8 @@ export class UserComponent implements OnInit, OnDestroy {
   public fileStatus = new FileUploadStatus();
   public appointments: Appointment[];
   public doctors: Doctor[];
+  public specialUsers: SpecialUser[] = [];
+  public assistants: Assistant[] = [];
   public activeTab = 'profile';
   public assistant: Assistant;
   public organizations: Organization[];
@@ -104,9 +110,6 @@ export class UserComponent implements OnInit, OnDestroy {
   appointmentDate = '';    // Pentru data programării
   appointmentTime = '';    // Pentru ora programării
   arriveIn30Minutes = false; // Checkbox
-  selectedDoctor: string;
-  selectedOrganization: any;
-  appointmentDetails: string;
   filteredJobs: Job[] = [];
   selectedDisabilityType = '';
   filterText = '';
@@ -121,7 +124,30 @@ export class UserComponent implements OnInit, OnDestroy {
     'Vaslui', 'Vâlcea', 'Vrancea'
   ];
 
+  loadData() {
+    this.userService.getAllData().subscribe(data => {
+      this.specialUsers = data.specialUsers;
+      this.doctors = data.doctors;
+      this.organizations = data.organizations;
 
+      console.log('Loaded Data:');
+      console.log('Special Users:', this.specialUsers);
+      console.log('Doctors:', this.doctors);
+      console.log('Organizations:', this.organizations);
+
+      this.setSpecialUserForAppointment();
+    });
+  }
+
+  setSpecialUserForAppointment() {
+    const specialUser = this.specialUsers.find(su => su.user.userId === this.user.userId);
+    if (specialUser) {
+      this.newAppointment.specialUser = specialUser;
+      console.log('Special User found:', specialUser);
+    } else {
+      console.error('Special user not found for the current user.');
+    }
+  }
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalCache();
     if (this.user && this.user.username) {
@@ -136,6 +162,14 @@ export class UserComponent implements OnInit, OnDestroy {
       this.loadSpecialUserForAssistant(this.user.username);
       this.loadDoctorsForMySpecialUser(this.user.username);
       this.loadAppointmentsForMySpecialUser(this.user.username);
+      this.newAppointment.specialUser = {
+        id: null,
+        user: this.user,
+        disease: '',
+        diseaseType: '',
+        assistant: null
+      };
+      this.loadData();
     }
     this.getUsers(true);
 
@@ -721,15 +755,30 @@ export class UserComponent implements OnInit, OnDestroy {
     // Aici ai include apeluri de serviciu etc.
   }
 
-  submitNewAppointment(): void {
-    const newAppointment = {
-      doctorId: this.selectedDoctor,
-      date: this.appointmentDate,
-      time: this.appointmentTime,
-      details: this.appointmentDetails
+  submitNewAppointment() {
+    this.setSpecialUserForAppointment();
+
+    const appointmentData: any = {
+      specialUser: { id: this.newAppointment.specialUser.id },
+      doctor: { id: this.newAppointment.doctor.id },
+      organization: { id: this.newAppointment.organization.id },
+      appointmentTime: new Date(this.newAppointment.appointmentTime).toISOString(),
+      appointmentEndTime: new Date(this.newAppointment.appointmentEndTime).toISOString(),
+      status: 'programată',
+      notes: this.newAppointment.notes
     };
-    console.log('New appointment:', newAppointment);
-    // Aici adaugi logica pentru a trimite aceste date la backend
-    // De exemplu: this.appointmentService.addAppointment(newAppointment).subscribe(...)
+
+    this.userService.addAppointment(appointmentData).subscribe(
+      response => {
+        console.log('Appointment created successfully', response);
+        this.notificationService.notify(NotificationType.SUCCESS, 'Programarea a fost creată cu succes');
+        this.modalService.hide(1); // Ascunde modalul curent
+        this.loadData(); // Reîncarcă datele sau pagina
+      },
+      error => {
+        console.error('Error creating appointment', error);
+        this.notificationService.notify(NotificationType.ERROR, 'A apărut o eroare la crearea programării');
+      }
+    );
   }
 }
