@@ -90,13 +90,6 @@
                  [routerLink]="['/fuel-service']">
                 <i class="fas fa-gas-pump"></i> Servicii la benzinării
               </a>
-
-              <!-- Servicii la parcari -->
-<!--              <a [class.active]="activeTab === 'parking'" [hidden]="!isSpecialuser"-->
-<!--                 class="dropdown-item" (click)="changeTitle('Rezerva o parcare pe loc special'); setActiveTab('parking');"-->
-<!--                 [routerLink]="['/parking']">-->
-<!--                <i class="fas fa-parking"></i> Parcari loc special-->
-<!--              </a>-->
             </div>
           </div>
 
@@ -515,10 +508,16 @@
         <div *ngIf="appointments?.length > 0; else noAppointments" class="tab-pane fade show active" id="programare">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Programările Mele</h3>
-            <!-- Buton pentru deschiderea modalei de adăugare programare -->
-            <button class="btn btn-success" data-toggle="modal" data-target="#addAppointmentModal">
-              Adaugă Programare
-            </button>
+            <div class="btn-group">
+              <!-- Buton pentru deschiderea modalei de adăugare programare -->
+              <button class="btn btn-success" data-toggle="modal" data-target="#addAppointmentModal">
+                Adaugă Programare
+              </button>
+              <!-- Buton pentru refresh -->
+              <button type="button" class="btn btn-info" (click)="refreshAppointments()">
+                <i *ngIf="refreshingAppointments" class="fas fa-sync fa-spin"></i><i *ngIf="!refreshingAppointments" class="fas fa-sync"></i> Refresh
+              </button>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-6 col-lg-4" *ngFor="let appointment of appointments">

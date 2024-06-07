@@ -45,13 +45,12 @@ export class UserComponent implements OnInit, OnDestroy {
     appointmentDate: '',
     appointmentTime: '',
     arrivalConfirmation: false,
-    email: ''  // Adăugați emailul benzinăriei selectate
+    email: ''
   };
 
-  assistanceForm: FormGroup;
+  public refreshingAppointments = false;
 
   newAppointment: Appointment = new Appointment();
-  private selectedGazStationId: any;
 
   constructor(private router: Router, private authenticationService: AuthenticationService,
               private userService: UserService, private notificationService: NotificationService) {
@@ -96,13 +95,12 @@ export class UserComponent implements OnInit, OnDestroy {
   public appointments: Appointment[];
   public doctors: Doctor[];
   public specialUsers: SpecialUser[] = [];
-  public assistants: Assistant[] = [];
   public activeTab = 'profile';
   public assistant: Assistant;
   public organizations: Organization[];
   public specialUser: SpecialUser;
   public reviews: Review[] = [];
-  jobs: Job[] = []; // Inițializare cu un array gol
+  jobs: Job[] = [];
   benzinarii: any[] = [];
   brandImages: { [brand: string]: string } = {
     MOL: 'assets/mol.png',
@@ -121,13 +119,9 @@ export class UserComponent implements OnInit, OnDestroy {
   carColor = '';
   fuelType = '';
   phoneNumber = '';
-  appointmentDate = '';    // Pentru data programării
-  appointmentTime = '';    // Pentru ora programării
-  arriveIn30Minutes = false; // Checkbox
   filteredJobs: Job[] = [];
   selectedDisabilityType = '';
   filterText = '';
-  selectedJudet = '';
   showMap = false;
   judete: string[] = [
     'Alba', 'Arad', 'Argeș', 'Bacău', 'Bihor', 'Bistrița-Năsăud', 'Botoșani', 'Brașov',
@@ -192,7 +186,6 @@ export class UserComponent implements OnInit, OnDestroy {
       (jobs: Job[]) => {
         this.jobs = jobs;
         this.filteredJobs = [...this.jobs];
-        // this.sortJobs(); // Temporarily disable sorting to isolate filtering issues
         this.filterJobs();
       },
       error => {
@@ -323,10 +316,6 @@ export class UserComponent implements OnInit, OnDestroy {
   prepareMap(): void {
     this.showMap = true;  // Afișează harta
     this.loadGoogleMapsScript();  // Asigură-te că scriptul este încărcat și harta inițializată
-  }
-
-  hideMap(): void {
-    this.showMap = false;  // Ascunde harta
   }
 
   addLocations(map: any, judet: string) {
@@ -472,13 +461,16 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   loadAppointmentsForMySpecialUser(username: string): void {
+    this.refreshingAppointments = true;
     this.userService.getAppointmentsByAssistantUsername(username).subscribe(
       (data: Appointment[]) => {
         this.appointments = data;
+        this.refreshingAppointments = true;
         console.log('Appointments data:', data);
       },
       error => {
         console.error('Error fetching appointments:', error);
+        this.refreshingAppointments = false;
       }
     );
   }
@@ -861,9 +853,9 @@ export class UserComponent implements OnInit, OnDestroy {
     this.setSpecialUserForAppointment();
 
     const appointmentData: any = {
-      specialUser: {id: this.newAppointment.specialUser.id},
-      doctor: {id: this.newAppointment.doctor.id},
-      organization: {id: this.newAppointment.organization.id},
+      specialUser: { id: this.newAppointment.specialUser.id },
+      doctor: { id: this.newAppointment.doctor.id },
+      organization: { id: this.newAppointment.organization.id },
       appointmentTime: new Date(this.newAppointment.appointmentTime).toISOString(),
       appointmentEndTime: new Date(this.newAppointment.appointmentEndTime).toISOString(),
       status: 'programată',
@@ -874,7 +866,13 @@ export class UserComponent implements OnInit, OnDestroy {
       response => {
         console.log('Appointment created successfully', response);
         this.notificationService.notify(NotificationType.SUCCESS, 'Programarea a fost creată cu succes');
-        this.loadData(); // Reîncarcă datele sau pagina
+
+        if (this.newAppointment && this.newAppointment.specialUser && this.newAppointment.specialUser.user) {
+          console.log('Calling loadAppointmentsForMySpecialUser with username:', this.newAppointment.specialUser.user.username);
+          this.loadAppointmentsForMySpecialUser(this.newAppointment.specialUser.user.username); // Reload the appointments
+        } else {
+          console.warn('Special user details are missing. Cannot reload appointments.');
+        }
       },
       error => {
         console.error('Error creating appointment', error);
@@ -906,4 +904,16 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  refreshAppointments(): void {
+    if (this.newAppointment && this.newAppointment.specialUser && this.newAppointment.specialUser.user) {
+      const username = this.newAppointment.specialUser.user.username;
+      this.notificationService.notify(NotificationType.SUCCESS, 'Programari incarcate cu succes');
+      console.log('Refreshing appointments for user:', username);
+      this.loadAppointmentsForMySpecialUser(username);
+    } else {
+      console.warn('Special user details are missing. Cannot refresh appointments.');
+    }
+  }
+
 }

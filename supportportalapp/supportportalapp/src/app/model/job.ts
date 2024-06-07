@@ -13,8 +13,8 @@ export class Job {
   postingDate: Date | null;
   isRemote: boolean;
   employerId: string;
-  employerName: string;  // Numele angajatorului
-  employerPhone: string; // Numărul de telefon al angajatorului
+  employerName: string;
+  employerPhone: string;
   status: string;
 
   constructor() {
@@ -32,8 +32,8 @@ export class Job {
     this.postingDate = null;
     this.isRemote = false;
     this.employerId = '';
-    this.employerName = '';  // Inițializare cu string gol
-    this.employerPhone = ''; // Inițializare cu string gol
+    this.employerName = '';
+    this.employerPhone = '';
     this.status = '';
   }
 }

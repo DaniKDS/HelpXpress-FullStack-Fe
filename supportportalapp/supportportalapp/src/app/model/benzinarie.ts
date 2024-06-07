@@ -3,8 +3,8 @@ export class Benzinarie {
   public nume: string;
   public locatie: string;
   public brand: string;
-  public telefon: string;  // Adăugarea câmpului pentru numărul de telefon
-  public email: string;    // Adăugarea câmpului pentru email
+  public telefon: string;
+  public email: string;
 
   constructor() {
     this.id = 0;
