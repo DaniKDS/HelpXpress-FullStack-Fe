@@ -54,11 +54,6 @@
                  [routerLink]="['/assistant']">
                 <i class="fas fa-user-tie"></i> Asistentul meu
               </a>
-              <a [class.active]="activeTab === 'organization'" [hidden]="!isSpecialuser"
-                 class="dropdown-item" (click)="changeTitle('Spital/centru recuperare'); setActiveTab('organization');"
-                 [routerLink]="['/organization']">
-                <i class="fas fa-hospital"></i> Spital/centru recuperare
-              </a>
             </div>
           </div>
 
@@ -93,12 +88,13 @@
             </div>
           </div>
 
-          <a [class.active]="activeTab === 'notificari'" [hidden]="!isSpecialuser" class="nav-item nav-link ml-3" (click)="changeTitle('Notificarile mele'); setActiveTab('notificari')"
-             data-toggle="tab"
-             href="#notificari">
-            <i class="fas fa-bell"></i>
-            Notificarile mele
-          </a>
+          <div>
+            <a [class.active]="activeTab === 'organization'" [hidden]="!isSpecialuser"
+               class="nav-item nav-link ml-3" (click)="changeTitle('Spital/centru recuperare'); setActiveTab('organization');"
+               [routerLink]="['/organization']">
+              <i class="fas fa-hospital"></i> Spital/centru recuperare
+            </a>
+          </div>
 
           <!--#pt doctor-->
           <a [class.active]="activeTab === 'patients'" [hidden]="!isDoctor" class="nav-item nav-link active ml-1"
@@ -211,51 +207,71 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form #assistanceForm="ngForm">
             <div class="form-group">
               <label for="carNumber"><i class="fas fa-car"></i> Număr mașină</label>
-              <input type="text" class="form-control" id="carNumber" [(ngModel)]="requestDetails.carNumber" name="carNumber">
+              <input type="text" class="form-control" id="carNumber" required [(ngModel)]="requestDetails.carNumber" name="carNumber" #carNumber="ngModel">
+              <div *ngIf="carNumber.invalid && (carNumber.dirty || carNumber.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
             <div class="form-group">
               <label for="carColor"><i class="fas fa-paint-brush"></i> Culoare mașină</label>
-              <input type="text" class="form-control" id="carColor" [(ngModel)]="requestDetails.carColor" name="carColor">
+              <input type="text" class="form-control" id="carColor" required [(ngModel)]="requestDetails.carColor" name="carColor" #carColor="ngModel">
+              <div *ngIf="carColor.invalid && (carColor.dirty || carColor.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
             <div class="form-group">
               <label for="fuelType"><i class="fas fa-gas-pump"></i> Tip combustibil</label>
-              <select class="form-control" id="fuelType" [(ngModel)]="requestDetails.fuelType" name="fuelType">
+              <select class="form-control" id="fuelType" required [(ngModel)]="requestDetails.fuelType" name="fuelType" #fuelType="ngModel">
+                <option value="" disabled selected>Selectează tipul de combustibil</option>
                 <option value="Benzină">Benzină</option>
                 <option value="Diesel">Diesel</option>
                 <option value="Electric">Electric</option>
               </select>
+              <div *ngIf="fuelType.invalid && (fuelType.dirty || fuelType.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
             <div class="form-group">
               <label for="phoneNumber"><i class="fas fa-phone"></i> Număr de telefon</label>
-              <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="requestDetails.phoneNumber" name="phoneNumber">
+              <input type="text" class="form-control" id="phoneNumber" required [(ngModel)]="requestDetails.phoneNumber" name="phoneNumber" #phoneNumber="ngModel">
+              <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
-
             <div class="form-group">
               <label for="appointmentDate"><i class="far fa-calendar-alt"></i> Data programării</label>
-              <input type="date" class="form-control" id="appointmentDate" [(ngModel)]="requestDetails.appointmentDate" name="appointmentDate">
+              <input type="date" class="form-control" id="appointmentDate" required [(ngModel)]="requestDetails.appointmentDate" name="appointmentDate" #appointmentDate="ngModel">
+              <div *ngIf="appointmentDate.invalid && (appointmentDate.dirty || appointmentDate.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
             <div class="form-group">
               <label for="appointmentTime"><i class="far fa-clock"></i> Ora programării</label>
-              <input type="time" class="form-control" id="appointmentTime" [(ngModel)]="requestDetails.appointmentTime" name="appointmentTime">
+              <input type="time" class="form-control" id="appointmentTime" required [(ngModel)]="requestDetails.appointmentTime" name="appointmentTime" #appointmentTime="ngModel">
+              <div *ngIf="appointmentTime.invalid && (appointmentTime.dirty || appointmentTime.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="arriveIn30Minutes" [(ngModel)]="requestDetails.arrivalConfirmation" name="arrivalConfirmation">
+              <input type="checkbox" class="form-check-input" id="arriveIn30Minutes" required [(ngModel)]="requestDetails.arrivalConfirmation" name="arrivalConfirmation" #arrivalConfirmation="ngModel">
               <label class="form-check-label" for="arriveIn30Minutes">Sosesc în aproximativ 30 de minute +/- ?</label>
+              <div *ngIf="arrivalConfirmation.invalid && (arrivalConfirmation.dirty || arrivalConfirmation.touched)" class="text-danger">
+                Acest câmp este obligatoriu.
+              </div>
             </div>
-
           </form>
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Închide</button>
-          <button type="button" class="btn btn-primary" (click)="sendAssistanceRequest()"><i class="fas fa-paper-plane"></i> Trimite Cererea</button>
+          <button type="button" class="btn btn-primary" [disabled]="assistanceForm.invalid" (click)="sendAssistanceRequest()"><i class="fas fa-paper-plane"></i> Trimite Cererea</button>
         </div>
       </div>
     </div>
   </div>
+
 
   <!-- Container pentru harta care va fi afișată doar după selecția județului -->
   <div *ngIf="showMap" style="width: 100%; height: 100vh;" id="map-container">
@@ -278,10 +294,12 @@
             <input name="searchTerm" #searchInput="ngModel" class="form-control mr-sm-2" ngModel
                    (ngModelChange)="searchUsers(searchInput.value)" type="search" placeholder="Search users...">
           </form>
+          <div class="btn-group">
           <button [hidden]="!isAdmin" type="button" class="btn btn-info" data-toggle="modal"
                   data-target="#addUserModal">
             <i class="fa fa-plus"></i>New User
           </button>
+          </div>
         </div>
         <div class="btn-group">
           <button type="button" (click)="getUsers(true)" class="btn btn-info">
@@ -1341,7 +1359,7 @@
                   <div class="form-check">
                     <label class="form-check-label">
                       <input type="checkbox" name="active" ngModel class="form-check-input">
-                      Acitve
+                      Active
                     </label>
                   </div>
                   <div class="form-check disabled">
@@ -1431,7 +1449,7 @@
                     <label class="form-check-label">
                       <input name="active" type="checkbox" [disabled]="!isManager" [(ngModel)]="editUser.active"
                              class="form-check-input">
-                      Acitve <small [hidden]="isManager">(read only)</small>
+                      Active <small [hidden]="isManager">(read only)</small>
                     </label>
                   </div>
                   <div class="form-check disabled">
@@ -1520,7 +1538,7 @@
                     <label class="form-check-label">
                       <input name="active" type="checkbox" [(ngModel)]="editUser.active"
                              class="form-check-input">
-                      Acitve
+                      Active
                     </label>
                   </div>
                   <div class="form-check disabled">

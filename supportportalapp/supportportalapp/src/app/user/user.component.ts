@@ -892,11 +892,10 @@ export class UserComponent implements OnInit, OnDestroy {
     };
 
     console.log('Request Details:', requestDetails);  // Debugging: Log the request details
-
+    this.notificationService.notify(NotificationType.SUCCESS, 'Cererea a fost trimisă cu succes!');
     this.userService.sendAssistanceRequest(requestDetails).subscribe(
       (response: any) => {
         this.notificationService.notify(NotificationType.SUCCESS, 'Cererea a fost trimisă cu succes!');
-        setTimeout(() => location.reload(), 2000);  // Reîncarcă pagina după 2 secunde
       },
       (error: any) => {
         console.error('Error details:', error);  // Debugging: Log the error details
@@ -915,5 +914,4 @@ export class UserComponent implements OnInit, OnDestroy {
       console.warn('Special user details are missing. Cannot refresh appointments.');
     }
   }
-
 }
