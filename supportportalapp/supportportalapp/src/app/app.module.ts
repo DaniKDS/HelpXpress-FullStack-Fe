@@ -18,16 +18,12 @@ import {AboutComponent} from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { LogoutComponent } from './logout/logout.component';
-import { OrganizationComponent } from './organization/organization.component';
 import { MenuComponent } from './menu/menu.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ContactComponent } from './contact/contact.component';
 import { ServiciiComponent } from './servicii/servicii.component';
 import { RecenzieComponent } from './recenzie/recenzie.component';
-import { AppointmentComponent } from './appointment/appointment.component';
-import { AssistantComponent } from './assistant/assistant.component';
-import { DoctorComponent } from './doctor/doctor.component';
-import { SpecialuserComponent } from './specialuser/specialuser.component';
+
 
 @NgModule({
   declarations: [
@@ -39,15 +35,10 @@ import { SpecialuserComponent } from './specialuser/specialuser.component';
     HomeComponent,
     FooterComponent,
     LogoutComponent,
-    OrganizationComponent,
     MenuComponent,
     ContactComponent,
     ServiciiComponent,
-    RecenzieComponent,
-    AppointmentComponent,
-    AssistantComponent,
-    DoctorComponent,
-    SpecialuserComponent
+    RecenzieComponent
   ],
   imports: [
     BrowserModule,
