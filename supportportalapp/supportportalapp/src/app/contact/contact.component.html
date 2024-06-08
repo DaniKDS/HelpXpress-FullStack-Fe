@@ -24,25 +24,22 @@
     <p>Esti specialist IT și vrei să dedici o oră pe săptămână pentru a contribui la o cauză nobilă? Alătură-te programului nostru "O Oră de IT pe Săptămână" și ajută la crearea unui viitor digital mai accesibil.</p>
 
   </section>
-  <form id="contactForm">
+  <form (ngSubmit)="submitContactForm()" #contactForm="ngForm">
     <div class="form-group">
       <label for="name">Nume</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" [(ngModel)]="name" required>
     </div>
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" [(ngModel)]="email" required>
     </div>
     <div class="form-group">
       <label for="message">Mesaj</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
+      <textarea id="message" name="message" rows="5" [(ngModel)]="message" required></textarea>
     </div>
-    <button type="submit">Trimite Mesajul</button>
+    <button type="submit" class="btn btn-primary">Trimite Mesajul</button>
   </form>
 </section>
-
-
-
 
 <footer>
   <p>© HelpXpress - Toate drepturile rezervate</p>
