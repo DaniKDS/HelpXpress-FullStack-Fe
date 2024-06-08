@@ -617,7 +617,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.users = response;
           this.refreshing = false;
           if (showNotification) {
-            this.sendNotification(NotificationType.SUCCESS, `${response.length} user(s) loaded successfully.`);
+            this.sendNotification(NotificationType.SUCCESS, `${response.length} user(s) încărcați cu succes.`);
           }
         },
         (errorResponse: HttpErrorResponse) => {
@@ -653,7 +653,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.fileName = null;
           this.profileImage = null;
           userForm.reset();
-          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} added successfully`);
+          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} adaăugat cu succes.`);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -672,7 +672,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.getUsers(false);
           this.fileName = null;
           this.profileImage = null;
-          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updated successfully`);
+          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updatat cu succes`);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -693,7 +693,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.getUsers(false);
           this.fileName = null;
           this.profileImage = null;
-          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updated successfully`);
+          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updatat cu succes`);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
@@ -730,11 +730,11 @@ export class UserComponent implements OnInit, OnDestroy {
       case HttpEventType.Response:
         if (event.status === 200) {
           this.user.profileImageUrl = `${event.body.profileImageUrl}?time=${new Date().getTime()}`;
-          this.sendNotification(NotificationType.SUCCESS, `${event.body.firstName}\'s profile image updated successfully`);
+          this.sendNotification(NotificationType.SUCCESS, `${event.body.firstName}\'s poza de profil a fost actualizată cu succes.`);
           this.fileStatus.status = 'done';
           break;
         } else {
-          this.sendNotification(NotificationType.ERROR, `Unable to upload image. Please try again`);
+          this.sendNotification(NotificationType.ERROR, `Nu se poate incărca imaginea. Încercați din nou.`);
           break;
         }
       default:
@@ -750,7 +750,7 @@ export class UserComponent implements OnInit, OnDestroy {
   public onLogOut(): void {
     this.authenticationService.logOut();
     this.router.navigate(['/login']);
-    this.sendNotification(NotificationType.SUCCESS, `You've been successfully logged out`);
+    this.sendNotification(NotificationType.SUCCESS, `Te-ai deconectat cu succes.`);
   }
 
   public onResetPassword(emailForm: NgForm): void {
